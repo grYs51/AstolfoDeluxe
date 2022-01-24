@@ -2,5 +2,5 @@
   "name": "AstolfoBot",
   "language": "typescript",
   "manager": "npm",
-  "prefix": ","
+  "prefix": "!"
 }
