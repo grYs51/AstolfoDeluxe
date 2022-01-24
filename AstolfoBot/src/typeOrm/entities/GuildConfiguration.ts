@@ -9,7 +9,7 @@ export class GuildConfiguration {
     @Column({ unique: true, name: 'guild_id' })
     guildId: string;
 
-    @Column({ default: ',' })
+    @Column({ default: '!' })
     prefix: string;
 
     @Column({ name: 'welcome_channel_id', nullable: true })

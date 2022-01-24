@@ -11,10 +11,7 @@ export default class MessageEvent extends BaseEvent {
     if (message.author.bot || !message) return;
 
     const config = client.configs.get(message.guildId!);
-    if (!config) {
-      // message.channel.send('No Config');
-      return
-    }
+    if (!config) return;
 
     if (message.content.startsWith(config.prefix)) {
       const [cmdName, ...cmdArgs] = message.content
