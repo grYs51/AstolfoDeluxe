@@ -11,10 +11,6 @@ const client = new DiscordClient({
 });
 
 (async () => {
-  client.prefix = config.prefix || client.prefix;
-  await registerCommands(client, '../commands');
-  await registerEvents(client, '../events');
-  await client.login(process.env.BOT_TOKEN);
   await createConnection({
     type: 'postgres',
     host: process.env.DB_HOST,
@@ -25,4 +21,8 @@ const client = new DiscordClient({
     synchronize: true,
     entities: [GuildConfiguration]
   })
+  client.prefix = config.prefix || client.prefix;
+  await registerCommands(client, '../commands');
+  await registerEvents(client, '../events');
+  await client.login(process.env.BOT_TOKEN);
 })();
