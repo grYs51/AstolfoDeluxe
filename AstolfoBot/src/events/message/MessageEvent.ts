@@ -8,10 +8,17 @@ export default class MessageEvent extends BaseEvent {
   }
 
   async run(client: DiscordClient, message: Message) {
-    if (message.author.bot) return;
-    if (message.content.startsWith(client.prefix)) {
+    if (message.author.bot || !message) return;
+
+    const config = client.configs.get(message.guildId!);
+    if (!config) {
+      // message.channel.send('No Config');
+      return
+    }
+
+    if (message.content.startsWith(config.prefix)) {
       const [cmdName, ...cmdArgs] = message.content
-        .slice(client.prefix.length)
+        .slice(config.prefix.length)
         .trim()
         .split(/\s+/);
       const command = client.commands.get(cmdName);
