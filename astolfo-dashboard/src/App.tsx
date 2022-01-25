@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { AppBar } from "./components/AppBar";
 import { CategoryPage } from "./pages/CategoryPage";
 import { GuildPrefixPage } from "./pages/GuildPrefixPage";
-import { HomePage } from "./pages/HomePage";
+import { LoginPage } from "./pages/LoginPage";
 import { MenuPage } from "./pages/MenuPage";
 import { WelcomeMessagePage } from "./pages/WelcomeMessagePage";
 import { GuildContext } from "./utils/contexts/GuildContext";
@@ -18,7 +18,7 @@ function App() {
         <Route path='/dashboard/*' element={<AppBar/>}/>
       </Routes>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/menu" element={<MenuPage />} />
         {/* <Route path="/dashboard" element={<HomePage />} /> */}
         <Route path="/dashboard/categories" element={<CategoryPage />} />
