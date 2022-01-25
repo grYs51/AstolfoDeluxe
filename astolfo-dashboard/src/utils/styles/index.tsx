@@ -75,3 +75,18 @@ export const Grid = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 10px;
 `;
+
+export const InputField = styled.input`
+  padding: 14px 16px;
+  font-size: 16px;
+  color: #ffffff;
+  font--family: 'DM Sans';
+  background-color: #272727;
+  border-radius: 5px;
+  border: 1px solid #3b3b3b;
+  outline: none;
+  width: 100%;
+  :focus {
+    outline: 1px solid #ffffff5a;
+  } 
+`
