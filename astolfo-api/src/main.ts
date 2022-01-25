@@ -8,6 +8,9 @@ import { Session } from './typeorm/entities/Session';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const sessionRepository = getRepository(Session);
+
+  app.setGlobalPrefix('api');
+
   app.use(
     session({
       secret: process.env.COOKIE_SECRET,
