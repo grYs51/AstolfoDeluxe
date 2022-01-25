@@ -14,6 +14,12 @@ export const MainButton = styled.div`
   box-shadow: 0px 1px 8px 0px #00000018;
 `;
 
+export const TextButton = styled(MainButton)`
+  padding: 10px 20px;
+  width: 100%;
+  background-color: #272727;
+`;
+
 export const HomePageStyle = styled.div`
   height: 100%;
   padding: 100px 0;
@@ -35,7 +41,7 @@ export const GuildMenuItemStyle = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 1200px;
+  width: 60%;
   margin: 0 auto;
 `;
 
@@ -46,4 +52,26 @@ export const AppBarStyle = styled.header`
   padding: 15px 35px;
   box-sizing: border-box;
   border-bottom: 1px solid #c9c9c921;
+`;
+
+export const Title = styled.p`
+  font-size: 22px;
+`;
+
+type FlexProps = Partial<{
+  alignItems: string;
+  justifyContent: string;
+  flexDirection: string;
+}>;
+export const Flex = styled.div<FlexProps>`
+  display: flex;
+  align-items: ${({ alignItems }) => alignItems};
+  justify-content: ${({ justifyContent }) => justifyContent};
+  flex-direction: ${({ flexDirection }) => flexDirection};
+`;
+
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 10px;
 `;
