@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 export const MainButton = styled.div`
+  cursor: pointer;
   display: flex;
   width: 350px;
   align-items: center;
@@ -31,6 +32,7 @@ export const HomePageStyle = styled.div`
 `;
 
 export const GuildMenuItemStyle = styled.div`
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   padding: 8px 20px;
