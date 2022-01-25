@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import * as session from 'express-session';
 import { TypeormStore } from 'connect-typeorm';
 import { getRepository } from 'typeorm';
-import { Session } from './typeorm/entities/Session';
+import { Session } from './utils/typeorm/entities/Session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
