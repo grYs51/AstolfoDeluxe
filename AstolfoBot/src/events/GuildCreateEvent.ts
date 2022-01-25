@@ -27,7 +27,6 @@ export default class GuildCreateEvent extends BaseEvent {
 
       const savedConfig = await this.guildConfigRepository.save(newConfig);
       client.configs.set(guild.id, savedConfig);
-
     }
   }
 }
