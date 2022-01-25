@@ -7,8 +7,7 @@ import { IAuthService } from '../interfaces/auth';
 @Injectable()
 export class AuthService implements IAuthService {
     constructor(
-        @Inject(SERVICES.USER)
-        private readonly userService: IUserService,
+        @Inject(SERVICES.USER) private readonly userService: IUserService,
     ) { }
 
     async validateUser(details: UserDetails) {
