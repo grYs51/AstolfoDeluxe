@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/utils/typeorm/entities/User";
-import { UserDetails } from "src/utils/types";
+import { UpdateUserDetails, UserDetails } from "src/utils/types";
 import { Repository } from "typeorm";
 import { IUserService } from "../interfaces/user";
 
@@ -11,6 +11,7 @@ export class UserService implements IUserService {
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
     ) { }
+
     createUser(details: UserDetails) {
         console.log('Create User');
         const newUser = this.userRepository.create(details);
@@ -20,5 +21,12 @@ export class UserService implements IUserService {
     findUser(discordId: string) {
         console.log('Find User');
         return this.userRepository.findOne({ discordId });
+    }
+
+    updateUser(user: User, details: UpdateUserDetails): Promise<User> {
+        return this.userRepository.save({
+            ...user,
+            ...details,
+        })
     }
 }

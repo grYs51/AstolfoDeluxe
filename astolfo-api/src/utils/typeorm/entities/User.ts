@@ -2,9 +2,21 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ unique: true, name: 'discord_id' })
   discordId: string;
+
+  @Column({ name: 'access_Token' })
+  accesToken: string;
+
+  @Column({ name: 'refresh_Token' })
+  refreshToken: string;
+
+  @Column()
+  username: string;
+
+  @Column()
+  discriminator: string;
 }
