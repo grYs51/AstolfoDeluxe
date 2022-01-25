@@ -1,12 +1,14 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { Strategy, Profile } from 'passport-discord'
-import { AuthService } from '../services/auth.service'
+import { SERVICES } from 'src/utils/constants'
+import { IAuthService } from '../interfaces/auth'
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy) {
     constructor(
-        private auth: AuthService
+        @Inject(SERVICES.AUTH)
+        private readonly authService: IAuthService,
     ) {
         super({
             clientID: process.env.DISCORD_CLIENT_ID,
@@ -18,6 +20,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy) {
 
     async validate(accesToken: string, refreshToken: string, profile: Profile) {
         console.log('DiscordStrategy Validate Method');
-        console.log(profile.username)
+        console.log(profile.username);
+        return this.authService.validateUser({ discordId: profile.id });
     }
 }
