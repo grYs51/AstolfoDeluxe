@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
+import { BarLoader } from "react-spinners";
 import { AppBar } from "./components/AppBar";
+import { Spinner } from "./components/Spinnner";
 import { CategoryPage } from "./pages/CategoryPage";
 import { GuildPrefixPage } from "./pages/GuildPrefixPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -14,9 +16,11 @@ function App() {
   const { user, loading, error } = useFetchUser();
   const updateGuildId = (id: string) => setGuildId(id);
 
+  if (loading) return <Spinner children={<BarLoader color="white" />} />;
+
   return (
     <GuildContext.Provider value={{ guildId, updateGuildId }}>
-      {user ? (
+      {user && !error ? (
         <>
           <Routes>
             <Route path="/dashboard/*" element={<AppBar />} />
@@ -33,6 +37,7 @@ function App() {
       ) : (
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="*" element={<div>Not Found! </div>} />
         </Routes>
       )}
     </GuildContext.Provider>
