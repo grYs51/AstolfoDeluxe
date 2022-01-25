@@ -11,7 +11,7 @@ export const MenuPage = () => {
 
   const handleClick = (guildId: string) => {
     updateGuildId(guildId);
-    navigate("/categories");
+    navigate("/dashboard/categories");
   };
 
   return (

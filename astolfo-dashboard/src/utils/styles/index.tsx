@@ -38,3 +38,12 @@ export const Container = styled.div`
   width: 1200px;
   margin: 0 auto;
 `;
+
+export const AppBarStyle = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 35px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #c9c9c921;
+`;
