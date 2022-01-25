@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const MainButton = styled.div`
   display: flex;
@@ -79,8 +79,9 @@ export const Grid = styled.div`
 export const InputField = styled.input`
   padding: 14px 16px;
   font-size: 16px;
-  color: #ffffff;
-  font--family: 'DM Sans';
+  color: #fff;
+  box-sizing: border-box;
+  font--family: "DM Sans";
   background-color: #272727;
   border-radius: 5px;
   border: 1px solid #3b3b3b;
@@ -88,5 +89,67 @@ export const InputField = styled.input`
   width: 100%;
   :focus {
     outline: 1px solid #ffffff5a;
-  } 
-`
+  }
+`;
+
+export const TextArea = styled.textarea`
+  padding: 14px 16px;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #fff;
+  font--family: "DM Sans";
+  background-color: #272727;
+  border-radius: 5px;
+  border: 1px solid #3b3b3b;
+  outline: none;
+  width: 100%;
+  resize: none;
+  :focus {
+    outline: 1px solid #ffffff5a;
+  }
+`;
+
+type ButtonProps = {
+  variant: "primary" | "secondary";
+};
+
+export const Button = styled.button<ButtonProps>`
+  padding: 10px 20px;
+  border-radius: 5px;
+  outline: none;
+  border: none; 
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'DM Sans';
+  ${({ variant }) =>
+    variant === "primary" &&
+    css`
+      background-color: #006ed3;
+    `}
+  ${({ variant }) =>
+    variant === "secondary" &&
+    css`
+      background-color: #3d3d3d;
+    `}
+}
+`;
+
+export const Page = styled.div`
+  padding: 50px;
+`;
+
+export const Select = styled.select`
+  cursor: pointer;
+  padding: 10px;
+  font-size: 18px
+  font-family: "DM Sans";
+  background-color: inherit;
+  padding: 12px 16px;
+  color: #fff;
+  border: 1px solid #3f3f3f;
+  border-radius: 5px;
+  & > option {
+    background-color: #292929;
+  }
+`;

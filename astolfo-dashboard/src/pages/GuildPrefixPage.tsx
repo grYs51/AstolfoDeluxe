@@ -1,15 +1,15 @@
-import { Button, Container, Flex, InputField, Title } from "../utils/styles";
+import { Button, Container, Flex, InputField, Page, Title } from "../utils/styles";
 
 export const GuildPrefixPage = () => {
   return (
-    <div style={{ padding: "35px" }}>
+    <Page>
       <Container style={{ width: "50%" }}>
         <Title>Update Command Prefix</Title>
         <form>
           <div>
             <label htmlFor="prefix">Current Prefix</label>
           </div>
-          <InputField style={{ margin: "10px 0" }} />
+          <InputField style={{ margin: "10px 0" }} id="prefix"/>
           <Flex justifyContent="flex-end">
             <Button
               variant="secondary"
@@ -24,6 +24,6 @@ export const GuildPrefixPage = () => {
           </Flex>
         </form>
       </Container>
-    </div>
+    </Page>
   );
 };

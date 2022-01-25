@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { GuildMenuItem } from "../components/GuildMenuItem";
 import { GuildContext } from "../utils/contexts/GuildContext";
-import { Container } from "../utils/styles";
+import { Container, Page } from "../utils/styles";
 import { mockGuilds } from "../__mocks__/guilds";
 
 export const MenuPage = () => {
@@ -15,7 +15,7 @@ export const MenuPage = () => {
   };
 
   return (
-    <div style={{ padding: "50px 0" }}>
+    <Page>
       <Container>
         <h2 style={{ fontWeight: 300 }}>Select a Server</h2>
         <div>
@@ -26,6 +26,6 @@ export const MenuPage = () => {
           ))}
         </div>
       </Container>
-    </div>
+    </Page>
   );
 };
