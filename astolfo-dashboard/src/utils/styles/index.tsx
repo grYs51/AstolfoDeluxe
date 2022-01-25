@@ -23,3 +23,18 @@ export const HomePageStyle = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
+export const GuildMenuItemStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background-color: #252525;
+  border-radius: 5px;
+  border: 1px solid #ffffff2f;
+  margin: 8px 0;
+`;
+
+export const Container = styled.div`
+  width: 1200px;
+  margin: 0 auto;
+`;
