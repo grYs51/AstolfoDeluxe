@@ -7,7 +7,10 @@ import { Collection, Intents } from 'discord.js';
 import { createConnection, getRepository } from 'typeorm';
 import { GuildConfiguration } from './typeOrm/entities/GuildConfiguration';
 const client = new DiscordClient({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
+  intents: [
+    Intents.FLAGS.GUILDS, 
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS]
 });
 
 (async () => {
