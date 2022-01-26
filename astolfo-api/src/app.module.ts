@@ -6,6 +6,7 @@ import { entities } from './utils/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PassportModule } from '@nestjs/passport';
+import { DiscordModule } from './discord/discord.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PassportModule } from '@nestjs/passport';
     }),
     AuthModule,
     UserModule,
+    DiscordModule,
   ],
   controllers: [],
   providers: [],
