@@ -16,3 +16,6 @@ export const getGuildConfig = (guildId: string) =>
 
 export const updateGuildPrefix = (guildId: string, prefix: string) =>
   axios.post(`${API_URL}/guilds/${guildId}/config/prefix`, { prefix }, CONFIG);
+
+export const getGuildChannels = (guildId: string, type: number) =>
+  axios.get(`${API_URL}/discord/guilds/${guildId}/channels/${type}`)

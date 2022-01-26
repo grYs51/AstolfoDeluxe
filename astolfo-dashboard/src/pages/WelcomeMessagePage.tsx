@@ -1,3 +1,8 @@
+import { channel } from "diagnostics_channel";
+import { useContext } from "react";
+import { MoonLoader } from "react-spinners";
+import { GuildContext } from "../utils/contexts/GuildContext";
+import { useWelcomPage } from "../utils/contexts/hooks/useWelcomePage";
 import {
   Button,
   Container,
@@ -9,41 +14,59 @@ import {
 } from "../utils/styles";
 
 export const WelcomeMessagePage = () => {
+  const { guild } = useContext(GuildContext);
+  const guildId = (guild && guild.id) || "";
+
+  const { config, channels, error, loading } = useWelcomPage(guildId, 0);
+
+  console.log(config, channels);
   return (
     <Page>
       <Container>
         <Title>Update Welcome Message</Title>
-        <div>
-          <section>
+        {channels && config && !loading ? (
+          <>
             <div>
-              <label>Current Channel</label>
+              <section>
+                <div>
+                  <label>Current Channel</label>
+                </div>
+                <Select style={{ width: "100%", margin: "10px 0" }}>
+                  <option disabled>Please Select a Channel</option>
+                  {channels?.map((channel) => (
+                    <option
+                      selected={channel.id === config?.welcomeChannelId}
+                      value={channel.id}
+                    >
+                      #{channel.name}
+                    </option>
+                  ))}
+                </Select>
+              </section>
+              <section style={{ margin: "10px 0" }}>
+                <div>
+                  <label htmlFor="message">Current Message</label>
+                </div>
+                <TextArea id="message" style={{ marginTop: "10px" }} />
+              </section>
+              <Flex justifyContent="flex-end">
+                <Button
+                  variant="secondary"
+                  style={{
+                    marginRight: "8px",
+                  }}
+                >
+                  Reset
+                </Button>
+                <Button variant="primary">Save</Button>
+              </Flex>
             </div>
-            <Select style={{ width: "100%", margin: "10px 0" }}>
-              <option disabled>Please Select a Channel</option>
-              <option>123</option>
-              <option>124</option>
-              <option>125</option>
-              <option>126</option>
-            </Select>
-          </section>
-          <section style={{ margin: "10px 0" }}>
-            <div>
-              <label htmlFor="message">Current Message</label>
-            </div>
-            <TextArea id="message" style={{ marginTop: "10px" }} />
-          </section>
-          <Flex justifyContent="flex-end">
-            <Button
-              variant="secondary"
-              style={{
-                marginRight: "8px",
-              }}
-            >
-              Reset
-            </Button>
-            <Button variant="primary">Save</Button>
+          </>
+        ) : (
+          <Flex justifyContent="center" alignItems="center">
+            <MoonLoader size={30} color="white" />
           </Flex>
-        </div>
+        )}
       </Container>
     </Page>
   );
