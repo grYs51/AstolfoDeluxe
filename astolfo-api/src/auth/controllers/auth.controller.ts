@@ -7,24 +7,22 @@ import { AuthenticatedGuard, DiscordAuthGuard } from '../utils/Guards';
 
 @Controller(ROUTES.AUTH)
 export class AuthController {
+  @Get('login')
+  @UseGuards(DiscordAuthGuard)
+  login() {}
 
-    @Get('login')
-    @UseGuards(DiscordAuthGuard)
-    login() { }
+  @Get('redirect')
+  @UseGuards(DiscordAuthGuard)
+  redirect(@Res() res: Response) {
+    res.redirect('http://localhost:3000/menu');
+  }
 
-    @Get('redirect')
-    @UseGuards(DiscordAuthGuard)
-    redirect(@Res() res: Response) {
-        res.redirect('http://localhost:3000/menu');
-    }
+  @Get('status')
+  @UseGuards(AuthenticatedGuard)
+  status(@AuthUser() user: User) {
+    return user;
+  }
 
-    @Get('status')
-    @UseGuards(AuthenticatedGuard)
-    status(@AuthUser() user: User) {
-        return user;
-    }
-
-    @Post('logout')
-    logout() { }
-
+  @Post('logout')
+  logout() {}
 }

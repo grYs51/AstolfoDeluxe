@@ -6,15 +6,15 @@ import { IAuthService } from '../interfaces/auth';
 
 @Injectable()
 export class AuthService implements IAuthService {
-    constructor(
-        @Inject(SERVICES.USER) private readonly userService: IUserService,
-    ) { }
+  constructor(
+    @Inject(SERVICES.USER) private readonly userService: IUserService,
+  ) {}
 
-    async validateUser(details: UserDetails) {
-        const user = await this.userService.findUser(details.discordId);
-        const { discordId, ...updatedDetails } = details;
-        return user
-            ? this.userService.updateUser(user, updatedDetails)
-            : this.userService.createUser(details);
-    }
+  async validateUser(details: UserDetails) {
+    const user = await this.userService.findUser(details.discordId);
+    const { discordId, ...updatedDetails } = details;
+    return user
+      ? this.userService.updateUser(user, updatedDetails)
+      : this.userService.createUser(details);
+  }
 }

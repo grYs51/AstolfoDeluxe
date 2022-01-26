@@ -27,7 +27,7 @@ import { DiscordModule } from './discord/discord.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: entities
+        entities: entities,
       }),
     }),
     AuthModule,
@@ -37,4 +37,4 @@ import { DiscordModule } from './discord/discord.module';
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

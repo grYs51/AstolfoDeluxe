@@ -14,7 +14,8 @@ import { SessionSerializer } from './utils/SessionSerializer';
     SessionSerializer,
     {
       provide: SERVICES.AUTH,
-      useClass: AuthService
-    }]
+      useClass: AuthService,
+    },
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}
