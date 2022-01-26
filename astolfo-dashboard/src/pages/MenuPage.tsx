@@ -6,7 +6,6 @@ import { GuildContext } from "../utils/contexts/GuildContext";
 import { useFetchGuilds } from "../utils/contexts/hooks/useFetchGuilds";
 import { Container, Flex, Page } from "../utils/styles";
 import { PartialGuild } from "../utils/types";
-import { mockGuilds } from "../__mocks__/guilds";
 
 export const MenuPage = () => {
   const navigate = useNavigate();
