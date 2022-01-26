@@ -1,11 +1,12 @@
 import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import { ROUTES, SERVICES } from 'src/utils/constants';
+import { WebSockectHandler } from 'src/websocket/socket';
 import { IGuildService } from '../interfaces/guilds';
-
 @Controller(ROUTES.GUILDS)
 export class GuildsController {
   constructor(
     @Inject(SERVICES.GUILDS) private readonly guildsService: IGuildService,
+    @Inject(WebSockectHandler) private readonly wsHandler: WebSockectHandler,
   ) {}
   @Get('config/:guildId')
   getGuildConfig(@Param('guildId') guildId: string) {
@@ -17,7 +18,9 @@ export class GuildsController {
     @Param('guildId') guildId: string,
     @Body('prefix') prefix: string,
   ) {
-    return this.guildsService.updateGuildPrefix(guildId, prefix);
+    const config = await this.guildsService.updateGuildPrefix(guildId, prefix);
+    this.wsHandler.guildPrefixUpdate(config);
+    return config;
   }
 
   @Post(':guildId/config/welcome')
