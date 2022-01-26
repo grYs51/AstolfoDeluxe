@@ -9,7 +9,7 @@ export class GuildService implements IGuildService {
   constructor(
     @InjectRepository(GuildConfiguration)
     private readonly guildConfigRepository: Repository<GuildConfiguration>,
-  ) {}
+  ) { }
 
   async getGuildConfig(guildId: string): Promise<GuildConfiguration> {
     const guildConfig = await this.guildConfigRepository.findOne({ guildId });
@@ -20,5 +20,19 @@ export class GuildService implements IGuildService {
       );
 
     return guildConfig;
+  }
+
+  async updateGuildPrefix(guildId: string, prefix: string): Promise<GuildConfiguration> {
+    const guildConfig = await this.getGuildConfig(guildId);
+    if (!guildConfig)
+      throw new HttpException(
+        'Guild configuration was not found',
+        HttpStatus.NOT_FOUND,
+      );
+
+    return this.guildConfigRepository.save({
+      ...guildConfig,
+      prefix
+    })
   }
 }
