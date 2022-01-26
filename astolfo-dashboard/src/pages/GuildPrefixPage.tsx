@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { MoonLoader } from "react-spinners";
+import { updateGuildPrefix } from "../utils/api";
 import { GuildContext } from "../utils/contexts/GuildContext";
 import { useFetchGuildConfig } from "../utils/contexts/hooks/useFetchGuildConfig";
 import {
@@ -13,10 +14,23 @@ import {
 
 export const GuildPrefixPage = () => {
   const { guild } = useContext(GuildContext);
+  const guildId = (guild && guild.id) || "";
 
-  const { config, loading, error } = useFetchGuildConfig(
-    (guild && guild.id) || ""
-  );
+  const { config, loading, error, prefix, setPrefix } =
+    useFetchGuildConfig(guildId);
+
+  const savePrefix = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    console.log(prefix);
+    try {
+      const res = await updateGuildPrefix(guildId, prefix);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Page>
@@ -31,7 +45,8 @@ export const GuildPrefixPage = () => {
               <InputField
                 style={{ margin: "10px 0" }}
                 id="prefix"
-                value={config?.prefix}
+                value={prefix}
+                onChange={(e) => setPrefix(e.target.value)}
               />
               <Flex justifyContent="flex-end">
                 <Button
@@ -43,7 +58,9 @@ export const GuildPrefixPage = () => {
                 >
                   Reset
                 </Button>
-                <Button variant="primary">Save</Button>
+                <Button variant="primary" onClick={savePrefix}>
+                  Save
+                </Button>
               </Flex>
             </form>
           </>

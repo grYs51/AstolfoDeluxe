@@ -4,8 +4,9 @@ import { GuildConfigType } from "../../types";
 
 export function useFetchGuildConfig(guildId: string) {
   const [config, setConfig] = useState<GuildConfigType>();
+  const [prefix, setPrefix] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -13,10 +14,11 @@ export function useFetchGuildConfig(guildId: string) {
       .then(({ data }) => {
         console.log(data);
         setConfig(data);
+        setPrefix(data.prefix);
       })
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
   }, []);
 
-  return { config, loading, error};
+  return { config,  prefix, setPrefix, loading, error };
 }
