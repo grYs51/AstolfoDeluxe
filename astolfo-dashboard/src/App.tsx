@@ -10,16 +10,17 @@ import { MenuPage } from "./pages/MenuPage";
 import { WelcomeMessagePage } from "./pages/WelcomeMessagePage";
 import { GuildContext } from "./utils/contexts/GuildContext";
 import { useFetchUser } from "./utils/contexts/hooks/useFetchUser";
+import { PartialGuild } from "./utils/types";
 
 function App() {
-  const [guildId, setGuildId] = useState("");
+  const [guild, setGuild] = useState<PartialGuild>();
   const { user, loading, error } = useFetchUser();
-  const updateGuildId = (id: string) => setGuildId(id);
+  const updateGuild = (guild: PartialGuild) => setGuild(guild);
 
   if (loading) return <Spinner children={<BarLoader color="white" />} />;
 
   return (
-    <GuildContext.Provider value={{ guildId, updateGuildId }}>
+    <GuildContext.Provider value={{ guild, updateGuild }}>
       {user && !error ? (
         <>
           <Routes>

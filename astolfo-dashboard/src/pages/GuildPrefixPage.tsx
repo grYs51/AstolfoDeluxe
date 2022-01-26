@@ -1,6 +1,17 @@
-import { Button, Container, Flex, InputField, Page, Title } from "../utils/styles";
+import { useContext } from "react";
+import { GuildContext } from "../utils/contexts/GuildContext";
+import {
+  Button,
+  Container,
+  Flex,
+  InputField,
+  Page,
+  Title,
+} from "../utils/styles";
 
 export const GuildPrefixPage = () => {
+  const { guild } = useContext(GuildContext);
+
   return (
     <Page>
       <Container style={{ width: "50%" }}>
@@ -9,7 +20,7 @@ export const GuildPrefixPage = () => {
           <div>
             <label htmlFor="prefix">Current Prefix</label>
           </div>
-          <InputField style={{ margin: "10px 0" }} id="prefix"/>
+          <InputField style={{ margin: "10px 0" }} id="prefix" />
           <Flex justifyContent="flex-end">
             <Button
               variant="secondary"

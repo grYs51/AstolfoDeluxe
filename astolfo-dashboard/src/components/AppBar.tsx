@@ -1,12 +1,20 @@
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { GuildContext } from "../utils/contexts/GuildContext";
+import { getIconUrl } from "../utils/helpers";
 import { AppBarStyle } from "../utils/styles";
 
 export const AppBar = () => {
-  return (
+  const { guild } = useContext(GuildContext);
+
+  return guild ? (
     <AppBarStyle>
-      <h1 style={{ fontWeight: 'normal', fontSize: '20px'}}> Configuring</h1>
+      <h1 style={{ fontWeight: "normal", fontSize: "20px" }}>
+        Configuring: {guild!.name}
+      </h1>
       <img
-        src="https://docs.nestjs.kr/assets/logo-small.svg"
-        alt="Nestjs"
+        src={getIconUrl(guild)}
+        alt={guild.name}
         height={55}
         width={55}
         style={{
@@ -14,5 +22,5 @@ export const AppBar = () => {
         }}
       />
     </AppBarStyle>
-  );
+  ) : <Navigate replace to={"/menu"} />
 };

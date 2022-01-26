@@ -5,16 +5,17 @@ import { GuildMenuItem } from "../components/GuildMenuItem";
 import { GuildContext } from "../utils/contexts/GuildContext";
 import { useFetchGuilds } from "../utils/contexts/hooks/useFetchGuilds";
 import { Container, Flex, Page } from "../utils/styles";
+import { PartialGuild } from "../utils/types";
 import { mockGuilds } from "../__mocks__/guilds";
 
 export const MenuPage = () => {
   const navigate = useNavigate();
-  const { updateGuildId } = useContext(GuildContext);
+  const { updateGuild } = useContext(GuildContext);
 
   const { guilds, loading, error } = useFetchGuilds();
 
-  const handleClick = (guildId: string) => {
-    updateGuildId(guildId);
+  const handleClick = (guild: PartialGuild) => {
+    updateGuild(guild);
     navigate("/dashboard/categories");
   };
 
@@ -23,7 +24,6 @@ export const MenuPage = () => {
       <Container>
         <h2 style={{ fontWeight: 300 }}>Select a Server</h2>
         <div>
-          {/*  */}
           {loading ? (
             <Flex justifyContent="center">
               <MoonLoader size={30} color="white" />
@@ -32,7 +32,7 @@ export const MenuPage = () => {
             <div>
               {guilds &&
                 guilds.map((guild) => (
-                  <div onClick={() => handleClick(guild.id)}>
+                  <div key={guild.id} onClick={() => handleClick(guild)}>
                     <GuildMenuItem guild={guild} />
                   </div>
                 ))}
