@@ -15,11 +15,19 @@ export class DiscordService implements IDiscordService {
     getUserGuilds(accesToken: string) {
         return this.discorHttpService.fetchUserGuilds(accesToken);
     }
-    async getMutualGuilds(accesToken: string) {
+    async getMutualGuilds(accesToken: string, userId: string) {
         const { data: UserGuilds } = await this.getUserGuilds(accesToken);
         const { data: BotGuilds } = await this.getBotGuilds();
 
-        return {UserGuilds, BotGuilds}
+        // if (userId.toString() === process.env.OWNER) {
+        //     return { BotGuilds }
+        // }
+
+        const mutualGuilds = (UserGuilds
+            .filter(({ permissions }) => (parseInt(permissions) & 0x10) === 0x10))
+            .filter((guild) => BotGuilds.some((BotGuild) => BotGuild.id === guild.id))
+
+        return mutualGuilds;
     }
 
 }

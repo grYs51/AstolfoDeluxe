@@ -1,4 +1,7 @@
+import { AxiosResponse } from "axios";
+import { PartialGuild } from "src/utils/types";
+
 export interface IDiscordHttpService {
-    fetchBotGuilds();
-    fetchUserGuilds(accesToken: string);
+    fetchBotGuilds(): Promise<AxiosResponse<PartialGuild[]>>;
+    fetchUserGuilds(accesToken: string): Promise<AxiosResponse<PartialGuild[]>>;
 }

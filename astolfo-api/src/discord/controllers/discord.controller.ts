@@ -10,7 +10,7 @@ export class DiscordController {
 
     @Get('guilds')
     getMutualGuilds(@AuthUser() user : User) {
-        return this.discordService.getMutualGuilds(user.accesToken);
+        return this.discordService.getMutualGuilds(user.accesToken,user.discordId);
     }
 
 }
