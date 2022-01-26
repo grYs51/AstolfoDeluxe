@@ -38,4 +38,17 @@ export class GuildService implements IGuildService {
       prefix,
     });
   }
+  async updateWelcomeChannel(guildId: string, welcomeChannelId: string) {
+    const guildConfig = await this.getGuildConfig(guildId);
+    if (!guildConfig)
+      throw new HttpException(
+        'Guild configuration was not found',
+        HttpStatus.NOT_FOUND,
+      );
+
+    return this.guildConfigRepository.save({
+      ...guildConfig,
+      welcomeChannelId,
+    });
+  }
 }
