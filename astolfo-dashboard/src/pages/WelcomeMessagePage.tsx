@@ -1,6 +1,7 @@
 import { channel } from "diagnostics_channel";
 import { useContext } from "react";
 import { MoonLoader } from "react-spinners";
+import { updateWelcomeChannelId } from "../utils/api";
 import { GuildContext } from "../utils/contexts/GuildContext";
 import { useWelcomPage } from "../utils/contexts/hooks/useWelcomePage";
 import {
@@ -16,10 +17,23 @@ import {
 export const WelcomeMessagePage = () => {
   const { guild } = useContext(GuildContext);
   const guildId = (guild && guild.id) || "";
+  const {
+    config,
+    channels,
+    error,
+    loading,
+    selectedChannel,
+    setSelectedChannel,
+  } = useWelcomPage(guildId, 0);
 
-  const { config, channels, error, loading } = useWelcomPage(guildId, 0);
+  const updateWelcomeChannel = async () => {
+    try {
+      updateWelcomeChannelId(guildId, selectedChannel || "");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  console.log(config, channels);
   return (
     <Page>
       <Container>
@@ -31,11 +45,15 @@ export const WelcomeMessagePage = () => {
                 <div>
                   <label>Current Channel</label>
                 </div>
-                <Select style={{ width: "100%", margin: "10px 0" }}>
+                <Select
+                  style={{ width: "100%", margin: "10px 0" }}
+                  onChange={(e) => setSelectedChannel(e.target.value)}
+                >
                   <option disabled>Please Select a Channel</option>
                   {channels?.map((channel) => (
                     <option
-                      selected={channel.id === config?.welcomeChannelId}
+                      key={channel.id}
+                      selected={channel.id === config.welcomeChannelId}
                       value={channel.id}
                     >
                       #{channel.name}
@@ -58,7 +76,9 @@ export const WelcomeMessagePage = () => {
                 >
                   Reset
                 </Button>
-                <Button variant="primary">Save</Button>
+                <Button variant="primary" onClick={updateWelcomeChannel}>
+                  Save
+                </Button>
               </Flex>
             </div>
           </>

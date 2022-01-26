@@ -12,10 +12,13 @@ export const getMutualGuilds = () =>
   axios.get<PartialGuild[]>(`${API_URL}/discord/guilds`, CONFIG);
 
 export const getGuildConfig = (guildId: string) =>
-  axios.get<GuildConfigType>(`${API_URL}/guilds/config/${guildId}`, CONFIG)
+  axios.get<GuildConfigType>(`${API_URL}/guilds/config/${guildId}`, CONFIG);
 
 export const updateGuildPrefix = (guildId: string, prefix: string) =>
   axios.post(`${API_URL}/guilds/${guildId}/config/prefix`, { prefix }, CONFIG);
 
 export const getGuildChannels = (guildId: string, type: number) =>
-  axios.get(`${API_URL}/discord/guilds/${guildId}/channels/${type}`)
+  axios.get(`${API_URL}/discord/guilds/${guildId}/channels/${type}`);
+
+export const updateWelcomeChannelId = (guildId: string, channelId: string) =>
+  axios.post(`${API_URL}/guilds/${guildId}/config/welcome`, { channelId }, CONFIG);

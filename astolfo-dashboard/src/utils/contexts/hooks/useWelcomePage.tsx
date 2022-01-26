@@ -7,6 +7,7 @@ export function useWelcomPage(guildId: string, type: number) {
   const [channels, setChannel] = useState<PartialGuildChannel[]>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [selectedChannel, setSelectedChannel] = useState<string>();
 
   useEffect(() => {
     setLoading(true);
@@ -14,6 +15,7 @@ export function useWelcomPage(guildId: string, type: number) {
     getGuildConfig(guildId)
       .then(({ data }) => {
         setConfig(data);
+        setSelectedChannel(data.welcomeChannelId)
         return getGuildChannels(guildId, type);
       })
       .then(({ data }) => setChannel(data))
@@ -21,5 +23,12 @@ export function useWelcomPage(guildId: string, type: number) {
       .finally(() => setLoading(false));
   }, []);
 
-  return {config, channels, loading, error};
+  return {
+    config,
+    channels,
+    loading,
+    error,
+    selectedChannel,
+    setSelectedChannel,
+};
 }
