@@ -2,5 +2,8 @@ import { GuildConfiguration } from 'src/utils/typeorm/entities/GuildConfiguratio
 
 export interface IGuildService {
   getGuildConfig(guildId: string): Promise<GuildConfiguration>;
-  updateGuildPrefix(guildId: string, prefix:string): Promise<GuildConfiguration>
+  updateGuildPrefix(
+    guildId: string,
+    prefix: string,
+  ): Promise<GuildConfiguration>;
 }

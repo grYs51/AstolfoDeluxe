@@ -24,4 +24,27 @@ export type PartialGuild = {
   features: string[];
 };
 
+export type PartialGuildChannel = {
+  id: string;
+  last_message_id: string;
+  last_pin_timestamp?: string;
+  type: number;
+  name: string;
+  position: number;
+  parent_id?: string;
+  topic?: string;
+  guild_id: string;
+  permission_overwrites: overwriteStructure[];
+  nsfw: boolean;
+  rate_limit_per_user: number;
+  banner?: string;
+};
+
+type overwriteStructure = {
+  id: string;
+  type: number;
+  allow: string;
+  deny: string;
+};
+
 export type Done = (err: Error, user: User) => void;

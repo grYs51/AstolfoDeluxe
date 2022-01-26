@@ -9,7 +9,7 @@ export class GuildService implements IGuildService {
   constructor(
     @InjectRepository(GuildConfiguration)
     private readonly guildConfigRepository: Repository<GuildConfiguration>,
-  ) { }
+  ) {}
 
   async getGuildConfig(guildId: string): Promise<GuildConfiguration> {
     const guildConfig = await this.guildConfigRepository.findOne({ guildId });
@@ -22,7 +22,10 @@ export class GuildService implements IGuildService {
     return guildConfig;
   }
 
-  async updateGuildPrefix(guildId: string, prefix: string): Promise<GuildConfiguration> {
+  async updateGuildPrefix(
+    guildId: string,
+    prefix: string,
+  ): Promise<GuildConfiguration> {
     const guildConfig = await this.getGuildConfig(guildId);
     if (!guildConfig)
       throw new HttpException(
@@ -32,7 +35,7 @@ export class GuildService implements IGuildService {
 
     return this.guildConfigRepository.save({
       ...guildConfig,
-      prefix
-    })
+      prefix,
+    });
   }
 }

@@ -6,7 +6,7 @@ import { IGuildService } from '../interfaces/guilds';
 export class GuildsController {
   constructor(
     @Inject(SERVICES.GUILDS) private readonly guildsService: IGuildService,
-  ) { }
+  ) {}
   @Get('config/:guildId')
   getGuildConfig(@Param('guildId') guildId: string) {
     return this.guildsService.getGuildConfig(guildId);
@@ -15,9 +15,8 @@ export class GuildsController {
   @Post(':guildId/config/prefix')
   async updateGuildPrefix(
     @Param('guildId') guildId: string,
-    @Body('prefix') prefix: string
+    @Body('prefix') prefix: string,
   ) {
-    console.log(guildId, prefix);
     return this.guildsService.updateGuildPrefix(guildId, prefix);
   }
 }
