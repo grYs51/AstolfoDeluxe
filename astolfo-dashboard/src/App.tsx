@@ -4,6 +4,7 @@ import { BarLoader } from "react-spinners";
 import { AppBar } from "./components/AppBar";
 import { Spinner } from "./components/Spinnner";
 import { CategoryPage } from "./pages/CategoryPage";
+import { GuildAnalyticsPage } from "./pages/GuildAnalyticsPage";
 import { GuildPrefixPage } from "./pages/GuildPrefixPage";
 import { LoginPage } from "./pages/LoginPage";
 import { MenuPage } from "./pages/MenuPage";
@@ -27,12 +28,16 @@ function App() {
             <Route path="/dashboard/*" element={<AppBar />} />
           </Routes>
           <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/menu" element={<MenuPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<MenuPage />} />
             {/* <Route path="/dashboard" element={<HomePage />} /> */}
             <Route path="/dashboard/categories" element={<CategoryPage />} />
             <Route path="/dashboard/prefix" element={<GuildPrefixPage />} />
             <Route path="/dashboard/message" element={<WelcomeMessagePage />} />
+            <Route
+              path="/dashboard/analytics"
+              element={<GuildAnalyticsPage />}
+            />
           </Routes>
         </>
       ) : (
