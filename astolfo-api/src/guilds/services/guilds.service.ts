@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GuildBanLog } from 'src/utils/typeorm/entities/GuildBanLog';
 import { GuildConfiguration } from 'src/utils/typeorm/entities/GuildConfiguration';
-import { Repository } from 'typeorm';
+import { MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
 import { IGuildService } from '../interfaces/guilds';
 
 @Injectable()
@@ -55,7 +55,12 @@ export class GuildService implements IGuildService {
     });
   }
 
-  async getGuildBans(guildId: string): Promise<GuildBanLog[]> {
-    return this.banLogRepository.find({ guildId });
+  async getGuildBans(guildId: string, fromDate?: Date): Promise<GuildBanLog[]> {
+    return this.banLogRepository.find({
+      where: {
+        guildId,
+        issuedOn: MoreThanOrEqual(fromDate),
+      },
+    });
   }
 }

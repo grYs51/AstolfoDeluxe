@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ROUTES, SERVICES } from 'src/utils/constants';
 import { WebSockectHandler } from 'src/websocket/socket';
 import { IGuildService } from '../interfaces/guilds';
@@ -32,7 +40,10 @@ export class GuildsController {
   }
 
   @Get(':guildId/bans')
-  async getGuildBan(@Param('guildId') guildId: string) {
-    return this.guildsService.getGuildBans(guildId);
+  async getGuildBan(
+    @Param('guildId') guildId: string,
+    @Query('fromDate') fromDate: Date,
+  ) {
+    return this.guildsService.getGuildBans(guildId, fromDate);
   }
 }

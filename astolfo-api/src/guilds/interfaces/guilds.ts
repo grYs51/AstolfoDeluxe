@@ -8,5 +8,5 @@ export interface IGuildService {
     prefix: string,
   ): Promise<GuildConfiguration>;
   updateWelcomeChannel(guildId: string, welcomeChannelId: string);
-  getGuildBans(guildId: string): Promise<GuildBanLog[]>;
+  getGuildBans(guildId: string, fromDate?: Date): Promise<GuildBanLog[]>;
 }
