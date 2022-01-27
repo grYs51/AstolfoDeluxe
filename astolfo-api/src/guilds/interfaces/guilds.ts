@@ -1,3 +1,4 @@
+import { GuildBanLog } from 'src/utils/typeorm/entities/GuildBanLog';
 import { GuildConfiguration } from 'src/utils/typeorm/entities/GuildConfiguration';
 
 export interface IGuildService {
@@ -7,4 +8,5 @@ export interface IGuildService {
     prefix: string,
   ): Promise<GuildConfiguration>;
   updateWelcomeChannel(guildId: string, welcomeChannelId: string);
+  getGuildBans(guildId: string): Promise<GuildBanLog[]>;
 }

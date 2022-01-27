@@ -30,4 +30,9 @@ export class GuildsController {
   ) {
     return this.guildsService.updateWelcomeChannel(guildId, channelId);
   }
+
+  @Get(':guildId/bans')
+  async getGuildBan(@Param('guildId') guildId: string) {
+    return this.guildsService.getGuildBans(guildId);
+  }
 }
