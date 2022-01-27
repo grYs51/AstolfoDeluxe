@@ -1,20 +1,19 @@
-import { Message } from 'discord.js';
-import BaseCommand from '../../utils/structures/BaseCommand';
-import DiscordClient from '../../client/client';
-import { getRepository } from 'typeorm';
-import { GuildConfiguration } from '../../typeOrm/entities/GuildConfiguration';
+import { Message } from "discord.js";
+import BaseCommand from "../../utils/structures/BaseCommand";
+import DiscordClient from "../../client/client";
+import { getRepository } from "typeorm";
+import { GuildConfiguration } from "../../typeOrm/entities/GuildConfiguration";
 
 export default class ChwelcomechannelCommand extends BaseCommand {
   constructor(
-    private readonly guildConfigRepository = getRepository
-      (GuildConfiguration)
+    private readonly guildConfigRepository = getRepository(GuildConfiguration)
   ) {
-    super('chwelcomechannel', 'mod', []);
+    super("chwelcomechannel", "mod", []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     if (!args.length) {
-      message.channel.send('Please provide an argument!');
+      message.channel.send("Please provide an argument!");
       return;
     }
 
@@ -26,10 +25,10 @@ export default class ChwelcomechannelCommand extends BaseCommand {
         welcomeChannelId: newChannelId,
       });
       client.configs.set(message.guildId!, updatedConfig);
-      message.channel.send('Update Welcome Channel succesfully')
+      message.channel.send("Update Welcome Channel succesfully");
     } catch (e) {
-      console.log(e)
-      message.channel.send('Something went wrong!')
+      console.log(e);
+      message.channel.send("Something went wrong!");
     }
   }
 }
