@@ -25,6 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
-    "@types/styled-components": "^5.1.21"
+    "@types/styled-components": "^5.1.21",
+    "prettier": "2.5.1"
   }
 }

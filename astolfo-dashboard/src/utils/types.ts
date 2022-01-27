@@ -1,7 +1,7 @@
 export type User = {
   id: string;
   discordId: string;
-}
+};
 
 export type PartialGuild = {
   id: string;
@@ -10,14 +10,14 @@ export type PartialGuild = {
   owner: boolean;
   permissions: string;
   features: string[];
-}
+};
 
 export type GuildConfigType = {
   id: number;
   guildId: string;
   prefix: string;
   welcomeChannelId: string;
-}
+};
 
 export type PartialGuildChannel = {
   id: string;

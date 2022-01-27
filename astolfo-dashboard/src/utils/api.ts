@@ -3,7 +3,7 @@ import { GuildConfigType, PartialGuild, User } from "./types";
 
 const CONFIG: AxiosRequestConfig = { withCredentials: true };
 
-const API_URL = 'http://localhost:3001/api'
+const API_URL = "http://localhost:3001/api";
 
 export const getAuthStatus = () =>
   axios.get<User>(`${API_URL}/auth/status`, CONFIG);
@@ -21,4 +21,8 @@ export const getGuildChannels = (guildId: string, type: number) =>
   axios.get(`${API_URL}/discord/guilds/${guildId}/channels/${type}`);
 
 export const updateWelcomeChannelId = (guildId: string, channelId: string) =>
-  axios.post(`${API_URL}/guilds/${guildId}/config/welcome`, { channelId }, CONFIG);
+  axios.post(
+    `${API_URL}/guilds/${guildId}/config/welcome`,
+    { channelId },
+    CONFIG
+  );

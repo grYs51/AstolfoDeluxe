@@ -20,5 +20,5 @@ export function useFetchGuildConfig(guildId: string) {
       .finally(() => setLoading(false));
   }, []);
 
-  return { config,  prefix, setPrefix, loading, error };
+  return { config, prefix, setPrefix, loading, error };
 }

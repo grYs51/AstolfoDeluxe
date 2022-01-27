@@ -15,7 +15,7 @@ export function useWelcomPage(guildId: string, type: number) {
     getGuildConfig(guildId)
       .then(({ data }) => {
         setConfig(data);
-        setSelectedChannel(data.welcomeChannelId)
+        setSelectedChannel(data.welcomeChannelId);
         return getGuildChannels(guildId, type);
       })
       .then(({ data }) => setChannel(data))
@@ -30,5 +30,5 @@ export function useWelcomPage(guildId: string, type: number) {
     error,
     selectedChannel,
     setSelectedChannel,
-};
+  };
 }

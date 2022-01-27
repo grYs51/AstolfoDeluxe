@@ -22,5 +22,7 @@ export const AppBar = () => {
         }}
       />
     </AppBarStyle>
-  ) : <Navigate replace to={"/menu"} />
+  ) : (
+    <Navigate replace to={"/menu"} />
+  );
 };
