@@ -7,6 +7,7 @@ import { Collection, Intents } from 'discord.js';
 import { createConnection, getRepository } from 'typeorm';
 import { GuildConfiguration } from './typeOrm/entities/GuildConfiguration';
 import { io } from 'socket.io-client';
+import { GuildBanLog } from './typeOrm/entities/GuildBanLog';
 
 
 const client = new DiscordClient({
@@ -20,8 +21,6 @@ const client = new DiscordClient({
   const socket = io('http://localhost:3001');
 
   socket.on('guildPrefixUpdate', (config: GuildConfiguration) => {
-    console.log('guildPrefixUpdate');
-    console.log(config);
     client.configs.set(config.guildId, config);
   })
 
@@ -33,7 +32,7 @@ const client = new DiscordClient({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     synchronize: true,
-    entities: [GuildConfiguration]
+    entities: [GuildConfiguration, GuildBanLog]
   })
 
   // socket.emit('guilds', {
