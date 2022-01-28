@@ -22,7 +22,7 @@ export default class KickCommand extends BaseCommand {
       await member.kick(reason);
       const guildBan = this.modLogRepository.create({
         guildId: message.guildId!,
-        MemberId: memberId,
+        memberId: memberId,
         issuedBy: message.author.id,
         reason,
         issuedOn: new Date(),

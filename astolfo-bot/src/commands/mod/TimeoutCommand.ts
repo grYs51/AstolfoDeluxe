@@ -32,7 +32,7 @@ export default class TimeoutCommand extends BaseCommand {
       await member.timeout(duration * 1000, reason);
       const guildBan = this.modLogRepository.create({
         guildId: message.guildId!,
-        MemberId: memberId,
+        memberId: memberId,
         issuedBy: message.author.id,
         reason,
         issuedOn: new Date(),

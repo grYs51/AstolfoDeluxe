@@ -22,7 +22,7 @@ export default class BanCommand extends BaseCommand {
       await member.ban({ reason });
       const guildBan = this.modLogReposity.create({
         guildId: message.guildId!,
-        MemberId: memberId,
+        memberId: memberId,
         issuedBy: message.author.id,
         reason,
         issuedOn: new Date(),
