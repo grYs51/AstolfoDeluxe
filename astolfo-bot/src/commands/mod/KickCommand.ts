@@ -28,8 +28,8 @@ export default class KickCommand extends BaseCommand {
         issuedOn: new Date(),
         type: "kick",
       });
-
       await this.modLogRepository.save(guildBan);
+      message.react("✅");
     } catch (err) {
       console.log(err);
     }
