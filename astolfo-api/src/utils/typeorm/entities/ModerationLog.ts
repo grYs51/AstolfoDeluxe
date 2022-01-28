@@ -9,8 +9,8 @@ export class ModerationLog {
   @Column({ name: 'guild_id' })
   guildId: string;
 
-  @Column({ name: 'banned_member_id' })
-  MemberId: string;
+  @Column({ name: 'member_id' })
+  memberId: string;
 
   @Column({ name: 'issued_by' })
   issuedBy: string;
