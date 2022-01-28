@@ -42,11 +42,13 @@ type overwriteStructure = {
   deny: string;
 };
 
-export type GuildBanLogsType = {
+export type GuildLogsType = {
   id: number;
   guildId: string;
-  bannedMembersId: string;
+  membersId: string;
   issuedBy: string;
   issuedOn: Date;
   reason?: string;
+  type: string;
+  duration?: number;
 };

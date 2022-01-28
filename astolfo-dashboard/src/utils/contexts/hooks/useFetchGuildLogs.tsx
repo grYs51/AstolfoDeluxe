@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { getGuildBanLogs } from "../../api";
-import { GuildBanLogsType } from "../../types";
+import { GuildLogsType } from "../../types";
 
-export function useFetchGuildBans(
+export function useFetchGuildLogs(
   guildId: string,
   FromDate: string,
   getLabels: () => string[],
-  prepareDate: (data: GuildBanLogsType[]) => number[]
+  prepareDate: (data: GuildLogsType[]) => number[]
 ) {
-  const [bans, setBans] = useState<GuildBanLogsType[]>();
+  const [bans, setBans] = useState<GuildLogsType[]>();
   const [labels, setlabels] = useState<string[]>();
   const [preparedData, setpreparedData] = useState<number[]>();
 

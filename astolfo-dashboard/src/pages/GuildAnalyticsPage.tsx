@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { GuildContext } from "../utils/contexts/GuildContext";
-import { useFetchGuildBans } from "../utils/contexts/hooks/useFetchGuildBans";
-import { GuildBanLogsType } from "../utils/types";
+import { useFetchGuildLogs } from "../utils/contexts/hooks/useFetchGuildLogs";
+import { GuildLogsType } from "../utils/types";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,6 +10,7 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
+import { Container, Page, Title } from "../utils/styles";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
@@ -34,7 +35,7 @@ export const GuildAnalyticsPage = () => {
     return labels;
   };
 
-  const prepareDate = (data: GuildBanLogsType[]) => {
+  const prepareDate = (data: GuildLogsType[]) => {
     const currentDate = new Date();
     const last = currentDate.getDate();
     const start = last - 6;
@@ -49,7 +50,7 @@ export const GuildAnalyticsPage = () => {
     return dataRecords;
   };
 
-  const { bans, loading, error, labels, preparedData } = useFetchGuildBans(
+  const { bans, loading, error, labels, preparedData } = useFetchGuildLogs(
     guildId,
     fromDate,
     getLabels,
@@ -59,22 +60,25 @@ export const GuildAnalyticsPage = () => {
   console.log(bans, labels, preparedData);
 
   return (
-    <div>
-      <div style={{ width: "50%" }}>
-        <Line
-          data={{
-            labels,
-            datasets: [
-              {
-                label: "Ban Analytics",
-                data: preparedData,
-                borderColor: "#fff",
-                pointBorderColor: "#ff00",
-              },
-            ],
-          }}
-        />
-      </div>
-    </div>
+    <Page>
+      <Container>
+        <Title>ModLog Chart</Title>
+        <div>
+          <Line
+            data={{
+              labels,
+              datasets: [
+                {
+                  label: "Ban Analytics",
+                  data: preparedData,
+                  borderColor: "#fff",
+                  pointBorderColor: "#ff00",
+                },
+              ],
+            }}
+          />
+        </div>
+      </Container>
+    </Page>
   );
 };
