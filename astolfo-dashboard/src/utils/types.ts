@@ -49,4 +49,4 @@ export type GuildBanLogsType = {
   issuedBy: string;
   issuedOn: Date;
   reason?: string;
-}
+};

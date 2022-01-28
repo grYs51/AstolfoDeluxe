@@ -1,7 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { GuildContext } from "../utils/contexts/GuildContext";
 import { useFetchGuildBans } from "../utils/contexts/hooks/useFetchGuildBans";
 import { GuildBanLogsType } from "../utils/types";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+} from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 export const GuildAnalyticsPage = () => {
   const { guild } = useContext(GuildContext);
@@ -48,5 +58,23 @@ export const GuildAnalyticsPage = () => {
 
   console.log(bans, labels, preparedData);
 
-  return <div>GuildAnalyticsPage</div>;
+  return (
+    <div>
+      <div style={{ width: "50%" }}>
+        <Line
+          data={{
+            labels,
+            datasets: [
+              {
+                label: "Ban Analytics",
+                data: preparedData,
+                borderColor: "#fff",
+                pointBorderColor: "#ff00",
+              },
+            ],
+          }}
+        />
+      </div>
+    </div>
+  );
 };

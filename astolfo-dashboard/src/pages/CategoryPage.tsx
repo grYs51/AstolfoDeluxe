@@ -8,7 +8,11 @@ import {
   TextButton,
   Title,
 } from "../utils/styles";
-import { IoSettingsOutline, IoNewspaperOutline, IoAnalytics } from "react-icons/io5";
+import {
+  IoSettingsOutline,
+  IoNewspaperOutline,
+  IoAnalytics,
+} from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 export const CategoryPage = () => {
@@ -33,7 +37,7 @@ export const CategoryPage = () => {
             </TextButton> */}
           </Grid>
         </div>
-        <div style={{ borderTop: "1px solid #ffffff1b", marginTop: "30px" }}  >
+        <div style={{ borderTop: "1px solid #ffffff1b", marginTop: "30px" }}>
           <Flex alignItems="center" justifyContent="space-between">
             <Title>Basic Configuration</Title>
             <IoSettingsOutline size={35} />

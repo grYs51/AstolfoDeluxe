@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { getGuildBanLogs } from "../../api";
 import { GuildBanLogsType } from "../../types";
 
-export function useFetchGuildBans(guildId: string, FromDate: string, getLabels: ()=> string[], prepareDate:(data: GuildBanLogsType[])=> number[]) {
+export function useFetchGuildBans(
+  guildId: string,
+  FromDate: string,
+  getLabels: () => string[],
+  prepareDate: (data: GuildBanLogsType[]) => number[]
+) {
   const [bans, setBans] = useState<GuildBanLogsType[]>();
   const [labels, setlabels] = useState<string[]>();
   const [preparedData, setpreparedData] = useState<number[]>();
-
-
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -18,8 +21,8 @@ export function useFetchGuildBans(guildId: string, FromDate: string, getLabels: 
       .then(({ data }) => {
         console.log(data);
         setBans(data);
-        setlabels(getLabels())
-        setpreparedData(prepareDate(data))
+        setlabels(getLabels());
+        setpreparedData(prepareDate(data));
       })
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
