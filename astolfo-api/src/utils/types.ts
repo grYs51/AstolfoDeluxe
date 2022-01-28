@@ -47,4 +47,6 @@ type overwriteStructure = {
   deny: string;
 };
 
+export type ModerationActionType = 'ban' | 'kick' | 'timeout';
+
 export type Done = (err: Error, user: User) => void;
