@@ -7,13 +7,14 @@ import { Collection, Intents } from "discord.js";
 import { createConnection, getRepository } from "typeorm";
 import { GuildConfiguration } from "./typeOrm/entities/GuildConfiguration";
 import { io } from "socket.io-client";
-import { GuildBanLog } from "./typeOrm/entities/GuildBanLog";
+import { entities } from "./typeOrm/entities";
 
 const client = new DiscordClient({
   intents: [
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_VOICE_STATES,
   ],
 });
 
@@ -32,7 +33,7 @@ const client = new DiscordClient({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     synchronize: true,
-    entities: [GuildConfiguration, GuildBanLog],
+    entities: entities,
   });
 
   // socket.emit('guilds', {
