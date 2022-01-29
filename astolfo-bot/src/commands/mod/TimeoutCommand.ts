@@ -19,6 +19,7 @@ export default class TimeoutCommand extends BaseCommand {
     const reason = rest.join(" ");
 
     const duration = parseInt(timeoutStr);
+
     if (isNaN(duration)) {
       message.reply("Invalid Time!");
       return;

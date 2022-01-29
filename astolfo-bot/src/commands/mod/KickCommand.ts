@@ -17,6 +17,12 @@ export default class KickCommand extends BaseCommand {
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const [memberId, ...rest] = args;
     const reason = rest.join(" ");
+
+    if (!message.member?.permissions.has("KICK_MEMBERS")) {
+      message.reply("You cannot do that... Dummy!");
+      return;
+    }
+
     try {
       const member = await message.guild?.members.fetch(memberId)!;
       await member.kick(reason);

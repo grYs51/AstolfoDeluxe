@@ -17,6 +17,12 @@ export default class BanCommand extends BaseCommand {
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const [memberId, ...rest] = args;
     const reason = rest.join(" ");
+
+    if (!message.member?.permissions.has("BAN_MEMBERS")) {
+      message.reply("You cannot do that... Dummy!");
+      return;
+    }
+
     try {
       const member = await message.guild?.members.fetch(memberId)!;
       await member.ban({ reason });
@@ -31,8 +37,8 @@ export default class BanCommand extends BaseCommand {
 
       await this.modLogReposity.save(guildBan);
       message.react("✅");
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      console.log(err.message);
     }
   }
 }
