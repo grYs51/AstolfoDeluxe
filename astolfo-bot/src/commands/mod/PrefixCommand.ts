@@ -4,11 +4,11 @@ import DiscordClient from "../../client/client";
 import { getRepository } from "typeorm";
 import { GuildConfiguration } from "../../typeOrm/entities/GuildConfiguration";
 
-export default class ChwelcomechannelCommand extends BaseCommand {
+export default class PrefixCommand extends BaseCommand {
   constructor(
     private readonly guildConfigRepository = getRepository(GuildConfiguration)
   ) {
-    super("chwelcomechannel", "mod", []);
+    super("prefix", "mod", []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
@@ -17,15 +17,15 @@ export default class ChwelcomechannelCommand extends BaseCommand {
       return;
     }
 
-    const [newChannelId] = args;
+    const [newPrefix] = args;
     try {
       const config = client.configs.get(message.guildId!);
       const updatedConfig = await this.guildConfigRepository.save({
         ...config,
-        welcomeChannelId: newChannelId,
+        prefix: newPrefix,
       });
       client.configs.set(message.guildId!, updatedConfig);
-      message.channel.send("Update Welcome Channel succesfully");
+      message.channel.send("Update prefix succesfully");
     } catch (e) {
       console.log(e);
       message.channel.send("Something went wrong!");
