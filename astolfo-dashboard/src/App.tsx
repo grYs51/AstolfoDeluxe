@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { AppBar } from "./components/AppBar";
 import { Spinner } from "./components/Spinnner";
@@ -28,7 +28,7 @@ function App() {
             <Route path="/dashboard/*" element={<AppBar />} />
           </Routes>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
+            {/* <Route path="/login" element={<LoginPage />} /> */}
             <Route path="/" element={<MenuPage />} />
             {/* <Route path="/dashboard" element={<HomePage />} /> */}
             <Route path="/dashboard/categories" element={<CategoryPage />} />
@@ -43,7 +43,7 @@ function App() {
       ) : (
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="*" element={<div>Not Found! </div>} />
+          <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
       )}
     </GuildContext.Provider>
