@@ -24,6 +24,6 @@ export class ModerationLog {
   @Column()
   type: ModerationActionType;
 
-  @Column()
+  @Column({nullable:true})
   duration?: number;
 }
