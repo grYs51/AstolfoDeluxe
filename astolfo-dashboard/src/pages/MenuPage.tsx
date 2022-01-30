@@ -1,3 +1,4 @@
+import CircularProgress from "@mui/material/CircularProgress";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
@@ -25,7 +26,8 @@ export const MenuPage = () => {
         <div>
           {loading ? (
             <Flex justifyContent="center">
-              <MoonLoader size={30} color="white" />
+              <CircularProgress color="inherit" />
+              {/* <MoonLoader size={30} color="white" /> */}
             </Flex>
           ) : (
             <div>

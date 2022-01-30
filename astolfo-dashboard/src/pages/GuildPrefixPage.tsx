@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { MoonLoader } from "react-spinners";
+import { TransitionAlert } from "../components/Alerts/Alerts";
 import { updateGuildPrefix } from "../utils/api";
 import { GuildContext } from "../utils/contexts/GuildContext";
 import { useFetchGuildConfig } from "../utils/contexts/hooks/useFetchGuildConfig";
@@ -13,6 +14,7 @@ import {
 } from "../utils/styles";
 
 export const GuildPrefixPage = () => {
+  const [open, setOpen] = useState(false);
   const { guild } = useContext(GuildContext);
   const guildId = (guild && guild.id) || "";
 
@@ -27,6 +29,9 @@ export const GuildPrefixPage = () => {
     try {
       const res = await updateGuildPrefix(guildId, prefix);
       console.log(res);
+      if (res.status === 201) {
+        setOpen(true);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -34,6 +39,11 @@ export const GuildPrefixPage = () => {
 
   return (
     <Page>
+      <TransitionAlert
+        open={open}
+        setOpen={setOpen}
+        title="Succesfully Saved!"
+      />
       <Container style={{ width: "50%" }}>
         <Title>Update Command Prefix</Title>
         {!loading && config ? (

@@ -29,6 +29,6 @@ export const updateWelcomeChannelId = (guildId: string, channelId: string) =>
 
 export const getGuildBanLogs = (guildId: string, fromDate: string) =>
   axios.get<GuildLogsType[]>(
-    `${API_URL}/guilds/${guildId}/logs?fromDate=${fromDate}`,
+    `${API_URL}/guilds/${guildId}/stats?fromDate=${fromDate}`,
     CONFIG
   );

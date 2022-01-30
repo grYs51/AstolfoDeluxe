@@ -1,6 +1,7 @@
 import { channel } from "diagnostics_channel";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { MoonLoader } from "react-spinners";
+import { TransitionAlert } from "../components/Alerts/Alerts";
 import { updateWelcomeChannelId } from "../utils/api";
 import { GuildContext } from "../utils/contexts/GuildContext";
 import { useWelcomPage } from "../utils/contexts/hooks/useWelcomePage";
@@ -15,6 +16,7 @@ import {
 } from "../utils/styles";
 
 export const WelcomeMessagePage = () => {
+  const [open, setOpen] = useState(false);
   const { guild } = useContext(GuildContext);
   const guildId = (guild && guild.id) || "";
   const {
@@ -28,7 +30,10 @@ export const WelcomeMessagePage = () => {
 
   const updateWelcomeChannel = async () => {
     try {
-      updateWelcomeChannelId(guildId, selectedChannel || "");
+      const res = await updateWelcomeChannelId(guildId, selectedChannel || "");
+      if (res.status === 201) {
+        setOpen(true);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -36,6 +41,12 @@ export const WelcomeMessagePage = () => {
 
   return (
     <Page>
+      <TransitionAlert
+        open={open}
+        setOpen={setOpen}
+        title="Succesfully Saved!"
+      />
+
       <Container>
         <Title>Update Welcome Message</Title>
         {channels && config && !loading ? (
