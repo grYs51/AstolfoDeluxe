@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GuildBanLog } from 'src/utils/typeorm/entities/GuildBanLog';
 import { GuildConfiguration } from 'src/utils/typeorm/entities/GuildConfiguration';
 import { ModerationLog } from 'src/utils/typeorm/entities/ModerationLog';
 import { MoreThanOrEqual, Repository } from 'typeorm';
@@ -11,8 +10,6 @@ export class GuildService implements IGuildService {
   constructor(
     @InjectRepository(GuildConfiguration)
     private readonly guildConfigRepository: Repository<GuildConfiguration>,
-    @InjectRepository(GuildBanLog)
-    private readonly banLogRepository: Repository<GuildBanLog>,
     @InjectRepository(ModerationLog)
     private readonly ModLogRepository: Repository<ModerationLog>,
   ) {}
@@ -55,15 +52,6 @@ export class GuildService implements IGuildService {
     return this.guildConfigRepository.save({
       ...guildConfig,
       welcomeChannelId,
-    });
-  }
-
-  async getGuildBans(guildId: string, fromDate?: Date): Promise<GuildBanLog[]> {
-    return this.banLogRepository.find({
-      where: {
-        guildId,
-        issuedOn: MoreThanOrEqual(fromDate),
-      },
     });
   }
 
