@@ -1,4 +1,3 @@
-import { GuildAuditLogsResolvable } from "discord.js";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "guild_stats" })
@@ -12,7 +11,7 @@ export class GuildStatsLog {
   @Column({ name: "member_id" })
   memberId: string;
 
-  @Column({ name: "issued_by" })
+  @Column({ name: "issued_by", nullable: true })
   issuedBy: string;
 
   @Column()
