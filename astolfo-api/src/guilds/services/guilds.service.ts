@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GuildConfiguration } from 'src/utils/typeorm/entities/GuildConfiguration';
+import { GuildStatsLog } from 'src/utils/typeorm/entities/GuildStatsLog';
 import { ModerationLog } from 'src/utils/typeorm/entities/ModerationLog';
 import { MoreThanOrEqual, Repository } from 'typeorm';
 import { IGuildService } from '../interfaces/guilds';
@@ -11,7 +12,9 @@ export class GuildService implements IGuildService {
     @InjectRepository(GuildConfiguration)
     private readonly guildConfigRepository: Repository<GuildConfiguration>,
     @InjectRepository(ModerationLog)
-    private readonly ModLogRepository: Repository<ModerationLog>,
+    private readonly modLogRepository: Repository<ModerationLog>,
+    @InjectRepository(GuildStatsLog)
+    private readonly statsLogRepository: Repository<GuildStatsLog>,
   ) {}
 
   async getGuildConfig(guildId: string): Promise<GuildConfiguration> {
@@ -60,12 +63,26 @@ export class GuildService implements IGuildService {
     fromDate?: Date,
   ): Promise<ModerationLog[]> {
     return fromDate
-      ? this.ModLogRepository.find({
+      ? this.modLogRepository.find({
           where: {
             guildId,
             issuedOn: MoreThanOrEqual(fromDate),
           },
         })
-      : this.ModLogRepository.find({ guildId });
+      : this.modLogRepository.find({ guildId });
+  }
+
+  async getGuildStats(
+    guildId: string,
+    fromDate?: Date,
+  ): Promise<GuildStatsLog[]> {
+    return fromDate
+      ? this.statsLogRepository.find({
+          where: {
+            guildId,
+            issuedOn: MoreThanOrEqual(fromDate),
+          },
+        })
+      : this.statsLogRepository.find({ guildId });
   }
 }

@@ -39,19 +39,19 @@ export class GuildsController {
     return this.guildsService.updateWelcomeChannel(guildId, channelId);
   }
 
-  @Get(':guildId/bans')
-  async getGuildBan(
-    @Param('guildId') guildId: string,
-    @Query('fromDate') fromDate: Date,
-  ) {
-    return this.guildsService.getGuildBans(guildId, fromDate);
-  }
-
   @Get(':guildId/logs')
   async getGuildLogs(
     @Param('guildId') guildId: string,
     @Query('fromDate') fromDate: Date,
   ) {
     return this.guildsService.getGuildLogs(guildId, fromDate);
+  }
+
+  @Get(':guildId/stats')
+  async getGuildStats(
+    @Param('guildId') guildId: string,
+    @Query('fromDate') fromDate: Date,
+  ) {
+    return this.guildsService.getGuildStats(guildId, fromDate);
   }
 }
