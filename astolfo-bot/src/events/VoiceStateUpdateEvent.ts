@@ -50,7 +50,7 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
     newState: VoiceState
   ): string | null {
     const {
-      selfDeaf: OldSelfDeaf,
+      selfDeaf: oldSelfDeaf,
       selfMute: oldSelfMute,
       selfVideo: oldSelfVideo,
       serverDeaf: oldServerDeaf,
@@ -66,7 +66,7 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
       streaming: newStreaming,
     } = newState;
 
-    if (OldSelfDeaf === false && newSelfDeaf) {
+    if (oldSelfDeaf === false && newSelfDeaf) {
       return "DEAFEN";
     }
     if (oldSelfMute === false && newSelfMute) {
