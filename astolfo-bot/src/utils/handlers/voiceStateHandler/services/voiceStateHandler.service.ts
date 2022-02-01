@@ -1,11 +1,18 @@
-import { GuildAuditLogsResolvable, User, VoiceState } from "discord.js";
-import { getRepository } from "typeorm";
+import {
+  GuildAuditLogsResolvable,
+  NewsChannel,
+  User,
+  VoiceState,
+} from "discord.js";
+import { getRepository, Repository } from "typeorm";
 import { GuildStatsLog } from "../../../../typeOrm/entities/GuildsStatsLog";
 import { IVoiceStateHandler } from "../interfaces/voiceStateHandler";
 
 export class VoiceStateHandler implements IVoiceStateHandler {
   constructor(
-    private readonly guildStatRepository = getRepository(GuildStatsLog)
+    private readonly guildStatRepository: Repository<GuildStatsLog> = getRepository(
+      GuildStatsLog
+    )
   ) {}
 
   async memberAbused(oldState: VoiceState, newState: VoiceState, type: string) {
@@ -26,13 +33,24 @@ export class VoiceStateHandler implements IVoiceStateHandler {
       if (executor!.id === oldState.member?.id) {
         return;
       }
+      let newChannel: string | undefined = undefined;
+      if (type === "MEMBER_MOVE") {
+        newChannel = newState.channelId!;
+      }
 
       if (Math.abs(new Date().valueOf() - createdAt.valueOf()) / 1000 < 1) {
         console.log(
           `${executor!.username} ${type} ${oldState!.member?.user.username}`
         );
 
-        await this.saveRepository(guildId, executor!.id, memberId!, type);
+        await this.saveRepository(
+          guildId,
+          memberId!,
+          executor!.id,
+          oldState.channelId!,
+          newChannel,
+          type
+        );
         return;
       }
 
@@ -51,25 +69,33 @@ export class VoiceStateHandler implements IVoiceStateHandler {
     try {
       await this.saveRepository(
         oldState.guild.id,
-        undefined,
         oldState.member!.id,
+        undefined,
+        oldState.channelId!,
+        undefined,
         type
       );
-    } catch (e) {}
+    } catch (e: any) {
+      console.log(e.message);
+    }
   }
 
   private async saveRepository(
     guildId: string,
-    issuedBy: string | undefined,
     memberId: string,
+    issuedBy: string | undefined,
+    channel: string,
+    newChannel: string | undefined,
     type: string,
     issuedOn = new Date()
   ) {
     await this.guildStatRepository.save({
       guildId,
-      issuedBy,
-      issuedOn,
       memberId,
+      issuedBy,
+      channel,
+      newChannel,
+      issuedOn,
       type,
     });
   }
