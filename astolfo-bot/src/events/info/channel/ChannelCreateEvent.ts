@@ -7,7 +7,7 @@ import { ChannelInfo } from "../../../typeOrm/entities/ChannelInfo";
 
 export default class ChannelCreateEvent extends BaseEvent {
   constructor(
-    private readonly ChannelInfoRepository: Repository<ChannelInfo> = getRepository(
+    private readonly channelInfoRepository: Repository<ChannelInfo> = getRepository(
       ChannelInfo
     )
   ) {
@@ -32,7 +32,7 @@ export default class ChannelCreateEvent extends BaseEvent {
       nsfw = channel.nsfw!;
     }
 
-    const channeld = this.ChannelInfoRepository.create({
+    const channeld = this.channelInfoRepository.create({
       channelId: channel.id,
       guildId: channel.guildId,
       name: channel.name,
@@ -42,6 +42,6 @@ export default class ChannelCreateEvent extends BaseEvent {
       type: channel.type,
       topic,
     });
-    await this.ChannelInfoRepository.save(channeld);
+    await this.channelInfoRepository.save(channeld);
   }
 }

@@ -7,7 +7,7 @@ import { ChannelInfo } from "../../../typeOrm/entities/ChannelInfo";
 
 export default class ChannelDeleteEvent extends BaseEvent {
   constructor(
-    private readonly ChannelInfoRepository: Repository<ChannelInfo> = getRepository(
+    private readonly channelInfoRepository: Repository<ChannelInfo> = getRepository(
       ChannelInfo
     )
   ) {
@@ -17,8 +17,8 @@ export default class ChannelDeleteEvent extends BaseEvent {
   // async run(client: DiscordClient, channel: DMChannel | GuildChannel)
   async run(client: DiscordClient, channel: GuildChannel) {
     console.log(`Removed Channel: ${channel.name}`);
-    const channelDb = await this.ChannelInfoRepository.findOne(channel.id);
+    const channelDb = await this.channelInfoRepository.findOne(channel.id);
     if (!channelDb) return;
-    await this.ChannelInfoRepository.remove(channelDb);
+    await this.channelInfoRepository.remove(channelDb);
   }
 }
