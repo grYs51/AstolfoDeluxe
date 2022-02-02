@@ -1,0 +1,21 @@
+<div style="width: 100%; height: 100%; background-color: #303030; justify-content: center;">
+  <!-- <h1 class="mat-h1">Dashboard</h1> -->
+  <mat-grid-list cols="2" rowHeight="200px" >
+    <mat-grid-tile>
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Login
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content" style="  align-items: center;">
+          <button (click)="redirect()" mat-raised-button color="accent" >Discord</button>
+          <button (click)="auth()" mat-raised-button color="accent" >auth</button>
+        </mat-card-content>
+        <mat-card-footer style="bottom: 0px;">
+          <p> GrYs - 2022 </p>
+        </mat-card-footer>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

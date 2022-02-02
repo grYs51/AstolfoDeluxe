@@ -1,0 +1,46 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">Astolfo Dashboard</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container mat-elevation-z8"
+    >
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56">
+      <mat-nav-list>
+        <img class="avatar mat-elevation-z8" width="200px" src="https://cdn.discordapp.com/guilds/571011756181291008/users/148824637004840961/avatars/c2c7511f3c6880c06c0878970e5aab33.png?size=4096" />
+
+        <h4 class="name">GrYs</h4>
+        <p class="designation">Software Engineer</p>
+
+        <mat-divider></mat-divider>
+        <button mat-button class="menu-button">
+          <mat-icon>home</mat-icon>
+          <span>Home</span>
+        </button>
+        <button mat-button class="menu-button">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-button class="menu-button">
+          <mat-icon>info</mat-icon>
+          <span>About</span>
+        </button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button">
+          <mat-icon>help</mat-icon>
+          <span>Help</span>
+        </button>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="" style="width: 100%;">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
