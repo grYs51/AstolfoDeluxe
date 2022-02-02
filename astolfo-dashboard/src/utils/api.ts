@@ -1,5 +1,11 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { GuildLogsType, GuildConfigType, PartialGuild, User } from "./types";
+import {
+  GuildLogsType,
+  GuildConfigType,
+  PartialGuild,
+  User,
+  MemberInfo,
+} from "./types";
 
 const CONFIG: AxiosRequestConfig = { withCredentials: true };
 
@@ -32,3 +38,6 @@ export const getGuildBanLogs = (guildId: string, fromDate: string) =>
     `${API_URL}/guilds/${guildId}/stats?fromDate=${fromDate}`,
     CONFIG
   );
+
+export const getGuildMembers = (guildId: string) =>
+  axios.get<MemberInfo[]>(`${API_URL}/guilds/${guildId}/members`);

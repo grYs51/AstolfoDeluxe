@@ -9,10 +9,18 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  ChartOptions,
+  Tooltip,
 } from "chart.js";
 import { Container, Page, Title } from "../utils/styles";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip
+);
 
 export const GuildAnalyticsPage = () => {
   const { guild } = useContext(GuildContext);
@@ -69,12 +77,19 @@ export const GuildAnalyticsPage = () => {
               labels,
               datasets: [
                 {
-                  label: "Ban Analytics",
+                  label: "Log Analytics",
                   data: preparedData,
                   borderColor: "#fff",
                   pointBorderColor: "#ff00",
                 },
               ],
+            }}
+            options={{
+              responsive: true,
+              hover: {
+                mode: "nearest",
+                intersect: false,
+              },
             }}
           />
         </div>

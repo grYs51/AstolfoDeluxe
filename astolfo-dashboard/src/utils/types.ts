@@ -52,3 +52,29 @@ export type GuildLogsType = {
   type: string;
   duration?: number;
 };
+
+export type MemberInfo = {
+  id: string;
+  guildName: string;
+  guildAvatar: string;
+  guildColor: string;
+  joinedAt: Date;
+  guild: GuildInfo;
+  user: UserInfo;
+};
+
+type GuildInfo = {
+  id: string;
+  name: string;
+  icon: string;
+  createdAt: Date;
+};
+
+type UserInfo = {
+  id: string;
+  name: string;
+  discriminator: string;
+  avatar: string;
+  bot: boolean;
+  createdAt: Date;
+};
