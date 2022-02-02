@@ -15,6 +15,12 @@ export class GuildStatsLog {
   issuedBy: string;
 
   @Column()
+  channel: string;
+
+  @Column({ name: "new_channel", nullable: true })
+  newChannel: string;
+
+  @Column()
   type: string;
 
   @Column({ name: 'issued_on' })
