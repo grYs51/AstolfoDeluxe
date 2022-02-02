@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GuildConfiguration } from 'src/utils/typeorm/entities/GuildConfiguration';
+import { GuildMemberInfo } from 'src/utils/typeorm/entities/GuildMemberInfo';
 import { GuildStatsLog } from 'src/utils/typeorm/entities/GuildStatsLog';
 import { ModerationLog } from 'src/utils/typeorm/entities/ModerationLog';
 import { MoreThanOrEqual, Repository } from 'typeorm';
@@ -15,6 +16,8 @@ export class GuildService implements IGuildService {
     private readonly modLogRepository: Repository<ModerationLog>,
     @InjectRepository(GuildStatsLog)
     private readonly statsLogRepository: Repository<GuildStatsLog>,
+    @InjectRepository(GuildMemberInfo)
+    private readonly guildMemberRepository: Repository<GuildMemberInfo>,
   ) {}
 
   async getGuildConfig(guildId: string): Promise<GuildConfiguration> {
@@ -84,5 +87,14 @@ export class GuildService implements IGuildService {
           },
         })
       : this.statsLogRepository.find({ guildId });
+  }
+
+  async getMembers(guildId: string): Promise<GuildMemberInfo[]> {
+    return this.guildMemberRepository.find({
+      where: {
+        guild: guildId,
+      },
+      relations: ['user'],
+    });
   }
 }

@@ -54,4 +54,9 @@ export class GuildsController {
   ) {
     return this.guildsService.getGuildStats(guildId, fromDate);
   }
+
+  @Get(':guildId/members')
+  getMembers(@Param('guildId') guildId: string) {
+    return this.guildsService.getMembers(guildId);
+  }
 }

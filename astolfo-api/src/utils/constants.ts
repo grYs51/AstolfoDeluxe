@@ -2,6 +2,7 @@ export enum ROUTES {
   AUTH = 'auth',
   DISCORD = 'discord',
   GUILDS = 'guilds',
+  USER = 'users',
 }
 
 export enum SERVICES {

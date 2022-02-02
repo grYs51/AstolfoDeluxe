@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SERVICES } from 'src/utils/constants';
 import { GuildConfiguration } from 'src/utils/typeorm/entities/GuildConfiguration';
+import { GuildMemberInfo } from 'src/utils/typeorm/entities/GuildMemberInfo';
 import { GuildStatsLog } from 'src/utils/typeorm/entities/GuildStatsLog';
 import { ModerationLog } from 'src/utils/typeorm/entities/ModerationLog';
 import { WebSocketModule } from 'src/websocket/websocket.module';
@@ -14,6 +15,7 @@ import { GuildService } from './services/guilds.service';
       GuildConfiguration,
       ModerationLog,
       GuildStatsLog,
+      GuildMemberInfo,
     ]),
     WebSocketModule,
   ],
