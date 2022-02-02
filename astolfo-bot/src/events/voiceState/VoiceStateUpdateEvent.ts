@@ -1,8 +1,8 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-voiceStateUpdate
 import { GuildAuditLogsResolvable, VoiceState } from "discord.js";
-import BaseEvent from "../utils/structures/BaseEvent";
-import DiscordClient from "../client/client";
-import { VoiceStateHandler } from "../utils/handlers/voiceStateHandler/services/voiceStateHandler.service";
+import BaseEvent from "../../utils/structures/BaseEvent";
+import DiscordClient from "../../client/client";
+import { VoiceStateHandler } from "../../utils/handlers/voiceStateHandler/services/voiceStateHandler.service";
 export default class VoiceStateUpdateEvent extends BaseEvent {
   voiceStateHandler = new VoiceStateHandler();
 
