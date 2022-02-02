@@ -38,7 +38,7 @@ export default class GuildCreateEvent extends BaseEvent {
 
     try {
       const guildInfo = this.guildInfoRepository.create({
-        guildId: guild.id,
+        id: guild.id,
         name: guild.name,
         icon: guild.iconURL() ? guild.iconURL()! : undefined,
         createdAt: guild.createdAt,

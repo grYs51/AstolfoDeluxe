@@ -19,7 +19,7 @@ export default class GuildUpdateEvent extends BaseEvent {
 
     try {
       const guildInfo = this.guildInfoRepository.create({
-        guildId: oldGuild.id,
+        id: oldGuild.id,
         name: newGuild.name,
         createdAt: oldGuild.createdAt,
         icon: newGuild.iconURL() ? newGuild.iconURL()! : undefined,

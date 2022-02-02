@@ -23,7 +23,7 @@ export default class InitGuilds extends BaseCommand {
     try {
       client.guilds.cache.forEach(async (guild) => {
         const guildInfo = this.guildInfoRepository.create({
-          guildId: guild.id,
+          id: guild.id,
           name: guild.name,
           createdAt: guild.createdAt,
           icon: guild.iconURL() ? guild.iconURL()! : undefined,

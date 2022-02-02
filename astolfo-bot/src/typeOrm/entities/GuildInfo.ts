@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 @Entity({ name: "guild_info" })
 export class GuildInfo {
   @PrimaryColumn({ name: "guild_id" })
-  guildId: string;
+  id: string;
 
   @Column()
   name: string;
