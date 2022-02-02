@@ -16,7 +16,7 @@ export default class UserUpdateEvent extends BaseEvent {
 
   async run(client: DiscordClient, oldUser: User, newUser: User) {
     try {
-      console.log(`user: ${newUser.username} updated`);
+      console.log(`User: ${newUser.username} updated`);
       const searchedUser = await this.userInfoRepository.findOne(oldUser.id);
 
       if (!searchedUser) return;
