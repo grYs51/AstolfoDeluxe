@@ -6,28 +6,20 @@ import { ApiService } from 'src/app/shared/services/backend/api.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private api: ApiService,
-    private authSrv: AuthService) { }
+    private authSrv: AuthService
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  redirect() {
+    window.location.href = 'http://localhost:3001/api/auth/login';
   }
 
-  redirect(){
-    window.location.href = 'http://localhost:3001/api/auth/login'
-  }
-
-  auth(){
-    try{
-      this.api.auth().subscribe(),
-    }{
-      
-    }
-     )
-  }
-
+  auth() {}
 }

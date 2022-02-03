@@ -3,18 +3,21 @@ import { Injectable } from '@angular/core';
 import { IDiscordUser } from '../../Types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-  private API_URL = "http://localhost:3001/api";
+  private API_URL = 'http://localhost:3001/api';
 
   private httpOptions = {
-    withCredentials: true
+    withCredentials: true,
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public auth() {
-    return this.http.get<IDiscordUser>(`${this.API_URL}/auth/status`, this.httpOptions)
+    return this.http.get<IDiscordUser>(
+      `${this.API_URL}/auth/status`,
+      this.httpOptions
+    );
   }
 }

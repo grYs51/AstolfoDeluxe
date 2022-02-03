@@ -8,17 +8,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-
-  ],
+  declarations: [HomeComponent],
   imports: [
     CommonModule,
     BrowserModule,
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
   ],
   exports: [HomeComponent],
 })
