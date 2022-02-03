@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
@@ -7,7 +7,12 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.size = this.getCols(window.innerWidth);
+  }
+
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
@@ -29,5 +34,16 @@ export class HomeComponent {
     })
   );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  public size: number | undefined;
+
+  constructor(private breakpointObserver: BreakpointObserver) { }
+  ngOnInit(): void {
+    this.size = this.getCols(window.innerWidth);
+  }
+
+  private getCols(interWidth: number): number {
+    return interWidth >= 600 ? 2 : 1;
+  }
+
+
 }
