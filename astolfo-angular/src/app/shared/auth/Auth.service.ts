@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
+import { ApiService } from '../services/backend/api.service';
 import { IDiscordUser } from '../Types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  user$: IDiscordUser | null;
-  constructor(private router: Router) {
+  user$: IDiscordUser | undefined;
+  constructor(private router: Router, private api: ApiService) {}
+
+  async initCallUser() {
+    if (this.user$) return this.user$;
     try {
-      this.user$ = JSON.parse(localStorage.getItem('discord_user')!);
-    } catch (e) {
-      this.user$ = null;
+      return await this.api.auth();
+    } catch (error) {
+      return undefined;
     }
   }
 }

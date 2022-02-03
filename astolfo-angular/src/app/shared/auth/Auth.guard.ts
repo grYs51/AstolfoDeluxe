@@ -7,28 +7,25 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from './Auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
   constructor(private auth: AuthService, private router: Router) {}
 
-  canActivate(
+  async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):
-    | boolean
-    | UrlTree
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree> {
-    const user = this.auth.user$;
-
-    if (!user) {
-      console.log('acces denied!');
+  ): Promise<boolean | UrlTree | Observable<boolean | UrlTree>> {
+    const user = await this.auth.initCallUser();
+    if (user) {
+      return true;
+    } else {
+      console.log('not logged in');
       this.router.navigate(['/auth/login']);
+      return false;
     }
-    return true;
   }
 }

@@ -6,6 +6,6 @@ import { AuthGuard } from '../shared/auth/Auth.guard';
 @NgModule({
   declarations: [],
   imports: [CommonModule, DashboardRoutingModule],
-  providers: [AuthGuard],
+  providers: [],
 })
 export class DashboardModule {}

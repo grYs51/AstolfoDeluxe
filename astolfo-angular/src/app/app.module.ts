@@ -16,7 +16,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { PagesModule } from './dashboard/pages/pages.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CookieService } from 'ngx-cookie-service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -40,7 +39,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatButtonToggleModule,
     PagesModule,
   ],
-  providers: [CookieService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
