@@ -4,9 +4,9 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'GetGuildIcon',
 })
 export class GetGuildIconPipe implements PipeTransform {
-  transform(value: string | null, args?: any): any {
+  transform(value: string | null, args?: string): string {
     return value
-      ? `https://cdn.discordapp.com/icons/${args!}/${value}.png`
+      ? `https://cdn.discordapp.com/icons/${args}/${value}.png`
       : '/assets/discord/discord-default.png';
   }
 }

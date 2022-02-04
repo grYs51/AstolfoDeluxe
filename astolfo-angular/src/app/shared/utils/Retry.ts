@@ -1,21 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-  HttpResponse,
-} from '@angular/common/http';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { firstValueFrom, take, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RetryService {
-  private httpOptions = {
-    observe: 'response',
-    withCredentials: true,
-  };
-
   constructor(private http: HttpClient) {}
 
   async fetchData<T>(url: string, retries = 3, timeout = 0): Promise<T> {

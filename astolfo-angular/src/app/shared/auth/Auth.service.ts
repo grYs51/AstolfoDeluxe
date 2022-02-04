@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, take } from 'rxjs';
 import { ApiService } from '../services/backend/api.service';
 import { IDiscordUser } from '../Types';
 
