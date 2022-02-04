@@ -16,7 +16,7 @@ export class GuildsController {
     @Inject(SERVICES.GUILDS) private readonly guildsService: IGuildService,
     @Inject(WebSockectHandler) private readonly wsHandler: WebSockectHandler,
   ) {}
-  @Get('config/:guildId')
+  @Get(':guildId/config')
   getGuildConfig(@Param('guildId') guildId: string) {
     return this.guildsService.getGuildConfig(guildId);
   }
@@ -36,6 +36,8 @@ export class GuildsController {
     @Param('guildId') guildId: string,
     @Body('channelId') channelId: string,
   ) {
+    console.log(guildId,channelId)
+
     return this.guildsService.updateWelcomeChannel(guildId, channelId);
   }
 

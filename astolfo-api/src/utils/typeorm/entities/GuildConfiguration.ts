@@ -1,11 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'guild_configuration' })
 export class GuildConfiguration {
-  @PrimaryGeneratedColumn('uuid')
-  id: number;
 
-  @Column({ unique: true, name: 'guild_id' })
+  @PrimaryColumn({ unique: true, name: 'guild_id' })
   guildId: string;
 
   @Column({ default: '!' })
@@ -13,4 +11,7 @@ export class GuildConfiguration {
 
   @Column({ name: 'welcome_channel_id', nullable: true })
   welcomeChannelId: string;
+
+  @Column({name: 'welcome_message',length: 200})
+  welcomeMessage: string
 }
