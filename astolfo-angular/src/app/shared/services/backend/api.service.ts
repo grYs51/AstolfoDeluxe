@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { IDiscordUser, IGuildConfig, IGuildInfo } from '../../Types';
+import {
+  IDiscordUser,
+  IGuildConfig,
+  IGuildInfo,
+  IPartialGuildChannel,
+} from '../../Types';
 import { RetryService } from '../../utils/Retry';
 
 const API_URL = 'http://localhost:3001/api/';
@@ -10,17 +15,30 @@ export class ApiService {
   constructor(private retrySrv: RetryService) {}
 
   public auth() {
-    return this.retrySrv.fetchData<IDiscordUser>(`${API_URL}auth/status`);
+    return this.retrySrv.getData<IDiscordUser>(`${API_URL}auth/status`);
   }
 
   public getGuildConfig(guildId: string) {
-    return this.retrySrv.fetchData<IGuildConfig>(
-      `${API_URL}guilds/config/${guildId}`,
+    return this.retrySrv.getData<IGuildConfig>(
+      `${API_URL}guilds/${guildId}/config`,
       1
     );
   }
 
   public getMutualGuilds() {
-    return this.retrySrv.fetchData<IGuildInfo[]>(`${API_URL}discord/guilds`);
+    return this.retrySrv.getData<IGuildInfo[]>(`${API_URL}discord/guilds`);
+  }
+
+  public getGuildChannels(guildId: string, type: number) {
+    return this.retrySrv.getData<IPartialGuildChannel[]>(
+      `${API_URL}discord/guilds/${guildId}/channels/${type}`
+    );
+  }
+
+  public updateGuildPrefix(guildId: string, channelId: string) {
+    return this.retrySrv.postData(
+      `${API_URL}guilds/${guildId}/config/welcome`,
+      { channelId: channelId }
+    );
   }
 }
