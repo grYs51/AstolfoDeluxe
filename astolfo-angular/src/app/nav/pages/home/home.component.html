@@ -1,11 +1,14 @@
 <div class="grid-container">
   <h1 class="mat-h1">{{guildInfo ? guildInfo.name : 'Dashboard'}}</h1>
-  <mat-grid-list [cols]="size" rowHeight="350px">
 
-    <mat-grid-tile [colspan]="size">
+  <div *ngIf="size">
+    <app-guild-config [size]="size" [guildInfo]="guildInfo!"></app-guild-config>
 
+  </div>
+  <!-- <mat-grid-list [cols]="size" rowHeight="350px">
+    <mat-grid-tile [colspan]="size" rowspan="1">
     </mat-grid-tile>
-    <!-- <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title>
@@ -23,6 +26,6 @@
           <div>uwu</div>
         </mat-card-content>
       </mat-card>
-    </mat-grid-tile> -->
-  </mat-grid-list>
+    </mat-grid-tile>
+  </mat-grid-list> -->
 </div>

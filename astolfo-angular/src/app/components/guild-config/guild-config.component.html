@@ -1,0 +1,68 @@
+<mat-grid-list [cols]="size" rowHeight="150px">
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <div class="flex">
+          <img class="img-border" width="70px" src="{{ guildInfo.icon |  GetGuildIcon:guildInfo.id}}" />
+          <h1>{{guildInfo ? guildInfo.name : 'guild'}}</h1>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+
+
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>
+          Prefix
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>Reset</button>
+            <!-- <button mat-menu-item>Remove</button> -->
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Enter your Prefix</mat-label>
+          <input matInput placeholder="Ex. , ! ? $" [value]="prefix ? prefix : ''">
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+
+
+  <mat-grid-tile *ngIf="guildChannels" [colspan]="1" [rowspan]="1">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>
+          Welcome Message
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>reset</button>
+            <!-- <button mat-menu-item>Remove</button> -->
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <mat-form-field appearance="fill">
+          <mat-label>Select Channel</mat-label>
+          <mat-select [(value)]="welcomeChannel" (selectionChange)="selectOnchange($event)" >
+            <mat-option *ngFor="let channel of guildChannels" [value]="channel.id" >
+              {{channel.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
