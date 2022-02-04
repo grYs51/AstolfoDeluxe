@@ -8,12 +8,7 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [HomeComponent, MenuComponent],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    MatMaterialModule,
-    PipesModule
-  ],
+  imports: [CommonModule, BrowserModule, MatMaterialModule, PipesModule],
   exports: [HomeComponent, MenuComponent],
 })
 export class PagesModule {}

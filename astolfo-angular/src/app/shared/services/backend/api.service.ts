@@ -22,7 +22,6 @@ export class ApiService {
   }
 
   public getMutualGuilds() {
-    return this.retrySrv.fetchData<IGuildInfo[]>(`${API_URL}discord/guilds`)
+    return this.retrySrv.fetchData<IGuildInfo[]>(`${API_URL}discord/guilds`);
   }
-
 }

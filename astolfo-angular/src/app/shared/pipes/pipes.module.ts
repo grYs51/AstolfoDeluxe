@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { GetGuildIconPipe } from './getGuildIcon/GetGuildIcon.pipe';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   declarations: [GetGuildIconPipe],
-  exports: [ GetGuildIconPipe]
+  exports: [GetGuildIconPipe],
 })
-export class PipesModule { }
+export class PipesModule {}

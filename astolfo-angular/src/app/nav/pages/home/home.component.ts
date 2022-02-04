@@ -39,11 +39,11 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private router : ActivatedRouteSnapshot
-    ) {}
+    private router: ActivatedRouteSnapshot
+  ) {}
   ngOnInit(): void {
     this.size = this.getCols(window.innerWidth);
-    console.log(this.router.data)
+    console.log(this.router.data);
   }
 
   private getCols(interWidth: number): number {
