@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardRoutingModule } from './dashboard-routing.module';
+import { NavRoutingModule } from './nav-routing.module';
 import { AuthGuard } from '../shared/auth/Auth.guard';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, DashboardRoutingModule],
+  imports: [CommonModule, NavRoutingModule],
   providers: [],
 })
 export class DashboardModule {}

@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { ActivatedRouteSnapshot } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -36,14 +37,16 @@ export class HomeComponent implements OnInit {
 
   public size: number | undefined;
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private router : ActivatedRouteSnapshot
+    ) {}
   ngOnInit(): void {
     this.size = this.getCols(window.innerWidth);
+    console.log(this.router.data)
   }
 
   private getCols(interWidth: number): number {
     return interWidth >= 600 ? 2 : 1;
   }
-
-
 }
