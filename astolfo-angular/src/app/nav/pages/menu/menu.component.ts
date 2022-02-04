@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/shared/services/backend/api.service';
 import { IGuildInfo } from 'src/app/shared/Types';
 
@@ -10,7 +11,7 @@ import { IGuildInfo } from 'src/app/shared/Types';
 export class MenuComponent implements OnInit {
   Guilds: IGuildInfo[] = [];
   loading = false;
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private route: Router) {}
 
   async ngOnInit(): Promise<void> {
     try {
@@ -20,5 +21,10 @@ export class MenuComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  navigateToGuild(guild: IGuildInfo) {
+    console.log(guild);
+    this.route.navigate([`dashboard`], { state: { guild } });
   }
 }

@@ -15,7 +15,8 @@ export class ApiService {
 
   public getGuildConfig(guildId: string) {
     return this.retrySrv.fetchData<IGuildConfig>(
-      `${API_URL}guilds/config/${guildId}`,1
+      `${API_URL}guilds/config/${guildId}`,
+      1
     );
   }
 

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/shared/auth/Auth.guard';
-import { GetSingleItemResolver } from '../shared/utils/GetSingleItemResolver';
 import { NavComponent } from './nav.component';
 
 import { HomeComponent } from './pages/home/home.component';
@@ -13,18 +12,12 @@ const routes: Routes = [
     component: NavComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'menu' },
-      { path: 'menu', component: MenuComponent },
+      { path: '', component: MenuComponent },
       {
-        path: 'dashboard/:id',
+        path: 'dashboard',
         component: HomeComponent,
-        resolve: {
-          singleItem: GetSingleItemResolver,
-        },
       },
-      // { path: 'history', component: HistoryComponent },
-      // { path: 'chat', component: ChatComponent },
-      // { path: 'about', component: AboutComponent },
+      { path: '**', redirectTo: '' },
     ],
   },
 ];
@@ -32,6 +25,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [GetSingleItemResolver],
+  providers: [],
 })
 export class NavRoutingModule {}

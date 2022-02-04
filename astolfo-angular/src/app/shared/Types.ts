@@ -20,3 +20,7 @@ export interface IGuildInfo {
   icon: string;
   createdAt: Date;
 }
+
+export interface IGuildObject {
+  guild: IGuildInfo;
+}

@@ -4,7 +4,7 @@
     <div  *ngIf="loading">
       <mat-spinner diameter="35"></mat-spinner>
     </div>
-    <mat-list-item class="menu-button" *ngFor="let guild of Guilds">
+    <mat-list-item class="menu-button" *ngFor="let guild of Guilds" (click)="navigateToGuild(guild)">
       <img width="40px" mat-card-image src="{{guild.icon | GetGuildIcon:guild.id}}">
       <a matLine>{{guild.name}}</a>
     </mat-list-item>
