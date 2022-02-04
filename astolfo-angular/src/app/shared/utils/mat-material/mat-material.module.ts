@@ -40,6 +40,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatCardModule,
     MatButtonModule,
     MatButtonToggleModule,
-  ]
+    MatProgressSpinnerModule,
+  ],
 })
 export class MatMaterialModule { }

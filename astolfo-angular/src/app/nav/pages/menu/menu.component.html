@@ -1,6 +1,9 @@
 <div class="grid-container">
   <h1 class="mat-h1">Menu</h1>
   <mat-nav-list>
+    <div  *ngIf="loading">
+      <mat-spinner diameter="35"></mat-spinner>
+    </div>
     <mat-list-item class="menu-button" *ngFor="let guild of Guilds">
       <img width="40px" mat-card-image src="{{guild.icon | GetGuildIcon:guild.id}}">
       <a matLine>{{guild.name}}</a>

@@ -9,14 +9,16 @@ import { IGuildInfo } from 'src/app/shared/Types';
 })
 export class MenuComponent implements OnInit {
   Guilds: IGuildInfo[] = [];
-
-  constructor(private api: ApiService) { }
+  loading = false;
+  constructor(private api: ApiService) {}
 
   async ngOnInit(): Promise<void> {
     try {
-      this.Guilds = await this.api.getMutualGuilds()
+      this.loading = true;
+      this.Guilds = await this.api.getMutualGuilds();
+      this.loading = false;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 }
