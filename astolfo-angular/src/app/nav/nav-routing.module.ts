@@ -17,7 +17,7 @@ const routes: Routes = [
         path: 'dashboard',
         component: HomeComponent,
       },
-      { path: '**', redirectTo: '' },
+      // { path: '**', redirectTo: '' },
     ],
   },
 ];
