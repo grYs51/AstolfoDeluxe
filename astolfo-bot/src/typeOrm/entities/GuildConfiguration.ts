@@ -1,16 +1,17 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: "guild_configuration" })
+@Entity({ name: 'guild_configuration' })
 export class GuildConfiguration {
-  @PrimaryGeneratedColumn("uuid")
-  id: number;
 
-  @Column({ unique: true, name: "guild_id" })
+  @PrimaryColumn({ unique: true, name: 'guild_id' })
   guildId: string;
 
-  @Column({ default: "," })
+  @Column({ default: '!' })
   prefix: string;
 
-  @Column({ name: "welcome_channel_id", nullable: true })
+  @Column({ name: 'welcome_channel_id', nullable: true })
   welcomeChannelId: string;
+
+  @Column({name: 'welcome_message',length: 200, default: 'Welcome @member'})
+  welcomeMessage: string
 }
