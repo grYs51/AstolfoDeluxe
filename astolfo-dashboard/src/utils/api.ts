@@ -18,7 +18,7 @@ export const getMutualGuilds = () =>
   axios.get<PartialGuild[]>(`${API_URL}/discord/guilds`, CONFIG);
 
 export const getGuildConfig = (guildId: string) =>
-  axios.get<GuildConfigType>(`${API_URL}/guilds/config/${guildId}`, CONFIG);
+  axios.get<GuildConfigType>(`${API_URL}/guilds/${guildId}/config`, CONFIG);
 
 export const updateGuildPrefix = (guildId: string, prefix: string) =>
   axios.post(`${API_URL}/guilds/${guildId}/config/prefix`, { prefix }, CONFIG);
