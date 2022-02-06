@@ -45,11 +45,11 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
       }
     }
   }
-
+  
   private getResolvable(
     oldstate: VoiceState,
     newState: VoiceState
-  ): string | null {
+  ): VoiceType | null {
     const {
       selfDeaf: oldSelfDeaf,
       selfMute: oldSelfMute,
@@ -68,10 +68,10 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
     } = newState;
 
     if (oldSelfDeaf === false && newSelfDeaf) {
-      return "DEAFEN";
+      return "DEAF";
     }
     if (oldSelfMute === false && newSelfMute) {
-      return "MUTED";
+      return "MUTE";
     }
     if (oldSelfVideo === false && newSelfVideo) {
       return "VIDEO";
@@ -85,7 +85,6 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
     if (oldStreaming === false && newStreaming) {
       return "STREAMING";
     }
-
     if (oldstate.channelId !== newState.channelId) {
       return "MEMBER_MOVE";
     }
