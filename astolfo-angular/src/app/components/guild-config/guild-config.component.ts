@@ -11,6 +11,8 @@ import {
   IGuildInfo,
   IPartialGuildChannel,
 } from 'src/app/shared/Types';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-guild-config',
@@ -25,7 +27,21 @@ export class GuildConfigComponent implements OnInit {
   prefix: string | undefined;
   guildChannels: IPartialGuildChannel[] = [];
   welcomeChannel = '';
-  constructor(private api: ApiService, private ngzone: NgZone) {}
+
+  userQuestion: any;
+  userQuestionUpdate = new Subject<any>();
+
+  constructor(
+    private api: ApiService,
+    private ngzone: NgZone,
+    private snackbar: MatSnackBar
+  ) {
+    this.userQuestionUpdate
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((value) => {
+        this.inputOnchange(value);
+      });
+  }
 
   async ngOnInit(): Promise<void> {
     if (!this.guildInfo) return;
@@ -34,15 +50,31 @@ export class GuildConfigComponent implements OnInit {
     this.guildChannels = await this.api.getGuildChannels(this.guildInfo.id, 0);
     this.welcomeChannel = this.guildConfig.welcomeChannelId
       ? this.guildChannels.find(
-          (channel) => channel.id === this.guildConfig!.welcomeChannelId
-        )!.id
+        (channel) => channel.id === this.guildConfig!.welcomeChannelId
+      )!.id
       : '';
   }
 
   async selectOnchange(event: any) {
-    console.log(event.value);
-    console.log(
-      await this.api.updateGuildPrefix(this.guildConfig!.guildId, event.value)
-    );
+    await this.api.updateGuildWelcome(this.guildConfig!.guildId, event.value);
+    this.snackbar.open('WelcomeChannel Succesfully saved!', undefined, {
+      duration: 2000,
+      verticalPosition: 'top',
+    });
+  }
+
+  async inputOnchange(_event: any) {
+    let event = _event.target.value as string;
+    event = event.trim()
+
+    if (event.match(/^ *$/) === null) {
+      console.log(event);
+    }
+
+    // await this.api.updateGuildPrefix(this.guildConfig!.guildId, event.target.value);
+    // this.snackbar.open('Prefix Succesfully saved!', undefined, {
+    //   duration: 2000,
+    //   verticalPosition: 'top',
+    // });
   }
 }

@@ -17,9 +17,9 @@ export class NavComponent {
     );
 
   routes = [
-    { icon: 'home', name: 'menu' },
+    { icon: 'home', name: 'menu', route: '' },
     // {icon: 'person', name: 'dashboard'},
-    { icon: 'info', name: 'about' },
+    { icon: 'info', name: 'about', route: 'about' },
   ];
 
   constructor(private breakpointObserver: BreakpointObserver) {}

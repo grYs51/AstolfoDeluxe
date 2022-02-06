@@ -31,7 +31,7 @@
       <mat-card-content class="dashboard-card-content">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Enter your Prefix</mat-label>
-          <input matInput placeholder="Ex. , ! ? $" [value]="prefix ? prefix : ''">
+          <input (keypress)="userQuestionUpdate.next($event)" matInput placeholder="Ex. , ! ? $" [value]="prefix ? prefix : ''">
         </mat-form-field>
       </mat-card-content>
     </mat-card>

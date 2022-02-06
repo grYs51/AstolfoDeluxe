@@ -12,7 +12,7 @@ const API_URL = 'http://localhost:3001/api/';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private retrySrv: RetryService) {}
+  constructor(private retrySrv: RetryService) { }
 
   public auth() {
     return this.retrySrv.getData<IDiscordUser>(`${API_URL}auth/status`);
@@ -35,10 +35,17 @@ export class ApiService {
     );
   }
 
-  public updateGuildPrefix(guildId: string, channelId: string) {
+  public updateGuildWelcome(guildId: string, channelId: string) {
     return this.retrySrv.postData(
       `${API_URL}guilds/${guildId}/config/welcome`,
       { channelId: channelId }
     );
+  }
+
+  public updateGuildPrefix(guildId: string, prefix: string) {
+    return this.retrySrv.postData(
+      `${API_URL}guilds/${guildId}/config/prefix`,
+      { prefix }
+    )
   }
 }
