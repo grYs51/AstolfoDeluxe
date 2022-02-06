@@ -25,4 +25,7 @@ export class GuildStatsLog {
 
   @Column({ name: 'issued_on' })
   issuedOn: Date;
+
+  @Column({ name: 'ended_on', nullable: true })
+  endedOn: Date;
 }
