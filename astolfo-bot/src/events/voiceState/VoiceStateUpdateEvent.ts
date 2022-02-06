@@ -3,6 +3,7 @@ import { GuildAuditLogsResolvable, VoiceState } from "discord.js";
 import BaseEvent from "../../utils/structures/BaseEvent";
 import DiscordClient from "../../client/client";
 import { VoiceStateHandler } from "../../utils/handlers/voiceStateHandler/services/voiceStateHandler.service";
+import { VoiceType } from "../../utils/types";
 export default class VoiceStateUpdateEvent extends BaseEvent {
   voiceStateHandler = new VoiceStateHandler();
 
@@ -30,22 +31,22 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
 
     // User moves from voice channel
     if (oldState.channel !== null && newState.channel !== null) {
-      const user = oldState.member!.user.username;
+      const type: VoiceType | null = this.getResolvable(
+        oldState,
+        newState
+      ) as VoiceType;
 
-      const auditlog = this.getResolvable(user, oldState, newState);
+      if (!type) return;
 
-      if (!auditlog) return;
-
-      if (auditlog.includes("MEMBER_")) {
-        this.voiceStateHandler.memberAbused(oldState, newState, auditlog);
+      if (type.includes("MEMBER_")) {
+        this.voiceStateHandler.memberAbused(oldState, newState, type);
       } else {
-        this.voiceStateHandler.memberHimself(oldState, newState, auditlog);
+        this.voiceStateHandler.memberHimself(oldState, newState, type);
       }
     }
   }
 
   private getResolvable(
-    username: string,
     oldstate: VoiceState,
     newState: VoiceState
   ): string | null {

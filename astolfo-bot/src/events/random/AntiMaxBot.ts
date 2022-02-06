@@ -11,7 +11,8 @@ export default class AntiMaxbot extends BaseEvent {
   async run(client: DiscordClient, message: Message) {
     if (
       message.author.id === "932747197911543858" &&
-      message.guildId !== "571011756181291008" && message.channelId == "935284944371073044"
+      message.guildId !== "571011756181291008" &&
+      message.channelId == "935284944371073044"
     ) {
       await message.delete();
       return;

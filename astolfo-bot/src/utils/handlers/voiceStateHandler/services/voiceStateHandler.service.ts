@@ -6,6 +6,7 @@ import {
 } from "discord.js";
 import { getRepository, Repository } from "typeorm";
 import { GuildStatsLog } from "../../../../typeOrm/entities/GuildsStatsLog";
+import { VoiceType } from "../../../types";
 import { IVoiceStateHandler } from "../interfaces/voiceStateHandler";
 
 export class VoiceStateHandler implements IVoiceStateHandler {
@@ -15,7 +16,11 @@ export class VoiceStateHandler implements IVoiceStateHandler {
     )
   ) {}
 
-  async memberAbused(oldState: VoiceState, newState: VoiceState, type: string) {
+  async memberAbused(
+    oldState: VoiceState,
+    newState: VoiceState,
+    type: VoiceType
+  ) {
     const guildId = oldState.guild.id;
     const memberId = oldState.member?.id;
     try {
@@ -64,7 +69,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
   async memberHimself(
     oldState: VoiceState,
     newState: VoiceState,
-    type: string
+    type: VoiceType
   ) {
     try {
       await this.saveRepository(
@@ -80,13 +85,16 @@ export class VoiceStateHandler implements IVoiceStateHandler {
     }
   }
 
-  private async saveRepository(
+  async saveRepository1(guildLog: GuildStatsLog) {
+    await this.guildStatRepository.save(guildLog);
+  }
+  async saveRepository(
     guildId: string,
     memberId: string,
     issuedBy: string | undefined,
     channel: string,
     newChannel: string | undefined,
-    type: string,
+    type: VoiceType,
     issuedOn = new Date()
   ) {
     await this.guildStatRepository.save({

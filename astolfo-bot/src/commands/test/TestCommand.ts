@@ -18,9 +18,6 @@ export default class TestCommand extends BaseCommand {
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
-    const member = await this.guildMemberInfoRepository.findOne({
-      relations: ["user"],
-    });
-    console.log(member);
+    console.log(client.configs);
   }
 }
