@@ -6,7 +6,14 @@ import { GuildStatsLog } from "../../typeOrm/entities/GuildsStatsLog";
 import { VoiceStateHandler } from "../../utils/handlers/voiceStateHandler/services/voiceStateHandler.service";
 import { VoiceType } from "../../utils/types";
 
-const table: any[] = [{}];
+enum types {
+  DEAF='selfDeaf',
+  MUTE='selfMute',
+  VIDEO='selfVideo',
+  MEMBER_UPDATE_DEAF='serverDeaf',
+  MEMBER_UPDATE_MUTE='serverMute',
+  STREAMING='streaming',
+}
 
 export default class VoiceDurationUpdateEvent extends BaseEvent {
   voiceStateHandler = new VoiceStateHandler();
@@ -16,22 +23,24 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
 
   async run(client: DiscordClient, oldState: VoiceState, newState: VoiceState) {
     await new Promise((resolve) => setTimeout(resolve, 100));
+    const voiceUsers = client.voiceUsers;
 
     // User joins a voice channel
     if (oldState.channel === null) {
       // console.log(oldState.member?.user.username + " joins");
-      this.setVoiceUser(client.voiceUsers, newState, "VOICE");
+      this.setVoiceUser(voiceUsers, newState, "VOICE");
     }
 
     if (newState.channel === null) {
       // console.log(oldState.member?.user.username + " disconnect");
-      this.endVoiceUser(client.voiceUsers, oldState);
+      this.endVoiceUser(voiceUsers, oldState);
     }
 
     if (oldState.channel !== null && newState.channel !== null) {
       if (oldState.channelId !== newState.channelId) {
-        await this.endVoiceUser(client.voiceUsers, oldState);
-        this.setVoiceUser(client.voiceUsers, newState, "VOICE");
+        await this.endVoiceUser(voiceUsers, oldState);
+        this.setVoiceUser(voiceUsers, newState, "VOICE");
+        return;
       }
     }
   }
@@ -39,13 +48,12 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     voiceUsers: GuildStatsLog[],
     oldState: VoiceState
   ) {
-    const voiceUser = voiceUsers.filter(
-      (voiceUser) => voiceUser.memberId === oldState.member!.id
-    );
-
-    voiceUser.forEach((voice) => {
-      voice.endedOn = new Date();
-    });
+    const voiceUser = voiceUsers
+      .filter((voiceUser) => voiceUser.memberId === oldState.member!.id)
+      .map((voice) => {
+        voice.endedOn = new Date();
+        return voice;
+      })
 
     for (let voice of voiceUser) {
       await this.voiceStateHandler.saveRepository1(voice);
@@ -68,5 +76,12 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
       issuedOn: new Date(),
     };
     voiceUsers.push(guildStat);
+  }
+  private functor(oldState: boolean, newState: boolean, type: String) {
+    if (oldState !== newState) {
+      return newState ? type : '';
+    } else {
+      return null;
+    }
   }
 }
