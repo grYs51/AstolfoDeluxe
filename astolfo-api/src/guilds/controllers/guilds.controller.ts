@@ -8,14 +8,16 @@ import {
   Query,
 } from '@nestjs/common';
 import { ROUTES, SERVICES } from 'src/utils/constants';
-import { WebSockectHandler } from 'src/websocket/socket';
+import WebSockectHandler from 'src/websocket/socket';
 import { IGuildService } from '../interfaces/guilds';
+
 @Controller(ROUTES.GUILDS)
-export class GuildsController {
+export default class GuildsController {
   constructor(
     @Inject(SERVICES.GUILDS) private readonly guildsService: IGuildService,
     @Inject(WebSockectHandler) private readonly wsHandler: WebSockectHandler,
   ) {}
+
   @Get(':guildId/config')
   getGuildConfig(@Param('guildId') guildId: string) {
     return this.guildsService.getGuildConfig(guildId);
@@ -36,7 +38,7 @@ export class GuildsController {
     @Param('guildId') guildId: string,
     @Body('channelId') channelId: string,
   ) {
-    console.log(guildId,channelId)
+    // console.log(guildId, channelId);
 
     return this.guildsService.updateWelcomeChannel(guildId, channelId);
   }

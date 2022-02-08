@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { TypeormStore } from 'connect-typeorm';
 import { getRepository } from 'typeorm';
-import { Session } from './utils/typeorm/entities/Session';
+import AppModule from './app.module';
+import Session from './utils/typeorm/entities/Session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

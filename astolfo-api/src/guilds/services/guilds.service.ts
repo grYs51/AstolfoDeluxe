@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GuildConfiguration } from 'src/utils/typeorm/entities/GuildConfiguration';
-import { GuildMemberInfo } from 'src/utils/typeorm/entities/GuildMemberInfo';
-import { GuildStatsLog } from 'src/utils/typeorm/entities/GuildStatsLog';
-import { ModerationLog } from 'src/utils/typeorm/entities/ModerationLog';
+import GuildConfiguration from 'src/utils/typeorm/entities/GuildConfiguration';
+import GuildMemberInfo from 'src/utils/typeorm/entities/GuildMemberInfo';
+import GuildStatsLog from 'src/utils/typeorm/entities/GuildStatsLog';
+import ModerationLog from 'src/utils/typeorm/entities/ModerationLog';
 import { MoreThanOrEqual, Repository } from 'typeorm';
 import { IGuildService } from '../interfaces/guilds';
 
 @Injectable()
-export class GuildService implements IGuildService {
+export default class GuildService implements IGuildService {
   constructor(
     @InjectRepository(GuildConfiguration)
     private readonly guildConfigRepository: Repository<GuildConfiguration>,
@@ -22,11 +22,12 @@ export class GuildService implements IGuildService {
 
   async getGuildConfig(guildId: string): Promise<GuildConfiguration> {
     const guildConfig = await this.guildConfigRepository.findOne({ guildId });
-    if (!guildConfig)
+    if (!guildConfig) {
       throw new HttpException(
         'Guild configuration was not found',
         HttpStatus.NOT_FOUND,
       );
+    }
 
     return guildConfig;
   }
@@ -36,24 +37,27 @@ export class GuildService implements IGuildService {
     prefix: string,
   ): Promise<GuildConfiguration> {
     const guildConfig = await this.getGuildConfig(guildId);
-    if (!guildConfig)
+    if (!guildConfig) {
       throw new HttpException(
         'Guild configuration was not found',
         HttpStatus.NOT_FOUND,
       );
+    }
 
     return this.guildConfigRepository.save({
       ...guildConfig,
       prefix,
     });
   }
+
   async updateWelcomeChannel(guildId: string, welcomeChannelId: string) {
     const guildConfig = await this.getGuildConfig(guildId);
-    if (!guildConfig)
+    if (!guildConfig) {
       throw new HttpException(
         'Guild configuration was not found',
         HttpStatus.NOT_FOUND,
       );
+    }
 
     return this.guildConfigRepository.save({
       ...guildConfig,

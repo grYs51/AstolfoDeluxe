@@ -5,7 +5,7 @@ import { UserDetails } from 'src/utils/types';
 import { IAuthService } from '../interfaces/auth';
 
 @Injectable()
-export class AuthService implements IAuthService {
+export default class AuthService implements IAuthService {
   constructor(
     @Inject(SERVICES.USER) private readonly userService: IUserService,
   ) {}

@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PassportModule } from '@nestjs/passport';
 import { configValidationSchema } from './config.schema';
 import { entities } from './utils/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { PassportModule } from '@nestjs/passport';
-import { DiscordModule } from './discord/discord.module';
-import { GuildsModule } from './guilds/guilds.module';
-import { WebSocketModule } from './websocket/websocket.module';
+import AuthModule from './auth/auth.module';
+import UserModule from './user/user.module';
+import DiscordModule from './discord/discord.module';
+import GuildsModule from './guilds/guilds.module';
+import WebSocketModule from './websocket/websocket.module';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { WebSocketModule } from './websocket/websocket.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: entities,
+        entities,
       }),
     }),
     AuthModule,
@@ -41,4 +41,4 @@ import { WebSocketModule } from './websocket/websocket.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export default class AppModule {}

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SERVICES } from 'src/utils/constants';
-import { DiscordController } from './controllers/discord.controller';
-import { DiscordHttpService } from './services/discord-http.service';
-import { DiscordService } from './services/discord.service';
+import DiscordController from './controllers/discord.controller';
+import DiscordHttpService from './services/discord-http.service';
+import DiscordService from './services/discord.service';
 
 @Module({
   controllers: [DiscordController],
@@ -17,4 +17,4 @@ import { DiscordService } from './services/discord.service';
     },
   ],
 })
-export class DiscordModule {}
+export default class DiscordModule {}

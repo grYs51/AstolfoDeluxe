@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from 'src/user/user.module';
+import UserModule from 'src/user/user.module';
 import { SERVICES } from 'src/utils/constants';
-import { AuthController } from './controllers/auth.controller';
-import { AuthService } from './services/auth.service';
-import { DiscordStrategy } from './utils/DiscordStrategy';
-import { SessionSerializer } from './utils/SessionSerializer';
+import AuthController from './controllers/auth.controller';
+import AuthService from './services/auth.service';
+import DiscordStrategy from './utils/DiscordStrategy';
+import SessionSerializer from './utils/SessionSerializer';
 
 @Module({
   imports: [UserModule],
@@ -18,4 +18,4 @@ import { SessionSerializer } from './utils/SessionSerializer';
     },
   ],
 })
-export class AuthModule {}
+export default class AuthModule {}

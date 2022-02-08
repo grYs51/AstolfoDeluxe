@@ -5,11 +5,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { GuildInfo } from './GuildInfo';
-import { UserInfo } from './UserInfo';
+import GuildInfo from './GuildInfo';
+import UserInfo from './UserInfo';
 
 @Entity({ name: 'guild_member_info' })
-export class GuildMemberInfo {
+export default class GuildMemberInfo {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

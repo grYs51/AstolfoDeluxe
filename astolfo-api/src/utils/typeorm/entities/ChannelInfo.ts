@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'channel_info' })
-export class ChannelInfo {
+export default class ChannelInfo {
   @PrimaryColumn({ name: 'channel_id' })
   channelId: string;
 

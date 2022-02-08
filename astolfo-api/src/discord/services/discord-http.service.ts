@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { IDiscordHttpService } from '../interfaces/discord-http';
 import axios from 'axios';
 import { PartialGuild, PartialGuildChannel } from 'src/utils/types';
 import { DISCORD_BASE_URL } from 'src/utils/constants';
+import { IDiscordHttpService } from '../interfaces/discord-http';
 
 @Injectable()
-export class DiscordHttpService implements IDiscordHttpService {
+export default class DiscordHttpService implements IDiscordHttpService {
   fetchBotGuilds() {
     const TOKEN = process.env.DISCORD_BOT_TOKEN;
     return axios.get<PartialGuild[]>(`${DISCORD_BASE_URL}/users/@me/guilds`, {
@@ -14,6 +14,7 @@ export class DiscordHttpService implements IDiscordHttpService {
       },
     });
   }
+
   fetchUserGuilds(accesToken: string) {
     return axios.get<PartialGuild[]>(`${DISCORD_BASE_URL}/users/@me/guilds`, {
       headers: {
@@ -21,6 +22,7 @@ export class DiscordHttpService implements IDiscordHttpService {
       },
     });
   }
+
   fetchGuildChannels(guildId: string) {
     const TOKEN = process.env.DISCORD_BOT_TOKEN;
     return axios.get<PartialGuildChannel[]>(

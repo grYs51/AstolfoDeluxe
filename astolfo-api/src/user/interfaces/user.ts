@@ -1,4 +1,5 @@
-import { User } from 'src/utils/typeorm/entities/User';
+/* eslint-disable no-unused-vars */
+import User from 'src/utils/typeorm/entities/User';
 import { UpdateUserDetails, UserDetails } from 'src/utils/types';
 
 export interface IUserService {

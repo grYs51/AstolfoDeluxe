@@ -5,7 +5,7 @@ import { SERVICES } from 'src/utils/constants';
 import { IAuthService } from '../interfaces/auth';
 
 @Injectable()
-export class DiscordStrategy extends PassportStrategy(Strategy) {
+export default class DiscordStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(SERVICES.AUTH)
     private readonly authService: IAuthService,
@@ -19,7 +19,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(accesToken: string, refreshToken: string, profile: Profile) {
-    console.log('DiscordStrategy Validate Method');
+    // console.debug('DiscordStrategy Validate Method');
     return this.authService.validateUser({
       discordId: profile.id,
       username: profile.username,

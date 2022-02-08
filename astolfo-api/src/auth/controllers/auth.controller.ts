@@ -1,12 +1,13 @@
+/* eslint-disable class-methods-use-this */
 import { Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { ROUTES } from 'src/utils/constants';
 import { AuthUser } from 'src/utils/decorator';
-import { User } from 'src/utils/typeorm/entities/User';
+import User from 'src/utils/typeorm/entities/User';
 import { AuthenticatedGuard, DiscordAuthGuard } from '../utils/Guards';
 
 @Controller(ROUTES.AUTH)
-export class AuthController {
+export default class AuthController {
   @Get('login')
   @UseGuards(DiscordAuthGuard)
   login() {}

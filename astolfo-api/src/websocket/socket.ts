@@ -5,10 +5,10 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
-import { GuildConfiguration } from 'src/utils/typeorm/entities/GuildConfiguration';
+import GuildConfiguration from 'src/utils/typeorm/entities/GuildConfiguration';
 
 @WebSocketGateway()
-export class WebSockectHandler {
+export default class WebSockectHandler {
   @WebSocketServer()
   ws: Server;
 

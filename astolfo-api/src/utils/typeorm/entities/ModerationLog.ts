@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { ModerationActionType } from 'src/utils/types';
 
 @Entity({ name: 'moderation_logs' })
-export class ModerationLog {
+export default class ModerationLog {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 

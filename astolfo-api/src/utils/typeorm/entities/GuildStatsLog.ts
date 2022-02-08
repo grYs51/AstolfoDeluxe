@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'guild_stats' })
-export class GuildStatsLog {
+export default class GuildStatsLog {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
@@ -17,7 +17,7 @@ export class GuildStatsLog {
   @Column()
   channel: string;
 
-  @Column({ name: "new_channel", nullable: true })
+  @Column({ name: 'new_channel', nullable: true })
   newChannel: string;
 
   @Column()

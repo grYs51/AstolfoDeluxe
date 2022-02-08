@@ -1,4 +1,4 @@
-import { User } from './typeorm/entities/User';
+import User from './typeorm/entities/User';
 
 export type UserDetails = {
   discordId: string;
@@ -24,6 +24,13 @@ export type PartialGuild = {
   features: string[];
 };
 
+type overwriteStructure = {
+  id: string;
+  type: number;
+  allow: string;
+  deny: string;
+};
+
 export type PartialGuildChannel = {
   id: string;
   last_message_id: string;
@@ -38,13 +45,6 @@ export type PartialGuildChannel = {
   nsfw: boolean;
   rate_limit_per_user: number;
   banner?: string;
-};
-
-type overwriteStructure = {
-  id: string;
-  type: number;
-  allow: string;
-  deny: string;
 };
 
 export type ModerationActionType = 'ban' | 'kick' | 'timeout';

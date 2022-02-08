@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'guild_info' })
-export class GuildInfo {
+export default class GuildInfo {
   @PrimaryColumn({ name: 'guild_id' })
   id: string;
 

@@ -1,11 +1,11 @@
 import { Controller, Get, Inject, Param } from '@nestjs/common';
 import { ROUTES, SERVICES } from 'src/utils/constants';
 import { AuthUser } from 'src/utils/decorator';
-import { User } from 'src/utils/typeorm/entities/User';
+import User from 'src/utils/typeorm/entities/User';
 import { IDiscordService } from '../interfaces/discord';
 
 @Controller(ROUTES.DISCORD)
-export class DiscordController {
+export default class DiscordController {
   constructor(
     @Inject(SERVICES.DISCORD) private readonly discordService: IDiscordService,
   ) {}
@@ -21,6 +21,6 @@ export class DiscordController {
     @Param('type') type: string,
   ) {
     const { data } = await this.discordService.getGuildChannels(guildId);
-    return data.filter((channel) => channel.type === parseInt(type));
+    return data.filter((channel) => channel.type === parseInt(type, 10));
   }
 }
