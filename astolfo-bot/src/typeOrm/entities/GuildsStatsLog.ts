@@ -4,7 +4,7 @@ import { VoiceType } from '../../utils/types';
 @Entity({ name: 'guild_stats' })
 export class GuildStatsLog {
   @PrimaryGeneratedColumn('uuid')
-  id?: number;
+  id?: string;
 
   @Column({ name: 'guild_id' })
   guildId: string;
