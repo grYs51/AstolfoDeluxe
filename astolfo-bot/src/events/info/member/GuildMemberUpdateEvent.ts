@@ -1,23 +1,23 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildMemberUpdate
-import { GuildMember } from "discord.js";
-import BaseEvent from "../../../utils/structures/BaseEvent";
-import DiscordClient from "../../../client/client";
-import { GuildMemberInfo } from "../../../typeOrm/entities/GuildMemberInfo";
-import { Repository, getRepository } from "typeorm";
+import { GuildMember } from 'discord.js';
+import BaseEvent from '../../../utils/structures/BaseEvent';
+import DiscordClient from '../../../client/client';
+import { GuildMemberInfo } from '../../../typeOrm/entities/GuildMemberInfo';
+import { Repository, getRepository } from 'typeorm';
 
 export default class GuildMemberUpdateEvent extends BaseEvent {
   constructor(
     private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = getRepository(
-      GuildMemberInfo
-    )
+      GuildMemberInfo,
+    ),
   ) {
-    super("guildMemberUpdate");
+    super('guildMemberUpdate');
   }
 
   async run(
     client: DiscordClient,
     oldMember: GuildMember,
-    newMember: GuildMember
+    newMember: GuildMember,
   ) {
     try {
       const { displayName, displayHexColor } = newMember;
@@ -30,7 +30,7 @@ export default class GuildMemberUpdateEvent extends BaseEvent {
       });
 
       if (!searchedMember) {
-        console.log("no user found with this");
+        console.log('no user found with this');
         return;
       }
 

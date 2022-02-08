@@ -1,11 +1,11 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: "channel_info" })
+@Entity({ name: 'channel_info' })
 export class ChannelInfo {
-  @PrimaryColumn({ name: "channel_id" })
+  @PrimaryColumn({ name: 'channel_id' })
   channelId: string;
 
-  @Column({ name: "guild_id" })
+  @Column({ name: 'guild_id' })
   guildId: string;
 
   @Column()
@@ -20,7 +20,7 @@ export class ChannelInfo {
   @Column()
   position: number;
 
-  @Column({ name: "created_at" })
+  @Column({ name: 'created_at' })
   createdAt: Date;
 
   @Column({ nullable: true })

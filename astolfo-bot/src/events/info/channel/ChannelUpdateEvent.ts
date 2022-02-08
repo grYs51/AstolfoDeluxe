@@ -1,23 +1,23 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-channelUpdate
-import { DMChannel, GuildChannel, TextChannel, VoiceChannel } from "discord.js";
-import BaseEvent from "../../../utils/structures/BaseEvent";
-import DiscordClient from "../../../client/client";
-import { getRepository, Repository } from "typeorm";
-import { ChannelInfo } from "../../../typeOrm/entities/ChannelInfo";
+import { DMChannel, GuildChannel, TextChannel, VoiceChannel } from 'discord.js';
+import BaseEvent from '../../../utils/structures/BaseEvent';
+import DiscordClient from '../../../client/client';
+import { getRepository, Repository } from 'typeorm';
+import { ChannelInfo } from '../../../typeOrm/entities/ChannelInfo';
 
 export default class ChannelUpdateEvent extends BaseEvent {
   constructor(
     private readonly channelInfoRepository: Repository<ChannelInfo> = getRepository(
-      ChannelInfo
-    )
+      ChannelInfo,
+    ),
   ) {
-    super("channelUpdate");
+    super('channelUpdate');
   }
 
   async run(
     client: DiscordClient,
     oldChannel: DMChannel | TextChannel | VoiceChannel,
-    newChannel: DMChannel | TextChannel | VoiceChannel
+    newChannel: DMChannel | TextChannel | VoiceChannel,
   ) {
     try {
       if (oldChannel.isText() || oldChannel.isVoice()) {

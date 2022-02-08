@@ -1,11 +1,11 @@
-import { Message } from "discord.js";
-import DiscordClient from "../../client/client";
+import { Message } from 'discord.js';
+import DiscordClient from '../../client/client';
 
 export default abstract class BaseCommand {
   constructor(
     private name: string,
     private category: string,
-    private aliases: Array<string>
+    private aliases: Array<string>,
   ) {}
 
   getName(): string {
@@ -21,6 +21,6 @@ export default abstract class BaseCommand {
   abstract run(
     client: DiscordClient,
     message: Message,
-    args: Array<string> | null
+    args: Array<string> | null,
   ): Promise<void>;
 }

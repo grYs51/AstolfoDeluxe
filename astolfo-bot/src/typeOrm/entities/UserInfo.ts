@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: "user_info" })
+@Entity({ name: 'user_info' })
 export class UserInfo {
-  @PrimaryColumn({ name: "id" })
+  @PrimaryColumn({ name: 'id' })
   id: string;
 
   @Column()
@@ -17,6 +17,6 @@ export class UserInfo {
   @Column()
   bot: boolean;
 
-  @Column({ name: "created_at" })
+  @Column({ name: 'created_at' })
   createdAt: Date;
 }

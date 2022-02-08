@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: "guild_info" })
+@Entity({ name: 'guild_info' })
 export class GuildInfo {
-  @PrimaryColumn({ name: "guild_id" })
+  @PrimaryColumn({ name: 'guild_id' })
   id: string;
 
   @Column()
@@ -11,6 +11,6 @@ export class GuildInfo {
   @Column({ nullable: true })
   icon: string;
 
-  @Column({ name: "created_at" })
+  @Column({ name: 'created_at' })
   createdAt: Date;
 }

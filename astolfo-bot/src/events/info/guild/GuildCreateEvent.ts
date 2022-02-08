@@ -1,21 +1,21 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildCreate
-import { Guild } from "discord.js";
-import BaseEvent from "../../../utils/structures/BaseEvent";
-import DiscordClient from "../../../client/client";
-import { getRepository, Repository } from "typeorm";
-import { GuildConfiguration } from "../../../typeOrm/entities/GuildConfiguration";
-import { GuildInfo } from "../../../typeOrm/entities/GuildInfo";
+import { Guild } from 'discord.js';
+import BaseEvent from '../../../utils/structures/BaseEvent';
+import DiscordClient from '../../../client/client';
+import { getRepository, Repository } from 'typeorm';
+import { GuildConfiguration } from '../../../typeOrm/entities/GuildConfiguration';
+import { GuildInfo } from '../../../typeOrm/entities/GuildInfo';
 
 export default class GuildCreateEvent extends BaseEvent {
   constructor(
     private readonly guildConfigRepository: Repository<GuildConfiguration> = getRepository(
-      GuildConfiguration
+      GuildConfiguration,
     ),
     private readonly guildInfoRepository: Repository<GuildInfo> = getRepository(
-      GuildInfo
-    )
+      GuildInfo,
+    ),
   ) {
-    super("guildCreate");
+    super('guildCreate');
   }
 
   async run(client: DiscordClient, guild: Guild) {
@@ -24,10 +24,10 @@ export default class GuildCreateEvent extends BaseEvent {
     });
 
     if (config) {
-      console.log("A configuration was found!");
+      console.log('A configuration was found!');
       client.configs.set(guild.id, config);
     } else {
-      console.log("A configuration was not found. Creating one!");
+      console.log('A configuration was not found. Creating one!');
       const newConfig = this.guildConfigRepository.create({
         guildId: guild.id,
       });

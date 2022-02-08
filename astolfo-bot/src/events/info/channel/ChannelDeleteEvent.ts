@@ -1,17 +1,17 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-channelDelete
-import { GuildChannel } from "discord.js";
-import BaseEvent from "../../../utils/structures/BaseEvent";
-import DiscordClient from "../../../client/client";
-import { Repository, getRepository } from "typeorm";
-import { ChannelInfo } from "../../../typeOrm/entities/ChannelInfo";
+import { GuildChannel } from 'discord.js';
+import BaseEvent from '../../../utils/structures/BaseEvent';
+import DiscordClient from '../../../client/client';
+import { Repository, getRepository } from 'typeorm';
+import { ChannelInfo } from '../../../typeOrm/entities/ChannelInfo';
 
 export default class ChannelDeleteEvent extends BaseEvent {
   constructor(
     private readonly channelInfoRepository: Repository<ChannelInfo> = getRepository(
-      ChannelInfo
-    )
+      ChannelInfo,
+    ),
   ) {
-    super("channelDelete");
+    super('channelDelete');
   }
 
   // async run(client: DiscordClient, channel: DMChannel | GuildChannel)

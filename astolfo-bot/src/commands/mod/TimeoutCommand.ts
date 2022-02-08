@@ -1,31 +1,31 @@
-import { Message } from "discord.js";
-import BaseCommand from "../../utils/structures/BaseCommand";
-import DiscordClient from "../../client/client";
-import { getRepository, Repository } from "typeorm";
-import { GuildBanLog } from "../../typeOrm/entities/GuildBanLog";
-import { ModerationLog } from "../../typeOrm/entities/ModerationLog";
+import { Message } from 'discord.js';
+import BaseCommand from '../../utils/structures/BaseCommand';
+import DiscordClient from '../../client/client';
+import { getRepository, Repository } from 'typeorm';
+import { GuildBanLog } from '../../typeOrm/entities/GuildBanLog';
+import { ModerationLog } from '../../typeOrm/entities/ModerationLog';
 
 export default class TimeoutCommand extends BaseCommand {
   constructor(
     private readonly modLogRepository: Repository<ModerationLog> = getRepository(
-      ModerationLog
-    )
+      ModerationLog,
+    ),
   ) {
-    super("timeout", "mod", []);
+    super('timeout', 'mod', []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const [memberId, timeoutStr, ...rest] = args;
-    const reason = rest.join(" ");
+    const reason = rest.join(' ');
 
     const duration = parseInt(timeoutStr);
 
     if (isNaN(duration)) {
-      message.reply("Invalid Time!");
+      message.reply('Invalid Time!');
       return;
     }
     if (duration < 5 || duration > 300) {
-      message.reply("Choose a time between 5s and 5m");
+      message.reply('Choose a time between 5s and 5m');
       return;
     }
     try {
@@ -37,11 +37,11 @@ export default class TimeoutCommand extends BaseCommand {
         issuedBy: message.author.id,
         reason,
         issuedOn: new Date(),
-        type: "timeout",
+        type: 'timeout',
         duration,
       });
       await this.modLogRepository.save(guildBan);
-      message.react("✅");
+      message.react('✅');
       return;
     } catch (err) {
       console.log(err);

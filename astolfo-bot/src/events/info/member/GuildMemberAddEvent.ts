@@ -1,25 +1,25 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildMemberAdd
-import { GuildMember, TextChannel } from "discord.js";
-import BaseEvent from "../../../utils/structures/BaseEvent";
-import DiscordClient from "../../../client/client";
-import { Repository, getRepository } from "typeorm";
-import { GuildMemberInfo } from "../../../typeOrm/entities/GuildMemberInfo";
-import { UserInfo } from "../../../typeOrm/entities/UserInfo";
-import { GuildInfo } from "../../../typeOrm/entities/GuildInfo";
+import { GuildMember, TextChannel } from 'discord.js';
+import BaseEvent from '../../../utils/structures/BaseEvent';
+import DiscordClient from '../../../client/client';
+import { Repository, getRepository } from 'typeorm';
+import { GuildMemberInfo } from '../../../typeOrm/entities/GuildMemberInfo';
+import { UserInfo } from '../../../typeOrm/entities/UserInfo';
+import { GuildInfo } from '../../../typeOrm/entities/GuildInfo';
 
 export default class GuildMemberAddEvent extends BaseEvent {
   constructor(
     private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = getRepository(
-      GuildMemberInfo
+      GuildMemberInfo,
     ),
     private readonly userInfoRepository: Repository<UserInfo> = getRepository(
-      UserInfo
+      UserInfo,
     ),
     private readonly guildInfoRepository: Repository<GuildInfo> = getRepository(
-      GuildInfo
-    )
+      GuildInfo,
+    ),
   ) {
-    super("guildMemberAdd");
+    super('guildMemberAdd');
   }
 
   async run(client: DiscordClient, member: GuildMember) {
@@ -37,7 +37,7 @@ export default class GuildMemberAddEvent extends BaseEvent {
         nameGuild,
         guildCreatedAt,
         member.guild.icon,
-        member.guild.iconURL()
+        member.guild.iconURL(),
       );
 
       const user = await this.saveUser(
@@ -47,7 +47,7 @@ export default class GuildMemberAddEvent extends BaseEvent {
         member.avatarURL(),
         bot,
         createdAt,
-        discriminator
+        discriminator,
       );
 
       await this.saveMember(
@@ -57,7 +57,7 @@ export default class GuildMemberAddEvent extends BaseEvent {
         displayHexColor,
         joinedAt!,
         user,
-        guild
+        guild,
       );
     } catch (e: any) {
       console.log(e);
@@ -69,7 +69,7 @@ export default class GuildMemberAddEvent extends BaseEvent {
     name: string,
     createdAt: Date,
     icon: string | null,
-    iconURL: any
+    iconURL: any,
   ) {
     const searchedGuild = await this.guildInfoRepository.findOne(id);
 
@@ -91,7 +91,7 @@ export default class GuildMemberAddEvent extends BaseEvent {
     avaterUrl: string | null,
     bot: boolean,
     createdAt: Date,
-    discriminator: string
+    discriminator: string,
   ) {
     const searchedUser = await this.userInfoRepository.findOne(id);
 
@@ -116,7 +116,7 @@ export default class GuildMemberAddEvent extends BaseEvent {
     color: string,
     joinedAt: Date,
     user: UserInfo,
-    guild: GuildInfo
+    guild: GuildInfo,
   ) {
     const searchedmember = await this.guildMemberInfoRepository.findOne({
       where: {

@@ -1,22 +1,22 @@
-import { Message } from "discord.js";
-import BaseCommand from "../../utils/structures/BaseCommand";
-import DiscordClient from "../../client/client";
-import process from "process";
-import { getRepository, Repository } from "typeorm";
-import { GuildInfo } from "../../typeOrm/entities/GuildInfo";
+import { Message } from 'discord.js';
+import BaseCommand from '../../utils/structures/BaseCommand';
+import DiscordClient from '../../client/client';
+import process from 'process';
+import { getRepository, Repository } from 'typeorm';
+import { GuildInfo } from '../../typeOrm/entities/GuildInfo';
 
 export default class InitGuilds extends BaseCommand {
   constructor(
     private readonly guildInfoRepository: Repository<GuildInfo> = getRepository(
-      GuildInfo
-    )
+      GuildInfo,
+    ),
   ) {
-    super("guilds", "testing", []);
+    super('guilds', 'testing', []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     if (message.author.id != process.env.OWNER) {
-      message.react("⛔");
+      message.react('⛔');
       return;
     }
 
@@ -31,11 +31,11 @@ export default class InitGuilds extends BaseCommand {
         await this.guildInfoRepository.save(guildInfo);
       });
     } catch (e) {
-      message.react("❌");
+      message.react('❌');
       return;
     }
 
-    message.react("✅");
+    message.react('✅');
     return;
   }
 }

@@ -1,30 +1,30 @@
-import { GuildMember, Message } from "discord.js";
-import BaseCommand from "../../utils/structures/BaseCommand";
-import DiscordClient from "../../client/client";
-import process from "process";
-import { getRepository, Repository } from "typeorm";
-import { GuildMemberInfo } from "../../typeOrm/entities/GuildMemberInfo";
-import { UserInfo } from "../../typeOrm/entities/UserInfo";
-import { GuildInfo } from "../../typeOrm/entities/GuildInfo";
+import { GuildMember, Message } from 'discord.js';
+import BaseCommand from '../../utils/structures/BaseCommand';
+import DiscordClient from '../../client/client';
+import process from 'process';
+import { getRepository, Repository } from 'typeorm';
+import { GuildMemberInfo } from '../../typeOrm/entities/GuildMemberInfo';
+import { UserInfo } from '../../typeOrm/entities/UserInfo';
+import { GuildInfo } from '../../typeOrm/entities/GuildInfo';
 
 export default class InitMembers extends BaseCommand {
   constructor(
     private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = getRepository(
-      GuildMemberInfo
+      GuildMemberInfo,
     ),
     private readonly userInfoRepository: Repository<UserInfo> = getRepository(
-      UserInfo
+      UserInfo,
     ),
     private readonly guildInfoRepository: Repository<GuildInfo> = getRepository(
-      GuildInfo
-    )
+      GuildInfo,
+    ),
   ) {
-    super("members", "testing", []);
+    super('members', 'testing', []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     if (message.author.id != process.env.OWNER) {
-      message.react("⛔");
+      message.react('⛔');
       return;
     }
 
@@ -36,11 +36,11 @@ export default class InitMembers extends BaseCommand {
       });
     } catch (e) {
       console.log(e);
-      message.react("❌");
+      message.react('❌');
       return;
     }
 
-    message.react("✅");
+    message.react('✅');
     return;
   }
 
@@ -59,7 +59,7 @@ export default class InitMembers extends BaseCommand {
         nameGuild,
         guildCreatedAt,
         member.guild.icon,
-        member.guild.iconURL()
+        member.guild.iconURL(),
       );
 
       const user = await this.saveUser(
@@ -69,7 +69,7 @@ export default class InitMembers extends BaseCommand {
         member.user.avatarURL(),
         bot,
         createdAt,
-        discriminator
+        discriminator,
       );
 
       await this.saveMember(
@@ -79,7 +79,7 @@ export default class InitMembers extends BaseCommand {
         displayHexColor,
         joinedAt!,
         user,
-        guild
+        guild,
       );
     } catch (error) {
       console.log(error);
@@ -91,7 +91,7 @@ export default class InitMembers extends BaseCommand {
     name: string,
     createdAt: Date,
     icon: string | null,
-    iconURL: any
+    iconURL: any,
   ) {
     const searchedGuild = await this.guildInfoRepository.findOne(id);
 
@@ -113,7 +113,7 @@ export default class InitMembers extends BaseCommand {
     avaterUrl: string | null,
     bot: boolean,
     createdAt: Date,
-    discriminator: string
+    discriminator: string,
   ) {
     const searchedUser = await this.userInfoRepository.findOne(id);
 
@@ -138,7 +138,7 @@ export default class InitMembers extends BaseCommand {
     color: string,
     joinedAt: Date,
     user: UserInfo,
-    guild: GuildInfo
+    guild: GuildInfo,
   ) {
     const searchedmember = await this.guildMemberInfoRepository.findOne({
       where: {

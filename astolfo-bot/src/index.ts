@@ -1,13 +1,13 @@
-require("dotenv").config();
-import "reflect-metadata";
-import { registerCommands, registerEvents } from "./utils/registry";
-import config from "../slappey.json";
-import DiscordClient from "./client/client";
-import { Collection, Intents } from "discord.js";
-import { createConnection, getRepository } from "typeorm";
-import { GuildConfiguration } from "./typeOrm/entities/GuildConfiguration";
-import { io } from "socket.io-client";
-import { entities } from "./typeOrm/entities";
+require('dotenv').config();
+import 'reflect-metadata';
+import { registerCommands, registerEvents } from './utils/registry';
+import config from '../slappey.json';
+import DiscordClient from './client/client';
+import { Collection, Intents } from 'discord.js';
+import { createConnection, getRepository } from 'typeorm';
+import { GuildConfiguration } from './typeOrm/entities/GuildConfiguration';
+import { io } from 'socket.io-client';
+import { entities } from './typeOrm/entities';
 
 const client = new DiscordClient({
   intents: [
@@ -20,14 +20,14 @@ const client = new DiscordClient({
 });
 
 (async () => {
-  const socket = io("http://localhost:3001");
+  const socket = io('http://localhost:3001');
 
-  socket.on("guildPrefixUpdate", (config: GuildConfiguration) => {
+  socket.on('guildPrefixUpdate', (config: GuildConfiguration) => {
     client.configs.set(config.guildId, config);
   });
 
   await createConnection({
-    type: "postgres",
+    type: 'postgres',
     host: process.env.DB_HOST,
     port: 5432,
     username: process.env.DB_USERNAME,
@@ -48,7 +48,7 @@ const client = new DiscordClient({
 
   client.configs = configs;
 
-  await registerCommands(client, "../commands");
-  await registerEvents(client, "../events");
+  await registerCommands(client, '../commands');
+  await registerEvents(client, '../events');
   await client.login(process.env.BOT_TOKEN);
 })();

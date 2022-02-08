@@ -1,25 +1,20 @@
-import {
-  GuildAuditLogsResolvable,
-  NewsChannel,
-  User,
-  VoiceState,
-} from "discord.js";
-import { getRepository, Repository } from "typeorm";
-import { GuildStatsLog } from "../../../../typeOrm/entities/GuildsStatsLog";
-import { VoiceType } from "../../../types";
-import { IVoiceStateHandler } from "../interfaces/voiceStateHandler";
+import { GuildAuditLogsResolvable, VoiceState } from 'discord.js';
+import { getRepository, Repository } from 'typeorm';
+import { GuildStatsLog } from '../../../../typeOrm/entities/GuildsStatsLog';
+import { VoiceType } from '../../../types';
+import { IVoiceStateHandler } from '../interfaces/voiceStateHandler';
 
 export class VoiceStateHandler implements IVoiceStateHandler {
   constructor(
     private readonly guildStatRepository: Repository<GuildStatsLog> = getRepository(
-      GuildStatsLog
-    )
+      GuildStatsLog,
+    ),
   ) {}
 
   async memberAbused(
     oldState: VoiceState,
     newState: VoiceState,
-    type: VoiceType
+    type: VoiceType,
   ) {
     const guildId = oldState.guild.id;
     const memberId = oldState.member?.id;
@@ -39,13 +34,13 @@ export class VoiceStateHandler implements IVoiceStateHandler {
         return;
       }
       let newChannel: string | undefined = undefined;
-      if (type === "MEMBER_MOVE") {
+      if (type === 'MEMBER_MOVE') {
         newChannel = newState.channelId!;
       }
 
       if (Math.abs(new Date().valueOf() - createdAt.valueOf()) / 1000 < 1) {
         console.log(
-          `${executor!.username} ${type} ${oldState!.member?.user.username}`
+          `${executor!.username} ${type} ${oldState!.member?.user.username}`,
         );
 
         await this.saveRepository(
@@ -54,7 +49,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
           executor!.id,
           oldState.channelId!,
           newChannel,
-          type
+          type,
         );
         return;
       }
@@ -69,7 +64,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
   async memberHimself(
     oldState: VoiceState,
     newState: VoiceState,
-    type: VoiceType
+    type: VoiceType,
   ) {
     try {
       await this.saveRepository(
@@ -78,7 +73,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
         undefined,
         oldState.channelId!,
         undefined,
-        type
+        type,
       );
     } catch (e: any) {
       console.log(e.message);
@@ -95,7 +90,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
     channel: string,
     newChannel: string | undefined,
     type: VoiceType,
-    issuedOn = new Date()
+    issuedOn = new Date(),
   ) {
     await this.guildStatRepository.save({
       guildId,

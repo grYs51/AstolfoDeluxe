@@ -1,22 +1,22 @@
-import { Message, TextChannel, ThreadChannel, VoiceChannel } from "discord.js";
-import BaseCommand from "../../utils/structures/BaseCommand";
-import DiscordClient from "../../client/client";
-import process from "process";
-import { getRepository, Repository } from "typeorm";
-import { ChannelInfo } from "../../typeOrm/entities/ChannelInfo";
+import { Message, TextChannel, ThreadChannel, VoiceChannel } from 'discord.js';
+import BaseCommand from '../../utils/structures/BaseCommand';
+import DiscordClient from '../../client/client';
+import process from 'process';
+import { getRepository, Repository } from 'typeorm';
+import { ChannelInfo } from '../../typeOrm/entities/ChannelInfo';
 
 export default class InitChannels extends BaseCommand {
   constructor(
     private readonly guildInfoRepository: Repository<ChannelInfo> = getRepository(
-      ChannelInfo
-    )
+      ChannelInfo,
+    ),
   ) {
-    super("channel", "testing", []);
+    super('channel', 'testing', []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     if (message.author.id != process.env.OWNER) {
-      message.react("⛔");
+      message.react('⛔');
       return;
     }
 
@@ -28,11 +28,11 @@ export default class InitChannels extends BaseCommand {
       });
     } catch (e) {
       console.log(e);
-      message.react("❌");
+      message.react('❌');
       return;
     }
 
-    message.react("✅");
+    message.react('✅');
     return;
   }
 

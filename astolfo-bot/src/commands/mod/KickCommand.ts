@@ -1,25 +1,25 @@
-import { Message } from "discord.js";
-import BaseCommand from "../../utils/structures/BaseCommand";
-import DiscordClient from "../../client/client";
-import { getRepository, Repository } from "typeorm";
-import { GuildBanLog } from "../../typeOrm/entities/GuildBanLog";
-import { ModerationLog } from "../../typeOrm/entities/ModerationLog";
+import { Message } from 'discord.js';
+import BaseCommand from '../../utils/structures/BaseCommand';
+import DiscordClient from '../../client/client';
+import { getRepository, Repository } from 'typeorm';
+import { GuildBanLog } from '../../typeOrm/entities/GuildBanLog';
+import { ModerationLog } from '../../typeOrm/entities/ModerationLog';
 
 export default class KickCommand extends BaseCommand {
   constructor(
     private readonly modLogRepository: Repository<ModerationLog> = getRepository(
-      ModerationLog
-    )
+      ModerationLog,
+    ),
   ) {
-    super("kick", "mod", []);
+    super('kick', 'mod', []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const [memberId, ...rest] = args;
-    const reason = rest.join(" ");
+    const reason = rest.join(' ');
 
-    if (!message.member?.permissions.has("KICK_MEMBERS")) {
-      message.reply("You cannot do that... Dummy!");
+    if (!message.member?.permissions.has('KICK_MEMBERS')) {
+      message.reply('You cannot do that... Dummy!');
       return;
     }
 
@@ -32,10 +32,10 @@ export default class KickCommand extends BaseCommand {
         issuedBy: message.author.id,
         reason,
         issuedOn: new Date(),
-        type: "kick",
+        type: 'kick',
       });
       await this.modLogRepository.save(guildBan);
-      message.react("✅");
+      message.react('✅');
     } catch (err) {
       console.log(err);
     }

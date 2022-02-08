@@ -1,25 +1,25 @@
-import { Message } from "discord.js";
-import BaseCommand from "../../utils/structures/BaseCommand";
-import DiscordClient from "../../client/client";
-import { getRepository, Repository } from "typeorm";
-import { GuildBanLog } from "../../typeOrm/entities/GuildBanLog";
-import { ModerationLog } from "../../typeOrm/entities/ModerationLog";
+import { Message } from 'discord.js';
+import BaseCommand from '../../utils/structures/BaseCommand';
+import DiscordClient from '../../client/client';
+import { getRepository, Repository } from 'typeorm';
+import { GuildBanLog } from '../../typeOrm/entities/GuildBanLog';
+import { ModerationLog } from '../../typeOrm/entities/ModerationLog';
 
 export default class BanCommand extends BaseCommand {
   constructor(
     private readonly modLogReposity: Repository<ModerationLog> = getRepository(
-      ModerationLog
-    )
+      ModerationLog,
+    ),
   ) {
-    super("ban", "mod", []);
+    super('ban', 'mod', []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const [memberId, ...rest] = args;
-    const reason = rest.join(" ");
+    const reason = rest.join(' ');
 
-    if (!message.member?.permissions.has("BAN_MEMBERS")) {
-      message.reply("You cannot do that... Dummy!");
+    if (!message.member?.permissions.has('BAN_MEMBERS')) {
+      message.reply('You cannot do that... Dummy!');
       return;
     }
 
@@ -32,11 +32,11 @@ export default class BanCommand extends BaseCommand {
         issuedBy: message.author.id,
         reason,
         issuedOn: new Date(),
-        type: "ban",
+        type: 'ban',
       });
 
       await this.modLogReposity.save(guildBan);
-      message.react("✅");
+      message.react('✅');
     } catch (err: any) {
       console.log(err.message);
     }

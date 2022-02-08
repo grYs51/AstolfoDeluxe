@@ -1,17 +1,17 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-userUpdate
-import { User } from "discord.js";
-import BaseEvent from "../../../utils/structures/BaseEvent";
-import DiscordClient from "../../../client/client";
-import { Repository, getRepository } from "typeorm";
-import { UserInfo } from "../../../typeOrm/entities/UserInfo";
+import { User } from 'discord.js';
+import BaseEvent from '../../../utils/structures/BaseEvent';
+import DiscordClient from '../../../client/client';
+import { Repository, getRepository } from 'typeorm';
+import { UserInfo } from '../../../typeOrm/entities/UserInfo';
 
 export default class UserUpdateEvent extends BaseEvent {
   constructor(
     private readonly userInfoRepository: Repository<UserInfo> = getRepository(
-      UserInfo
-    )
+      UserInfo,
+    ),
   ) {
-    super("userUpdate");
+    super('userUpdate');
   }
 
   async run(client: DiscordClient, oldUser: User, newUser: User) {

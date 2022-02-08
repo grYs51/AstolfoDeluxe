@@ -1,14 +1,14 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-voiceStateUpdate
-import { GuildAuditLogsResolvable, VoiceState } from "discord.js";
-import BaseEvent from "../../utils/structures/BaseEvent";
-import DiscordClient from "../../client/client";
-import { VoiceStateHandler } from "../../utils/handlers/voiceStateHandler/services/voiceStateHandler.service";
-import { VoiceType } from "../../utils/types";
+import { GuildAuditLogsResolvable, VoiceState } from 'discord.js';
+import BaseEvent from '../../utils/structures/BaseEvent';
+import DiscordClient from '../../client/client';
+import { VoiceStateHandler } from '../../utils/handlers/voiceStateHandler/services/voiceStateHandler.service';
+import { VoiceType } from '../../utils/types';
 export default class VoiceStateUpdateEvent extends BaseEvent {
   voiceStateHandler = new VoiceStateHandler();
 
   constructor() {
-    super("voiceStateUpdate");
+    super('voiceStateUpdate');
   }
 
   async run(client: DiscordClient, oldState: VoiceState, newState: VoiceState) {
@@ -16,39 +16,39 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
 
     // User leaves a voice channel
     if (newState.channel === null) {
-      console.log(oldState.member?.user.username + " disconnect");
+      console.log(oldState.member?.user.username + ' disconnect');
       this.voiceStateHandler.memberAbused(
         oldState,
         newState,
-        "MEMBER_DISCONNECT"
+        'MEMBER_DISCONNECT',
       );
     }
 
     // User joins a voice channel
     if (oldState.channel === null) {
-      console.log(oldState.member?.user.username + " joins");
+      console.log(oldState.member?.user.username + ' joins');
     }
 
     // User moves from voice channel
     if (oldState.channel !== null && newState.channel !== null) {
       const type: VoiceType | null = this.getResolvable(
         oldState,
-        newState
+        newState,
       ) as VoiceType;
 
       if (!type) return;
 
-      if (type.includes("MEMBER_")) {
+      if (type.includes('MEMBER_')) {
         this.voiceStateHandler.memberAbused(oldState, newState, type);
       } else {
         this.voiceStateHandler.memberHimself(oldState, newState, type);
       }
     }
   }
-  
+
   private getResolvable(
     oldstate: VoiceState,
-    newState: VoiceState
+    newState: VoiceState,
   ): VoiceType | null {
     const {
       selfDeaf: oldSelfDeaf,
@@ -67,26 +67,30 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
       streaming: newStreaming,
     } = newState;
 
+    // if(oldSelfDeaf !== newSelfDeaf){
+    //   return newSelfDeaf ? "DEAF" :
+    // }
+
     if (oldSelfDeaf === false && newSelfDeaf) {
-      return "DEAF";
+      return 'DEAF';
     }
     if (oldSelfMute === false && newSelfMute) {
-      return "MUTE";
+      return 'MUTE';
     }
     if (oldSelfVideo === false && newSelfVideo) {
-      return "VIDEO";
+      return 'VIDEO';
     }
     if (oldServerDeaf === false && newServerDeaf) {
-      return "MEMBER_UPDATE";
+      return 'MEMBER_UPDATE';
     }
     if (oldServerMute === false && newServerMute) {
-      return "MEMBER_UPDATE";
+      return 'MEMBER_UPDATE';
     }
     if (oldStreaming === false && newStreaming) {
-      return "STREAMING";
+      return 'STREAMING';
     }
     if (oldstate.channelId !== newState.channelId) {
-      return "MEMBER_MOVE";
+      return 'MEMBER_MOVE';
     }
 
     return null;

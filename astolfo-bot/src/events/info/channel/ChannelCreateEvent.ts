@@ -1,17 +1,17 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-channelCreate
-import { DMChannel, GuildChannel, TextChannel, VoiceChannel } from "discord.js";
-import BaseEvent from "../../../utils/structures/BaseEvent";
-import DiscordClient from "../../../client/client";
-import { Repository, getRepository } from "typeorm";
-import { ChannelInfo } from "../../../typeOrm/entities/ChannelInfo";
+import { DMChannel, GuildChannel, TextChannel, VoiceChannel } from 'discord.js';
+import BaseEvent from '../../../utils/structures/BaseEvent';
+import DiscordClient from '../../../client/client';
+import { Repository, getRepository } from 'typeorm';
+import { ChannelInfo } from '../../../typeOrm/entities/ChannelInfo';
 
 export default class ChannelCreateEvent extends BaseEvent {
   constructor(
     private readonly channelInfoRepository: Repository<ChannelInfo> = getRepository(
-      ChannelInfo
-    )
+      ChannelInfo,
+    ),
   ) {
-    super("channelCreate");
+    super('channelCreate');
   }
 
   async run(client: DiscordClient, channel: DMChannel | GuildChannel) {
