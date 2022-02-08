@@ -81,6 +81,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
   }
 
   async saveRepository1(guildLog: GuildStatsLog) {
+    console.log("saveRepository1", guildLog)
     await this.guildStatRepository.save(guildLog);
   }
   async saveRepository(
@@ -92,6 +93,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
     type: VoiceType,
     issuedOn = new Date(),
   ) {
+    console.log("saveRepository")
     await this.guildStatRepository.save({
       guildId,
       memberId,

@@ -24,11 +24,6 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
       );
     }
 
-    // User joins a voice channel
-    if (oldState.channel === null) {
-      console.log(oldState.member?.user.username + ' joins');
-    }
-
     // User moves from voice channel
     if (oldState.channel !== null && newState.channel !== null) {
       const type: VoiceType | null = this.getResolvable(
@@ -40,8 +35,6 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
 
       if (type.includes('MEMBER_')) {
         this.voiceStateHandler.memberAbused(oldState, newState, type);
-      } else {
-        this.voiceStateHandler.memberHimself(oldState, newState, type);
       }
     }
   }
@@ -50,45 +43,6 @@ export default class VoiceStateUpdateEvent extends BaseEvent {
     oldstate: VoiceState,
     newState: VoiceState,
   ): VoiceType | null {
-    const {
-      selfDeaf: oldSelfDeaf,
-      selfMute: oldSelfMute,
-      selfVideo: oldSelfVideo,
-      serverDeaf: oldServerDeaf,
-      serverMute: oldServerMute,
-      streaming: oldStreaming,
-    } = oldstate;
-    const {
-      selfDeaf: newSelfDeaf,
-      selfMute: newSelfMute,
-      selfVideo: newSelfVideo,
-      serverDeaf: newServerDeaf,
-      serverMute: newServerMute,
-      streaming: newStreaming,
-    } = newState;
-
-    // if(oldSelfDeaf !== newSelfDeaf){
-    //   return newSelfDeaf ? "DEAF" :
-    // }
-
-    if (oldSelfDeaf === false && newSelfDeaf) {
-      return 'DEAF';
-    }
-    if (oldSelfMute === false && newSelfMute) {
-      return 'MUTE';
-    }
-    if (oldSelfVideo === false && newSelfVideo) {
-      return 'VIDEO';
-    }
-    if (oldServerDeaf === false && newServerDeaf) {
-      return 'MEMBER_UPDATE';
-    }
-    if (oldServerMute === false && newServerMute) {
-      return 'MEMBER_UPDATE';
-    }
-    if (oldStreaming === false && newStreaming) {
-      return 'STREAMING';
-    }
     if (oldstate.channelId !== newState.channelId) {
       return 'MEMBER_MOVE';
     }
