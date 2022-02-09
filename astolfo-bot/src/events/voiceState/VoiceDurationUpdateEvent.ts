@@ -1,10 +1,10 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-voiceStateUpdate
-import { Client, Collection, NewsChannel, VoiceState } from 'discord.js';
+import { User, VoiceState } from 'discord.js';
 import BaseEvent from '../../utils/structures/BaseEvent';
 import DiscordClient from '../../client/client';
 import { GuildStatsLog } from '../../typeOrm/entities/GuildsStatsLog';
 import { VoiceStateHandler } from '../../utils/handlers/voiceStateHandler/services/voiceStateHandler.service';
-import { VoiceType } from '../../utils/types';
+import { Info, VoiceType } from '../../utils/types';
 
 enum types {
   DEAF = 'selfDeaf',
@@ -15,14 +15,16 @@ enum types {
   STREAMING = 'streaming',
 }
 export default class VoiceDurationUpdateEvent extends BaseEvent {
-  users: Array<GuildStatsLog>;
   voiceStateHandler = new VoiceStateHandler();
+  voicestate: VoiceState;
   constructor() {
     super('voiceStateUpdate');
   }
 
   async run(client: DiscordClient, oldState: VoiceState, newState: VoiceState) {
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    // await new Promise((resolve) => setTimeout(resolve, 100));
+    const date = new Date();
+    this.voicestate = newState;
     const userInfo: Info = {
       guildId: newState.guild.id,
       memberId: newState.member!.id,
@@ -31,46 +33,49 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
 
     // User joins a voice channel
     if (oldState.channel === null) {
-      this.setParametersOnConnect(newState, client.voiceUsers, userInfo);
-      this.setVoiceUser(client.voiceUsers, userInfo, 'VOICE');
+      this.setParametersOnConnect(newState, client.voiceUsers, userInfo, date);
+      this.setVoiceUser(client.voiceUsers, userInfo, 'VOICE', date);
     }
 
     // User leaves a voice channel
     if (newState.channel === null) {
-      this.endVoiceUser(client.voiceUsers, oldState);
+      this.voiceStateHandler.memberAbused(
+        oldState,
+        newState,
+        'MEMBER_DISCONNECT',
+        date,
+      );
+      this.endVoiceUser(client.voiceUsers, oldState, date);
     }
 
     // users stays in a voicechannel
     if (oldState.channel !== null && newState.channel !== null) {
       if (oldState.channelId !== newState.channelId) {
-        await this.endVoiceUser(client.voiceUsers, oldState);
-        this.setVoiceUser(client.voiceUsers, userInfo, 'VOICE');
+        this.voiceStateHandler.memberAbused(
+          oldState,
+          newState,
+          'MEMBER_MOVE',
+          date,
+        );
+        await this.endVoiceUser(client.voiceUsers, oldState, date);
+        this.setVoiceUser(client.voiceUsers, userInfo, 'VOICE', date);
         return;
       }
 
-      this.setParametrsOnChange(
+      this.setParametersOnChange(
         oldState,
         newState,
         client.voiceUsers,
         userInfo,
+        date,
       );
     }
   }
   private async endVoiceUser(
     voiceUsers: GuildStatsLog[],
     oldState: VoiceState,
+    endDate: Date,
   ) {
-    // const voiceUser = voiceUsers
-    //   .filter((voiceUser) => voiceUser.memberId === oldState.member!.id)
-    //   .map((voice) => {
-    //     voice.endedOn = new Date();
-    //     return voice;
-    //   });
-
-    // for (let voice of voiceUser) {
-    //   await this.voiceStateHandler.saveRepository1(voice);
-    // }
-    const endDate = new Date();
     for (let i = voiceUsers.length - 1; i >= 0; i--) {
       const voiceUser = voiceUsers[i];
       if (voiceUser.memberId === oldState.member!.id) {
@@ -81,16 +86,39 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     }
   }
 
-  private setVoiceUser(
+  private async setVoiceUser(
     voiceUsers: Array<GuildStatsLog>,
     userInfo: Info,
     type: VoiceType,
+    date: Date,
   ) {
-    const guildStat: GuildStatsLog = {
+    let audit:
+      | null
+      | undefined
+      | {
+          issuedBy: string | undefined;
+          newChannel: string | undefined;
+          type: VoiceType;
+        } = null;
+    if (type.includes('MEMBER_')) {
+      audit = await this.voiceStateHandler.getAudit(
+        userInfo,
+        type,
+        this.voicestate,
+      );
+    }
+    let guildStat: GuildStatsLog = {
       ...userInfo,
       type,
       issuedOn: new Date(),
     };
+    if (audit) {
+      guildStat = {
+        ...audit,
+        ...userInfo,
+        issuedOn: new Date(),
+      };
+    }
     voiceUsers.push(guildStat);
   }
 
@@ -101,10 +129,11 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     type: VoiceType,
     voiceUsers: Array<GuildStatsLog>,
     userInfo: Info,
+    date: Date,
   ) {
     if (oldState !== newState) {
       return newState
-        ? this.setVoiceUser(voiceUsers, userInfo, type)
+        ? this.setVoiceUser(voiceUsers, userInfo, type, date)
         : this.endState(voiceUsers, userInfo, type);
     } else {
       return null;
@@ -117,7 +146,6 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     type: VoiceType,
   ) {
     const endDate = new Date();
-    console.log(type)
     for (let i = voiceUsers.length - 1; i >= 0; i--) {
       const voiceUser = voiceUsers[i];
       if (voiceUser.memberId === userInfo.memberId && voiceUser.type === type) {
@@ -126,38 +154,26 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
         voiceUsers.splice(i, 1);
       }
     }
-
-    // let state = voiceUsers.find(
-    //   (user) => user.memberId === userInfo.memberId && user.type === type,
-    // );
-    // if (!state) return;
-
-    // state.endedOn = new Date();
-
-    // voiceUsers.forEach((user, index) => {
-    //   if (user.memberId === userInfo.memberId && user.type === type)
-    //     voiceUsers.splice(index, 1);
-    // });
-
-    // await this.voiceStateHandler.saveRepository1(state);
   }
   private setParametersOnConnect(
     voicestate: VoiceState,
     voiceUsers: Array<GuildStatsLog>,
     userInfo: Info,
+    date: Date,
   ) {
     for (let value of enumKeys(types)) {
       (voicestate as any)[types[value]]
-        ? this.setVoiceUser(voiceUsers, userInfo, value)
+        ? this.setVoiceUser(voiceUsers, userInfo, value, date)
         : null;
     }
   }
 
-  private setParametrsOnChange(
+  private setParametersOnChange(
     oldState: VoiceState,
     newState: VoiceState,
     voiceUsers: Array<GuildStatsLog>,
     userInfo: Info,
+    date: Date,
   ) {
     for (let value of enumKeys(types)) {
       this.functor(
@@ -166,16 +182,12 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
         value,
         voiceUsers,
         userInfo,
+        date,
       );
     }
   }
 }
 
-interface Info {
-  guildId: string;
-  memberId: string;
-  channel: string;
-}
 function enumKeys<O extends object, K extends keyof O = keyof O>(obj: O): K[] {
   return Object.keys(obj).filter((k) => Number.isNaN(+k)) as K[];
 }
