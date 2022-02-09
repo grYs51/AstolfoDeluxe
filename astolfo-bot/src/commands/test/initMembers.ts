@@ -156,6 +156,7 @@ export default class InitMembers extends BaseCommand {
       joinedAt,
       user,
       guild,
+      memberId: user.id + guild.id,
     });
     await this.guildMemberInfoRepository.save(memberDb);
   }

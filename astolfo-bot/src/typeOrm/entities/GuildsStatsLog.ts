@@ -9,7 +9,7 @@ export class GuildStatsLog {
   @Column({ name: 'guild_id' })
   guildId: string;
 
-  @Column({ name: 'member_id' })
+  @Column({ name: 'member' })
   memberId: string;
 
   @Column({ name: 'issued_by', nullable: true })

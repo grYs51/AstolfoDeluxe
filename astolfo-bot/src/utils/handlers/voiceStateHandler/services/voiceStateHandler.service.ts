@@ -82,7 +82,11 @@ export class VoiceStateHandler implements IVoiceStateHandler {
   }
 
   async saveRepository1(guildLog: GuildStatsLog) {
-    await this.guildStatRepository.save(guildLog);
+    try {
+      await this.guildStatRepository.save(guildLog);
+    } catch (e) {
+      console.log(e);
+    }
   }
   async saveRepository(
     guildId: string,

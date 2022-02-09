@@ -78,7 +78,7 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
   ) {
     for (let i = voiceUsers.length - 1; i >= 0; i--) {
       const voiceUser = voiceUsers[i];
-      if (voiceUser.memberId === oldState.member!.id) {
+      if (voiceUser.memberId === oldState.member!.id + oldState.guild.id) {
         voiceUser.endedOn = endDate;
         await this.voiceStateHandler.saveRepository1(voiceUser);
         voiceUsers.splice(i, 1);
@@ -110,15 +110,20 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     let guildStat: GuildStatsLog = {
       ...userInfo,
       type,
+      memberId: userInfo.memberId + userInfo.guildId,
       issuedOn: new Date(),
     };
     if (audit) {
       guildStat = {
         ...audit,
+        issuedBy: audit.issuedBy + userInfo.guildId,
         ...userInfo,
+        memberId: userInfo.memberId + userInfo.guildId,
+
         issuedOn: new Date(),
       };
     }
+    console.log(guildStat);
     voiceUsers.push(guildStat);
   }
 
@@ -148,7 +153,10 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     const endDate = new Date();
     for (let i = voiceUsers.length - 1; i >= 0; i--) {
       const voiceUser = voiceUsers[i];
-      if (voiceUser.memberId === userInfo.memberId && voiceUser.type === type) {
+      if (
+        voiceUser.memberId === userInfo.memberId + userInfo.guildId &&
+        voiceUser.type === type
+      ) {
         voiceUser.endedOn = endDate;
         await this.voiceStateHandler.saveRepository1(voiceUser);
         voiceUsers.splice(i, 1);

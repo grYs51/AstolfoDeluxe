@@ -3,6 +3,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { GuildInfo } from './GuildInfo';
@@ -10,8 +11,8 @@ import { UserInfo } from './UserInfo';
 
 @Entity({ name: 'guild_member_info' })
 export class GuildMemberInfo {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryColumn({ name: 'member_id' })
+  memberId: string;
 
   @Column({ name: 'guild_member_name' })
   guildName: string;
