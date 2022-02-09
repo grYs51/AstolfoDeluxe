@@ -90,7 +90,19 @@ export default class GuildService implements IGuildService {
             issuedOn: MoreThanOrEqual(fromDate),
           },
         })
-      : this.statsLogRepository.find({ guildId });
+      : this.statsLogRepository.find({
+          where: {
+            guildId,
+          },
+          relations: [
+            'member',
+            'member.user',
+            'issuedBy',
+            'issuedBy.user',
+            'channel',
+            'newChannel',
+          ],
+        });
   }
 
   async getMembers(guildId: string): Promise<GuildMemberInfo[]> {

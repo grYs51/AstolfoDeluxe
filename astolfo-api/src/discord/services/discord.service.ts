@@ -1,3 +1,5 @@
+/* eslint-disable radix */
+/* eslint-disable no-bitwise */
 import { Inject, Injectable } from '@nestjs/common';
 import { SERVICES } from 'src/utils/constants';
 import { IDiscordService } from '../interfaces/discord';

@@ -1,17 +1,14 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import GuildInfo from './GuildInfo';
 import UserInfo from './UserInfo';
 
 @Entity({ name: 'guild_member_info' })
 export default class GuildMemberInfo {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  // @PrimaryGeneratedColumn('uuid')
+  // id: string;
+
+  @PrimaryColumn({ name: 'member_id' })
+  memberId: string;
 
   @Column({ name: 'guild_member_name' })
   guildName: string;

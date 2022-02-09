@@ -1,22 +1,44 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import ChannelInfo from './ChannelInfo';
+import GuildMemberInfo from './GuildMemberInfo';
 
 @Entity({ name: 'guild_stats' })
 export default class GuildStatsLog {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ name: 'guild_id' })
   guildId: string;
 
-  @Column({ name: 'member_id' })
-  memberId: string;
+  @ManyToOne(
+    () => GuildMemberInfo,
+    (memberKey: GuildMemberInfo) => memberKey.memberId,
+  )
+  @JoinColumn({ name: 'member' })
+  member: GuildMemberInfo;
 
-  @Column({ name: 'issued_by', nullable: true })
-  issuedBy: string;
+  @ManyToOne(
+    () => GuildMemberInfo,
+    (issuedBy: GuildMemberInfo) => issuedBy.memberId,
+  )
+  @JoinColumn({ name: 'issued_by' })
+  issuedBy: GuildMemberInfo;
 
-  @Column()
-  channel: string;
+  @ManyToOne(() => ChannelInfo, (channel: ChannelInfo) => channel.channelId)
+  @JoinColumn({ name: 'channel' })
+  channel: ChannelInfo;
 
+  @ManyToOne(
+    () => ChannelInfo,
+    (newChannel: ChannelInfo) => newChannel.channelId,
+  )
+  @JoinColumn()
   @Column({ name: 'new_channel', nullable: true })
   newChannel: string;
 
