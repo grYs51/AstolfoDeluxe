@@ -7,10 +7,12 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ROUTES, SERVICES } from 'src/utils/constants';
 import WebSockectHandler from 'src/websocket/socket';
 import { IGuildService } from '../interfaces/guilds';
 
+@ApiTags(ROUTES.GUILDS)
 @Controller(ROUTES.GUILDS)
 export default class GuildsController {
   constructor(

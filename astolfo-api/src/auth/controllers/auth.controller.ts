@@ -1,11 +1,13 @@
 /* eslint-disable class-methods-use-this */
 import { Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ROUTES } from 'src/utils/constants';
 import { AuthUser } from 'src/utils/decorator';
 import User from 'src/utils/typeorm/entities/User';
 import { AuthenticatedGuard, DiscordAuthGuard } from '../utils/Guards';
 
+@ApiTags(ROUTES.AUTH)
 @Controller(ROUTES.AUTH)
 export default class AuthController {
   @Get('login')

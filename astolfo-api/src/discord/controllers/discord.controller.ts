@@ -1,9 +1,11 @@
 import { Controller, Get, Inject, Param } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ROUTES, SERVICES } from 'src/utils/constants';
 import { AuthUser } from 'src/utils/decorator';
 import User from 'src/utils/typeorm/entities/User';
 import { IDiscordService } from '../interfaces/discord';
 
+@ApiTags(ROUTES.DISCORD)
 @Controller(ROUTES.DISCORD)
 export default class DiscordController {
   constructor(

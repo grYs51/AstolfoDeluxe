@@ -4,6 +4,7 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import { TypeormStore } from 'connect-typeorm';
 import { getRepository } from 'typeorm';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import AppModule from './app.module';
 import Session from './utils/typeorm/entities/Session';
 
@@ -31,6 +32,18 @@ async function bootstrap() {
   });
   app.use(passport.initialize());
   app.use(passport.session());
+
+  const config = new DocumentBuilder()
+    .setTitle('Astolfo Swagger')
+    .setDescription(
+      "The Astolfo Swagger! \n \n Tbh... I didn't expected it to be this easy. Like I first thought it would take like a long time to get this working but it litterally took me a couple of minutes. \n \n Anyway... Eris cute",
+    )
+    .setVersion('0.1')
+    .addTag('Astolfo')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('api/swagger', app, document);
 
   try {
     await app.listen(process.env.PORT);
