@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { PartialGuild, PartialGuildChannel } from 'src/utils/types';

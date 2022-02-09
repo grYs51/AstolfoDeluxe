@@ -24,7 +24,7 @@ export type PartialGuild = {
   features: string[];
 };
 
-type overwriteStructure = {
+type OverwriteStructure = {
   id: string;
   type: number;
   allow: string;
@@ -41,7 +41,7 @@ export type PartialGuildChannel = {
   parent_id?: string;
   topic?: string;
   guild_id: string;
-  permission_overwrites: overwriteStructure[];
+  permission_overwrites: OverwriteStructure[];
   nsfw: boolean;
   rate_limit_per_user: number;
   banner?: string;
