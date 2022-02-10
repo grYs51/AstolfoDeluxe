@@ -50,8 +50,8 @@ export class GuildConfigComponent implements OnInit {
     this.guildChannels = await this.api.getGuildChannels(this.guildInfo.id, 0);
     this.welcomeChannel = this.guildConfig.welcomeChannelId
       ? this.guildChannels.find(
-        (channel) => channel.id === this.guildConfig!.welcomeChannelId
-      )!.id
+          (channel) => channel.id === this.guildConfig!.welcomeChannelId
+        )!.id
       : '';
   }
 
@@ -65,16 +65,16 @@ export class GuildConfigComponent implements OnInit {
 
   async inputOnchange(_event: any) {
     let event = _event.target.value as string;
-    event = event.trim()
+    event = event.trim();
 
     if (event.match(/^ *$/) === null) {
       console.log(event);
     }
 
-    // await this.api.updateGuildPrefix(this.guildConfig!.guildId, event.target.value);
-    // this.snackbar.open('Prefix Succesfully saved!', undefined, {
-    //   duration: 2000,
-    //   verticalPosition: 'top',
-    // });
+    await this.api.updateGuildPrefix(this.guildConfig!.guildId, event);
+    this.snackbar.open('Prefix Succesfully saved!', undefined, {
+      duration: 2000,
+      verticalPosition: 'top',
+    });
   }
 }

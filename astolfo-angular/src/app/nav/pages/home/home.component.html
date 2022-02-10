@@ -1,10 +1,11 @@
 <div class="grid-container">
   <h1 class="mat-h1">{{guildInfo ? guildInfo.name : 'Dashboard'}}</h1>
 
-  <div *ngIf="size">
+  <!-- <div *ngIf="size">
     <app-guild-config [size]="size" [guildInfo]="guildInfo!"></app-guild-config>
+  </div> -->
 
-  </div>
+  <app-guild-card-stats [size]="size"></app-guild-card-stats>
   <!-- <mat-grid-list [cols]="size" rowHeight="350px">
     <mat-grid-tile [colspan]="size" rowspan="1">
     </mat-grid-tile>

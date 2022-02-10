@@ -12,7 +12,7 @@ const API_URL = 'http://localhost:3001/api/';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private retrySrv: RetryService) { }
+  constructor(private retrySrv: RetryService) {}
 
   public auth() {
     return this.retrySrv.getData<IDiscordUser>(`${API_URL}auth/status`);
@@ -43,9 +43,8 @@ export class ApiService {
   }
 
   public updateGuildPrefix(guildId: string, prefix: string) {
-    return this.retrySrv.postData(
-      `${API_URL}guilds/${guildId}/config/prefix`,
-      { prefix }
-    )
+    return this.retrySrv.postData(`${API_URL}guilds/${guildId}/config/prefix`, {
+      prefix,
+    });
   }
 }
