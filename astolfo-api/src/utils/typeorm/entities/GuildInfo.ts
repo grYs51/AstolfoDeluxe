@@ -9,7 +9,7 @@ export default class GuildInfo {
   name: string;
 
   @Column({ nullable: true })
-  icon: string;
+  icon?: string;
 
   @Column({ name: 'created_at' })
   createdAt: Date;

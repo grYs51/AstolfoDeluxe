@@ -38,9 +38,8 @@ export default class GuildStatsLog {
     () => ChannelInfo,
     (newChannel: ChannelInfo) => newChannel.channelId,
   )
-  @JoinColumn()
-  @Column({ name: 'new_channel', nullable: true })
-  newChannel: string;
+  @JoinColumn({ name: 'new_channel' })
+  newChannel?: ChannelInfo;
 
   @Column()
   type: string;
@@ -49,5 +48,5 @@ export default class GuildStatsLog {
   issuedOn: Date;
 
   @Column({ name: 'ended_on', nullable: true })
-  endedOn: Date;
+  endedOn?: Date;
 }
