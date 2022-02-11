@@ -6,9 +6,10 @@ import { PipesModule } from '../shared/pipes/pipes.module';
 import { GuildStatsCardComponent } from './guild-stats/guild-stats.component';
 import { MemberStatsComponent } from './guild-stats/member-stats/member-stats.component';
 import { GuildStatsComponent } from './guild-stats/guild-stats/guild-stats.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
-  imports: [CommonModule, MatMaterialModule, PipesModule],
+  imports: [CommonModule, MatMaterialModule, PipesModule, NgChartsModule],
   declarations: [
     GuildConfigComponent,
     GuildStatsCardComponent,

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  GuildStats,
   IDiscordUser,
   IGuildConfig,
   IGuildInfo,
@@ -32,6 +33,12 @@ export class ApiService {
   public getGuildChannels(guildId: string, type: number) {
     return this.retrySrv.getData<IPartialGuildChannel[]>(
       `${API_URL}discord/guilds/${guildId}/channels/${type}`
+    );
+  }
+
+  public getGuildStats(guildId: string) {
+    return this.retrySrv.getData<GuildStats[]>(
+      `${API_URL}guilds/${guildId}/stats`
     );
   }
 

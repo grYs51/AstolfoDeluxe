@@ -48,7 +48,7 @@ interface overwriteStructure {
   deny: string;
 }
 
-export interface guildStats {
+export interface GuildStats {
   id: string;
   guildId: string;
   member: GuildMemberInfo;
