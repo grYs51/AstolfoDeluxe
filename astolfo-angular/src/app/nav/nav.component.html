@@ -1,22 +1,36 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
     <!-- <mat-toolbar>Menu</mat-toolbar> -->
     <mat-nav-list>
-      <img class="avatar mat-elevation-z8" width="200px"
-        src="https://cdn.discordapp.com/guilds/571011756181291008/users/148824637004840961/avatars/c2c7511f3c6880c06c0878970e5aab33.png?size=4096" />
+      <img
+        class="avatar mat-elevation-z8"
+        width="200px"
+        src="https://cdn.discordapp.com/guilds/571011756181291008/users/148824637004840961/avatars/c2c7511f3c6880c06c0878970e5aab33.png?size=4096"
+      />
 
       <h4 class="name">GrYs</h4>
       <p class="designation">Software Engineer</p>
 
       <mat-divider></mat-divider>
-      <button mat-button class="menu-button" *ngFor="let route of routes" [routerLink]="route.route">
-        <mat-icon>{{route.icon}}</mat-icon>
-        <span>{{route.name | titlecase}}</span>
+      <button
+        mat-button
+        class="menu-button"
+        *ngFor="let route of routes"
+        [routerLink]="route.route"
+      >
+        <mat-icon>{{ route.icon }}</mat-icon>
+        <span>{{ route.name | titlecase }}</span>
       </button>
       <mat-divider></mat-divider>
 
-      <button mat-button class="menu-button" >
+      <button mat-button class="menu-button">
         <mat-icon>help</mat-icon>
         <span>Help</span>
       </button>
@@ -24,8 +38,13 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>astolfo-angular</span>
