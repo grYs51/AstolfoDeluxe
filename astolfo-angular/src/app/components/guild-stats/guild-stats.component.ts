@@ -18,7 +18,9 @@ export class GuildStatsCardComponent implements OnInit {
   constructor(private userSrv: UserService, private api: ApiService) {}
 
   async ngOnInit() {
-    const temp = await this.api.getGuildStats(`773917076824916038`);
+    const temp = await this.api.getGuildStats(
+      this.guildId ? this.guildId : '445641752863571978'
+    );
 
     this.user = temp.filter(
       (user) =>

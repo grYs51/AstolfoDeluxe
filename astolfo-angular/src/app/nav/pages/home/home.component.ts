@@ -1,9 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { IGuildConfig, IGuildInfo, IGuildObject } from 'src/app/shared/Types';
-import { Location } from '@angular/common';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -17,35 +14,9 @@ export class HomeComponent implements OnInit {
   onResize() {
     this.size = this.getCols(window.innerWidth);
   }
-
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 },
-        ];
-      }
-
-      return [
-        { title: 'Card 1', cols: 3, rows: 1 },
-        { title: 'Card 2', cols: 2, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 },
-      ];
-    })
-  );
-
   public size: number | undefined;
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private route: ActivatedRoute,
-    private router: Router,
-    private location: Location
-  ) {}
+  constructor(private router: Router) {}
   ngOnInit(): void {
     this.size = this.getCols(window.innerWidth);
     this.getState();
