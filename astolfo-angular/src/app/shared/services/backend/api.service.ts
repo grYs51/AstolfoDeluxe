@@ -5,8 +5,8 @@ import {
   IGuildConfig,
   IGuildInfo,
   IPartialGuildChannel,
-} from '../../Types';
-import { RetryService } from '../../utils/Retry';
+} from 'src/app/shared/Types';
+import { RetryService } from 'src/app/shared/utils/Retry';
 
 const API_URL = 'http://localhost:3001/api/';
 @Injectable({

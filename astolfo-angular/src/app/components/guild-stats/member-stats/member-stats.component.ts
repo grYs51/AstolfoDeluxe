@@ -57,7 +57,7 @@ export class MemberStatsComponent {
                   length: Math.round(
                     Math.abs(
                       new Date(value.issuedOn).getTime() -
-                      new Date(value.endedOn).getTime()
+                        new Date(value.endedOn).getTime()
                     ) / 1000
                   ),
                 }

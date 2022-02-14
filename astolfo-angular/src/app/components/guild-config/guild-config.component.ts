@@ -1,10 +1,5 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Input,
-  NgZone,
-} from '@angular/core';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/backend/api.service';
 import {
   IGuildConfig,
@@ -18,24 +13,18 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
   selector: 'app-guild-config',
   templateUrl: './guild-config.component.html',
   styleUrls: ['./guild-config.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GuildConfigComponent implements OnInit {
   @Input() size: number | undefined;
   @Input() guildInfo!: IGuildInfo;
   guildConfig: IGuildConfig | undefined;
-  prefix: string | undefined;
+  prefix = '';
   guildChannels: IPartialGuildChannel[] = [];
   welcomeChannel = '';
 
-  userQuestion: any;
   userQuestionUpdate = new Subject<any>();
 
-  constructor(
-    private api: ApiService,
-    private ngzone: NgZone,
-    private snackbar: MatSnackBar
-  ) {
+  constructor(private api: ApiService, private snackbar: MatSnackBar) {
     this.userQuestionUpdate
       .pipe(debounceTime(1000), distinctUntilChanged())
       .subscribe((value) => {
