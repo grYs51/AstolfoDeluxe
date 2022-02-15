@@ -18,6 +18,11 @@ export default class TestCommand extends BaseCommand {
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
-    message.channel.send('Test command works!');
+    message.reply({
+      content: 'Test command works!',
+      allowedMentions: {
+        repliedUser: false,
+      },
+    });
   }
 }

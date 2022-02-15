@@ -4,6 +4,7 @@ import DiscordClient from '../../client/client';
 import process from 'process';
 import { getRepository, Repository } from 'typeorm';
 import { GuildInfo } from '../../typeOrm/entities/GuildInfo';
+import moment from 'moment';
 
 export default class InitGuilds extends BaseCommand {
   constructor(
@@ -21,14 +22,25 @@ export default class InitGuilds extends BaseCommand {
     }
 
     try {
-      client.guilds.cache.forEach(async (guild) => {
+      for (const guild of client.guilds.cache) {
+        let guild1 = guild[1];
         const guildInfo = this.guildInfoRepository.create({
-          id: guild.id,
-          name: guild.name,
-          createdAt: guild.createdAt,
-          icon: guild.iconURL() ? guild.iconURL()! : undefined,
+          id: guild1.id,
+          name: guild1.name,
+          createdAt: guild1.createdAt,
+          icon: guild1.icon || undefined,
         });
         await this.guildInfoRepository.save(guildInfo);
+      }
+      const content = `Took me ${
+        (message.createdTimestamp - new Date().getTime()) / 1000
+      }s for ${client.guilds.cache.size} guilds!`;
+      message.react('✅');
+      message.reply({
+        content,
+        allowedMentions: {
+          repliedUser: false,
+        },
       });
     } catch (e) {
       message.react('❌');

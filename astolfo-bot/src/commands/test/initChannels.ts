@@ -11,7 +11,7 @@ export default class InitChannels extends BaseCommand {
       ChannelInfo,
     ),
   ) {
-    super('channel', 'testing', []);
+    super('channels', 'testing', []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
@@ -21,10 +21,23 @@ export default class InitChannels extends BaseCommand {
     }
 
     try {
-      client.channels.cache.forEach((channel) => {
-        if (channel.isText() || channel.isVoice() || channel.isThread()) {
-          this.saveChannel(channel as TextChannel | VoiceChannel);
+      let total = 0;
+      for (const channel of client.channels.cache) {
+        const channel1 = channel[1];
+        if (channel1.isText() || channel1.isVoice() || channel1.isThread()) {
+          total++;
+          this.saveChannel(channel1 as TextChannel | VoiceChannel);
         }
+      }
+      const content = `Took me ${
+        (message.createdTimestamp - new Date().getTime()) / 1000
+      }s for ${total} channels!`;
+      message.react('✅');
+      message.reply({
+        content,
+        allowedMentions: {
+          repliedUser: false,
+        },
       });
     } catch (e) {
       console.log(e);
