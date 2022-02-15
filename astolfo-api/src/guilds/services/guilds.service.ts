@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import GuildConfiguration from 'src/utils/typeorm/entities/GuildConfiguration';
+import GuildInfo from 'src/utils/typeorm/entities/GuildInfo';
 import GuildMemberInfo from 'src/utils/typeorm/entities/GuildMemberInfo';
 import GuildStatsLog from 'src/utils/typeorm/entities/GuildStatsLog';
 import ModerationLog from 'src/utils/typeorm/entities/ModerationLog';
@@ -18,6 +19,8 @@ export default class GuildService implements IGuildService {
     private readonly statsLogRepository: Repository<GuildStatsLog>,
     @InjectRepository(GuildMemberInfo)
     private readonly guildMemberRepository: Repository<GuildMemberInfo>,
+    @InjectRepository(GuildInfo)
+    private readonly guildInfoRepository: Repository<GuildInfo>,
   ) {}
 
   async getGuildConfig(guildId: string): Promise<GuildConfiguration> {
@@ -30,6 +33,15 @@ export default class GuildService implements IGuildService {
     }
 
     return guildConfig;
+  }
+
+  async getGuildInfo(guildId: string): Promise<GuildInfo> {
+    const guildInfo = await this.guildInfoRepository.findOne(guildId);
+    if (!guildInfo) {
+      throw new HttpException('Guild Info was not found', HttpStatus.NOT_FOUND);
+    }
+
+    return guildInfo;
   }
 
   async updateGuildPrefix(

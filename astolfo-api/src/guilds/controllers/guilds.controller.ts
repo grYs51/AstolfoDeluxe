@@ -25,6 +25,11 @@ export default class GuildsController {
     return this.guildsService.getGuildConfig(guildId);
   }
 
+  @Get(':guildId/info')
+  getGuildInfo(@Param('guildId') guildId: string) {
+    return this.guildsService.getGuildInfo(guildId);
+  }
+
   @Post(':guildId/config/prefix')
   async updateGuildPrefix(
     @Param('guildId') guildId: string,
