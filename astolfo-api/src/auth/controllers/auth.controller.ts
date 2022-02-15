@@ -17,7 +17,7 @@ export default class AuthController {
   @Get('redirect')
   @UseGuards(DiscordAuthGuard)
   redirect(@Res() res: Response) {
-    res.redirect('http://localhost:4200');
+    res.redirect('http://localhost:4200/#authorized');
   }
 
   @Get('status')
