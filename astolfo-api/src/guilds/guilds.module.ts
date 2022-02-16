@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SERVICES } from 'src/utils/constants';
+import ChannelInfo from 'src/utils/typeorm/entities/ChannelInfo';
 import GuildConfiguration from 'src/utils/typeorm/entities/GuildConfiguration';
 import GuildInfo from 'src/utils/typeorm/entities/GuildInfo';
 import GuildMemberInfo from 'src/utils/typeorm/entities/GuildMemberInfo';
@@ -18,6 +19,7 @@ import GuildService from './services/guilds.service';
       GuildStatsLog,
       GuildMemberInfo,
       GuildInfo,
+      ChannelInfo,
     ]),
     WebSocketModule,
   ],

@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import ChannelInfo from 'src/utils/typeorm/entities/ChannelInfo';
 import GuildConfiguration from 'src/utils/typeorm/entities/GuildConfiguration';
 import GuildInfo from 'src/utils/typeorm/entities/GuildInfo';
 import GuildMemberInfo from 'src/utils/typeorm/entities/GuildMemberInfo';
@@ -21,6 +22,8 @@ export default class GuildService implements IGuildService {
     private readonly guildMemberRepository: Repository<GuildMemberInfo>,
     @InjectRepository(GuildInfo)
     private readonly guildInfoRepository: Repository<GuildInfo>,
+    @InjectRepository(ChannelInfo)
+    private readonly channelInfoRepository: Repository<ChannelInfo>,
   ) {}
 
   async getGuildConfig(guildId: string): Promise<GuildConfiguration> {
@@ -123,6 +126,14 @@ export default class GuildService implements IGuildService {
         guild: guildId,
       },
       relations: ['user'],
+    });
+  }
+
+  async getChannels(guildId: string): Promise<ChannelInfo[]> {
+    return this.channelInfoRepository.find({
+      where: {
+        guildId,
+      },
     });
   }
 }

@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import ChannelInfo from 'src/utils/typeorm/entities/ChannelInfo';
 import GuildConfiguration from 'src/utils/typeorm/entities/GuildConfiguration';
 import GuildInfo from 'src/utils/typeorm/entities/GuildInfo';
 import GuildMemberInfo from 'src/utils/typeorm/entities/GuildMemberInfo';
@@ -16,4 +17,5 @@ export interface IGuildService {
   getGuildLogs(guildId: string, fromDate?: Date): Promise<ModerationLog[]>;
   getGuildStats(guildId: string, fromDate?: Date): Promise<GuildStatsLog[]>;
   getMembers(guildId: string): Promise<GuildMemberInfo[]>;
+  getChannels(guildId: string): Promise<ChannelInfo[]>;
 }

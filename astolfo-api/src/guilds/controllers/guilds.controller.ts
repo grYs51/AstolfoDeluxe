@@ -70,4 +70,9 @@ export default class GuildsController {
   getMembers(@Param('guildId') guildId: string) {
     return this.guildsService.getMembers(guildId);
   }
+
+  @Get(':guildId/channels')
+  getChannels(@Param('guildId') guildId: string) {
+    return this.guildsService.getChannels(guildId);
+  }
 }
