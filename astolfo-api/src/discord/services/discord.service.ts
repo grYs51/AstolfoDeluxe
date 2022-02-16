@@ -2,8 +2,10 @@
 /* eslint-disable no-bitwise */
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AxiosResponse } from 'axios';
 import { SERVICES } from 'src/utils/constants';
 import GuildInfo from 'src/utils/typeorm/entities/GuildInfo';
+import { GuildRoles } from 'src/utils/types';
 import { Repository } from 'typeorm';
 import { IDiscordService } from '../interfaces/discord';
 import { IDiscordHttpService } from '../interfaces/discord-http';
@@ -45,5 +47,9 @@ export default class DiscordService implements IDiscordService {
 
   getGuildChannels(guildId: string) {
     return this.discorHttpService.fetchGuildChannels(guildId);
+  }
+
+  getGuildRoles(guildId: string): Promise<AxiosResponse<GuildRoles[], any>> {
+    return this.discorHttpService.fetchGuildRoles(guildId);
   }
 }
