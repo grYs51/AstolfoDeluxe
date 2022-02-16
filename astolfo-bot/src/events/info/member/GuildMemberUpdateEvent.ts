@@ -24,7 +24,7 @@ export default class GuildMemberUpdateEvent extends BaseEvent {
 
       const searchedMember = await this.guildMemberInfoRepository.findOne({
         where: {
-          memberId:  newMember.user.id+newMember.guild.id
+          memberId: newMember.user.id + newMember.guild.id,
         },
       });
 

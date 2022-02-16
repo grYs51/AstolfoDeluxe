@@ -123,7 +123,6 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
         issuedOn: new Date(),
       };
     }
-    console.log(guildStat);
     voiceUsers.push(guildStat);
   }
 

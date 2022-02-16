@@ -25,30 +25,8 @@ export default class GuildMemberAddEvent extends BaseEvent {
   async run(client: DiscordClient, member: GuildMember) {
     try {
       const { displayName, displayHexColor, joinedAt } = member;
-      const { id, username, discriminator, createdAt, bot } = member.user;
-      const {
-        id: idGuild,
-        name: nameGuild,
-        createdAt: guildCreatedAt,
-      } = member.guild;
-
-      const guild = await this.saveGuild(
-        idGuild,
-        nameGuild,
-        guildCreatedAt,
-        member.guild.icon,
-        member.guild.iconURL(),
-      );
-
-      const user = await this.saveUser(
-        id,
-        username,
-        member.avatar,
-        member.avatarURL(),
-        bot,
-        createdAt,
-        discriminator,
-      );
+      const { id } = member.user;
+      const { id: idGuild } = member.guild;
 
       await this.saveMember(
         displayName,
@@ -56,8 +34,8 @@ export default class GuildMemberAddEvent extends BaseEvent {
         member.avatarURL(),
         displayHexColor,
         joinedAt!,
-        user,
-        guild,
+        id,
+        idGuild,
       );
     } catch (e: any) {
       console.log(e);
@@ -115,13 +93,13 @@ export default class GuildMemberAddEvent extends BaseEvent {
     avatarURL: string | null,
     color: string,
     joinedAt: Date,
-    user: UserInfo,
-    guild: GuildInfo,
+    user: string,
+    guild: string,
   ) {
     const searchedmember = await this.guildMemberInfoRepository.findOne({
       where: {
-        user: user.id,
-        guild: guild.id,
+        user: user,
+        guild: guild,
       },
     });
 
