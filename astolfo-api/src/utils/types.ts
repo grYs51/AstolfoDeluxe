@@ -47,6 +47,26 @@ export type PartialGuildChannel = {
   banner?: string;
 };
 
+export type GuildRoles = {
+  id: string;
+  name: string;
+  color: number;
+  hoist: boolean;
+  icon?: string;
+  unicode_emoji?: string;
+  position: number;
+  permissions: string;
+  managed: boolean;
+  mentionable: boolean;
+  tags?: RoleTags;
+};
+
+type RoleTags = {
+  bot_id?: string;
+  integration_id?: string;
+  premium_subscriber?: null;
+};
+
 export type ModerationActionType = 'ban' | 'kick' | 'timeout';
 
 export type Done = (err: Error, user: User) => void;
