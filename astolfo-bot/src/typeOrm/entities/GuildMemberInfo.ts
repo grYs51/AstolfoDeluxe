@@ -26,11 +26,9 @@ export class GuildMemberInfo {
   @Column({ name: 'joined_at' })
   joinedAt: Date;
 
-  @ManyToOne(() => GuildInfo, (guild) => guild.id)
-  @JoinColumn({ name: 'guild_info' })
-  guild: GuildInfo;
+  @Column({ name: 'guild_info' })
+  guild: string;
 
-  @ManyToOne(() => UserInfo, (user) => user.id)
-  @JoinColumn({ name: 'user_info' })
-  user: UserInfo;
+  @Column({ name: 'user_info' })
+  user: string;
 }
