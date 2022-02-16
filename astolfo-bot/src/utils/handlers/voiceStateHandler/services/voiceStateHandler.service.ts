@@ -47,7 +47,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
         await this.saveRepository(
           guildId,
           memberId!,
-          executor!.id,
+          executor!.id + oldState.guild.id,
           oldState.channelId!,
           newChannel,
           type,
@@ -69,7 +69,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
     try {
       await this.saveRepository(
         oldState.guild.id,
-        oldState.member!.id,
+        oldState.member!.id + oldState.guild.id,
         undefined,
         oldState.channelId!,
         undefined,
