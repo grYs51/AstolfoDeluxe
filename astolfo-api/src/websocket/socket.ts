@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+import { Logger } from '@nestjs/common';
 import {
   MessageBody,
   SubscribeMessage,
@@ -8,6 +9,7 @@ import {
 import { Server } from 'socket.io';
 import GuildConfiguration from 'src/utils/typeorm/entities/GuildConfiguration';
 
+const logger = new Logger();
 @WebSocketGateway()
 export default class WebSockectHandler {
   @WebSocketServer()
@@ -15,7 +17,7 @@ export default class WebSockectHandler {
 
   @SubscribeMessage('guilds')
   guildsHandler(@MessageBody() data: any) {
-    console.log(data);
+    logger.log(data);
   }
 
   guildPrefixUpdate(config: GuildConfiguration) {

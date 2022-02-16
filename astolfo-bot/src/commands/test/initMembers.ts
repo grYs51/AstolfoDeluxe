@@ -59,7 +59,6 @@ export default class InitMembers extends BaseCommand {
       await this.saveMember(
         displayName,
         member.avatar,
-        member.avatarURL(),
         displayHexColor,
         joinedAt!,
         id,
@@ -73,7 +72,6 @@ export default class InitMembers extends BaseCommand {
   async saveMember(
     guildName: string,
     avatar: string | null,
-    avatarURL: string | null,
     color: string,
     joinedAt: Date,
     user: string,
@@ -81,7 +79,7 @@ export default class InitMembers extends BaseCommand {
   ) {
     const memberDb = this.guildMemberInfoRepository.create({
       guildName,
-      guildAvatar: avatar ? avatarURL! : undefined,
+      guildAvatar: avatar ? avatar! : undefined,
       guildColor: color ? color! : undefined,
       joinedAt,
       user,

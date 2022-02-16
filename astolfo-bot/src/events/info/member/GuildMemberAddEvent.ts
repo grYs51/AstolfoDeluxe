@@ -41,52 +41,6 @@ export default class GuildMemberAddEvent extends BaseEvent {
       console.log(e);
     }
   }
-
-  private async saveGuild(
-    id: string,
-    name: string,
-    createdAt: Date,
-    icon: string | null,
-    iconURL: any,
-  ) {
-    const searchedGuild = await this.guildInfoRepository.findOne(id);
-
-    if (searchedGuild) return searchedGuild;
-
-    const guild = this.guildInfoRepository.create({
-      id,
-      name,
-      createdAt,
-      icon: icon ? iconURL! : undefined,
-    });
-    await this.guildInfoRepository.save(guild);
-    return guild;
-  }
-  private async saveUser(
-    id: string,
-    name: string,
-    avatar: string | null,
-    avaterUrl: string | null,
-    bot: boolean,
-    createdAt: Date,
-    discriminator: string,
-  ) {
-    const searchedUser = await this.userInfoRepository.findOne(id);
-
-    if (searchedUser) return searchedUser;
-
-    const user = this.userInfoRepository.create({
-      id,
-      name,
-      avatar: avatar ? avaterUrl! : undefined,
-      bot,
-      createdAt: createdAt,
-      discriminator,
-    });
-    await this.userInfoRepository.save(user);
-
-    return user;
-  }
   private async saveMember(
     guildName: string,
     avatar: string | null,
@@ -106,6 +60,7 @@ export default class GuildMemberAddEvent extends BaseEvent {
     if (searchedmember) return;
 
     const memberDb = this.guildMemberInfoRepository.create({
+      memberId: user + guild,
       guildName,
       guildAvatar: avatar ? avatarURL! : undefined,
       guildColor: color ? color! : undefined,
