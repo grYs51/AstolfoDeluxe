@@ -20,7 +20,7 @@ export default class WebSockectHandler {
     logger.log(data);
   }
 
-  guildPrefixUpdate(config: GuildConfiguration) {
-    this.ws.emit('guildPrefixUpdate', config);
+  guildConfigUpdate(config: GuildConfiguration) {
+    this.ws.emit('guildConfigUpdate', config);
   }
 }

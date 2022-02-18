@@ -36,7 +36,7 @@ export default class GuildsController {
     @Body('prefix') prefix: string,
   ) {
     const config = await this.guildsService.updateGuildPrefix(guildId, prefix);
-    this.wsHandler.guildPrefixUpdate(config);
+    this.wsHandler.guildConfigUpdate(config);
     return config;
   }
 
@@ -49,6 +49,7 @@ export default class GuildsController {
       guildId,
       channelId,
     );
+    this.wsHandler.guildConfigUpdate(config);
     return config;
   }
 
@@ -61,6 +62,7 @@ export default class GuildsController {
       guildId,
       welcomeMessage,
     );
+    this.wsHandler.guildConfigUpdate(config);
     return config;
   }
 
