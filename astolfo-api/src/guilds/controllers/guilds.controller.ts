@@ -40,14 +40,28 @@ export default class GuildsController {
     return config;
   }
 
-  @Post(':guildId/config/welcome')
+  @Post(':guildId/config/channel')
   async updateWelcomeChannel(
     @Param('guildId') guildId: string,
     @Body('channelId') channelId: string,
   ) {
-    // console.log(guildId, channelId);
+    const config = await this.guildsService.updateWelcomeChannel(
+      guildId,
+      channelId,
+    );
+    return config;
+  }
 
-    return this.guildsService.updateWelcomeChannel(guildId, channelId);
+  @Post(':guildId/config/message')
+  async updateWelcomeMessage(
+    @Param('guildId') guildId: string,
+    @Body('welcomeMessage') welcomeMessage: string,
+  ) {
+    const config = await this.guildsService.updateWelcomeMessage(
+      guildId,
+      welcomeMessage,
+    );
+    return config;
   }
 
   @Get(':guildId/logs')
@@ -74,5 +88,10 @@ export default class GuildsController {
   @Get(':guildId/channels')
   getChannels(@Param('guildId') guildId: string) {
     return this.guildsService.getChannels(guildId);
+  }
+
+  @Get(':guildId/roles')
+  getRoless(@Param('guildId') guildId: string) {
+    return this.guildsService.getRoles(guildId);
   }
 }

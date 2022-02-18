@@ -6,6 +6,7 @@ import GuildInfo from 'src/utils/typeorm/entities/GuildInfo';
 import GuildMemberInfo from 'src/utils/typeorm/entities/GuildMemberInfo';
 import GuildStatsLog from 'src/utils/typeorm/entities/GuildStatsLog';
 import ModerationLog from 'src/utils/typeorm/entities/ModerationLog';
+import RoleInfo from 'src/utils/typeorm/entities/RoleInfo';
 import { MoreThanOrEqual, Repository } from 'typeorm';
 import { IGuildService } from '../interfaces/guilds';
 
@@ -24,6 +25,8 @@ export default class GuildService implements IGuildService {
     private readonly guildInfoRepository: Repository<GuildInfo>,
     @InjectRepository(ChannelInfo)
     private readonly channelInfoRepository: Repository<ChannelInfo>,
+    @InjectRepository(RoleInfo)
+    private readonly rolesInfoRepository: Repository<RoleInfo>,
   ) {}
 
   async getGuildConfig(guildId: string): Promise<GuildConfiguration> {
@@ -39,11 +42,15 @@ export default class GuildService implements IGuildService {
   }
 
   async getGuildInfo(guildId: string): Promise<GuildInfo> {
-    const guildInfo = await this.guildInfoRepository.findOne(guildId);
+    const guildInfo = await this.guildInfoRepository.findOne({
+      where: {
+        id: guildId,
+      },
+      relations: ['roles'],
+    });
     if (!guildInfo) {
       throw new HttpException('Guild Info was not found', HttpStatus.NOT_FOUND);
     }
-
     return guildInfo;
   }
 
@@ -65,7 +72,10 @@ export default class GuildService implements IGuildService {
     });
   }
 
-  async updateWelcomeChannel(guildId: string, welcomeChannelId: string) {
+  async updateWelcomeChannel(
+    guildId: string,
+    welcomeChannelId: string,
+  ): Promise<GuildConfiguration> {
     const guildConfig = await this.getGuildConfig(guildId);
     if (!guildConfig) {
       throw new HttpException(
@@ -77,6 +87,24 @@ export default class GuildService implements IGuildService {
     return this.guildConfigRepository.save({
       ...guildConfig,
       welcomeChannelId,
+    });
+  }
+
+  async updateWelcomeMessage(
+    guildId: string,
+    welcomeMessage: string,
+  ): Promise<GuildConfiguration> {
+    const guildConfig = await this.getGuildConfig(guildId);
+    if (!guildConfig) {
+      throw new HttpException(
+        'Guild configuration was not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return this.guildConfigRepository.save({
+      ...guildConfig,
+      welcomeMessage,
     });
   }
 
@@ -131,6 +159,14 @@ export default class GuildService implements IGuildService {
 
   async getChannels(guildId: string): Promise<ChannelInfo[]> {
     return this.channelInfoRepository.find({
+      where: {
+        guildId,
+      },
+    });
+  }
+
+  getRoles(guildId: string): Promise<RoleInfo[]> {
+    return this.rolesInfoRepository.find({
       where: {
         guildId,
       },

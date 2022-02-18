@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+/* eslint-disable import/no-cycle */
+import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
+import RoleInfo from './RoleInfo';
 
 @Entity({ name: 'guild_info' })
 export default class GuildInfo {
@@ -13,4 +15,8 @@ export default class GuildInfo {
 
   @Column({ name: 'created_at' })
   createdAt: Date;
+
+  @OneToMany(() => RoleInfo, (roles) => roles.guild, { eager: true })
+  @JoinColumn()
+  roles: RoleInfo[];
 }
