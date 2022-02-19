@@ -27,7 +27,6 @@ export default class InitConfigs extends BaseCommand {
         console.log('A configuration was not found. Creating one!');
         const newConfig = this.guildConfigRepository.create({
           guildId: guild.id,
-          welcomeMessage: 'Welcome ${member}',
         });
 
         const savedConfig = await this.guildConfigRepository.save(newConfig);

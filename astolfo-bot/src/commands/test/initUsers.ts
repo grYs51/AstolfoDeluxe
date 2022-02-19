@@ -19,13 +19,13 @@ export default class InitUsers extends BaseCommand {
       message.react('⛔');
       return;
     }
-
+    const date = new Date().getTime();
     try {
       for await (const user of client.users.cache) {
         await this.save(user[1]);
       }
       const content = `Took me ${
-        (message.createdTimestamp - new Date().getTime()) / 1000
+        (new Date().getTime() - date) / 1000
       }s for ${client.users.cache.size} users!`;
       message.react('✅');
       message.reply({

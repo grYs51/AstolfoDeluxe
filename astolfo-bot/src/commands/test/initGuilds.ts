@@ -20,6 +20,7 @@ export default class InitGuilds extends BaseCommand {
       message.react('⛔');
       return;
     }
+    const date = new Date().getTime();
 
     try {
       for (const guild of client.guilds.cache) {
@@ -33,7 +34,7 @@ export default class InitGuilds extends BaseCommand {
         await this.guildInfoRepository.save(guildInfo);
       }
       const content = `Took me ${
-        (message.createdTimestamp - new Date().getTime()) / 1000
+        (new Date().getTime() - date) / 1000
       }s for ${client.guilds.cache.size} guilds!`;
       message.react('✅');
       message.reply({

@@ -20,6 +20,7 @@ export default class InitChannels extends BaseCommand {
       return;
     }
 
+    const date = new Date().getTime();
     try {
       let total = 0;
       for (const channel of client.channels.cache) {
@@ -30,7 +31,7 @@ export default class InitChannels extends BaseCommand {
         }
       }
       const content = `Took me ${
-        (message.createdTimestamp - new Date().getTime()) / 1000
+        ( new Date().getTime() - date) / 1000
       }s for ${total} channels!`;
       message.react('✅');
       message.reply({
