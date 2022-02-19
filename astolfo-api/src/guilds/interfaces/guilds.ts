@@ -8,6 +8,7 @@ import ModerationLog from 'src/utils/typeorm/entities/ModerationLog';
 import RoleInfo from 'src/utils/typeorm/entities/RoleInfo';
 
 export interface IGuildService {
+  updateGoodbyeMessage(guildId: string, goodbyeMessage: string);
   getGuildConfig(guildId: string): Promise<GuildConfiguration>;
   getGuildInfo(guildId: string): Promise<GuildInfo>;
   updateGuildPrefix(

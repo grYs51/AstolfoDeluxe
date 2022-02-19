@@ -13,4 +13,7 @@ export default class GuildConfiguration {
 
   @Column({ name: 'welcome_message', length: 200 })
   welcomeMessage: string;
+
+  @Column({ name: 'goodbye_message', length: 200 })
+  goodbyeMessage: string;
 }

@@ -66,6 +66,19 @@ export default class GuildsController {
     return config;
   }
 
+  @Post(':guildId/config/goodbye')
+  async updateGoodbyeMessage(
+    @Param('guildId') guildId: string,
+    @Body('goodbyeMessage') goodbyeMessage: string,
+  ) {
+    const config = await this.guildsService.updateGoodbyeMessage(
+      guildId,
+      goodbyeMessage,
+    );
+    this.wsHandler.guildConfigUpdate(config);
+    return config;
+  }
+
   @Get(':guildId/logs')
   async getGuildLogs(
     @Param('guildId') guildId: string,

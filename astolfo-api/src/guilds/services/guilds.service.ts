@@ -108,6 +108,21 @@ export default class GuildService implements IGuildService {
     });
   }
 
+  async updateGoodbyeMessage(guildId: string, goodbyeMessage: string) {
+    const guildConfig = await this.getGuildConfig(guildId);
+    if (!guildConfig) {
+      throw new HttpException(
+        'Guild configuration was not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return this.guildConfigRepository.save({
+      ...guildConfig,
+      goodbyeMessage,
+    });
+  }
+
   async getGuildLogs(
     guildId: string,
     fromDate?: Date,
