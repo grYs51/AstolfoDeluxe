@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import RoleInfo from './RoleInfo';
 
 @Entity({ name: 'guild_info' })
 export class GuildInfo {
@@ -13,4 +14,8 @@ export class GuildInfo {
 
   @Column({ name: 'created_at' })
   createdAt: Date;
+
+  @OneToMany(()=> RoleInfo, roles => roles.guildId, { eager: true })
+  @JoinColumn()
+  roles: RoleInfo[]
 }

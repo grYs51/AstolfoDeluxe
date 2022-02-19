@@ -1,21 +1,18 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: 'guild_roles' })
-export class GuildRoles {
+@Entity({ name: 'role_info' })
+export default class RoleInfo {
   @PrimaryColumn()
   id: string;
-
-  @Column({ name: 'guild_name' })
-  guildId: string
 
   @Column()
   name: string;
 
   @Column()
-  color: number;
+  color: string;
 
-  @Column({name: 'created_at'})
-  createdAt: string;
+  @Column({ name: 'created_at' })
+  createdAt: Date;
 
   @Column()
   hoist: boolean;
@@ -30,11 +27,11 @@ export class GuildRoles {
   position: number;
 
   @Column()
-  permissions: string;
-
-  @Column()
   managed: boolean;
 
   @Column()
   mentionable: boolean;
+
+  @Column({ name: 'guild_id'})
+  guildId: string;
 }

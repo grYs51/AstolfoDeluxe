@@ -2,11 +2,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { GuildInfo } from './GuildInfo';
+import RoleInfo from './RoleInfo';
 import { UserInfo } from './UserInfo';
 
 @Entity({ name: 'guild_member_info' })
@@ -31,4 +34,8 @@ export class GuildMemberInfo {
 
   @Column({ name: 'user_info' })
   user: string;
+
+  @ManyToMany(() => RoleInfo)
+  @JoinTable({name: 'member_role_relation'})
+  roles: RoleInfo[];
 }

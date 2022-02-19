@@ -1,7 +1,6 @@
 require('dotenv').config();
 import 'reflect-metadata';
 import { registerCommands, registerEvents } from './utils/registry';
-import config from '../slappey.json';
 import DiscordClient from './client/client';
 import { Collection, Intents } from 'discord.js';
 import { createConnection, getRepository } from 'typeorm';
@@ -22,7 +21,7 @@ const client = new DiscordClient({
 (async () => {
   const socket = io('http://localhost:3001');
 
-  socket.on('guildPrefixUpdate', (config: GuildConfiguration) => {
+  socket.on('guildConfigUpdate', (config: GuildConfiguration) => {
     client.configs.set(config.guildId, config);
   });
 
