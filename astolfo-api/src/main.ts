@@ -7,6 +7,7 @@ import { getRepository } from 'typeorm';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import AppModule from './app.module';
 import Session from './utils/typeorm/entities/Session';
+import { entities } from './utils/typeorm';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -41,7 +42,9 @@ async function bootstrap() {
     .setVersion('0.1')
     .addTag('Astolfo')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, {
+    extraModels: entities,
+  });
 
   SwaggerModule.setup('api/swagger', app, document);
 
