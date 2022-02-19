@@ -1,6 +1,14 @@
 /* eslint-disable import/no-cycle */
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import GuildInfo from './GuildInfo';
+import GuildMemberInfo from './GuildMemberInfo';
 
 @Entity({ name: 'role_info' })
 export default class RoleInfo {
@@ -11,7 +19,7 @@ export default class RoleInfo {
   name: string;
 
   @Column()
-  color: number;
+  color: string;
 
   @Column({ name: 'created_at' })
   createdAt: Date;
@@ -37,4 +45,10 @@ export default class RoleInfo {
   @ManyToOne(() => GuildInfo, (guild) => guild.roles, { eager: false })
   @JoinColumn({ name: 'guild_id' })
   guild: GuildInfo;
+
+  @ManyToMany(() => GuildMemberInfo, (guildMember) => guildMember.roles, {
+    eager: false,
+    cascade: true,
+  })
+  guildMember: GuildMemberInfo[];
 }
