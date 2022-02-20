@@ -79,14 +79,6 @@ export default class GuildsController {
     return config;
   }
 
-  @Get(':guildId/logs')
-  async getGuildLogs(
-    @Param('guildId') guildId: string,
-    @Query('fromDate') fromDate: Date,
-  ) {
-    return this.guildsService.getGuildLogs(guildId, fromDate);
-  }
-
   @Get(':guildId/stats')
   async getGuildStats(
     @Param('guildId') guildId: string,

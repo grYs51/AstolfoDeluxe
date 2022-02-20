@@ -6,7 +6,6 @@ import GuildConfiguration from 'src/utils/typeorm/entities/GuildConfiguration';
 import GuildInfo from 'src/utils/typeorm/entities/GuildInfo';
 import GuildMemberInfo from 'src/utils/typeorm/entities/GuildMemberInfo';
 import GuildStatsLog from 'src/utils/typeorm/entities/GuildStatsLog';
-import ModerationLog from 'src/utils/typeorm/entities/ModerationLog';
 import RoleInfo from 'src/utils/typeorm/entities/RoleInfo';
 import WebSocketModule from 'src/websocket/websocket.module';
 import GuildsController from './controllers/guilds.controller';
@@ -16,7 +15,6 @@ import GuildService from './services/guilds.service';
   imports: [
     TypeOrmModule.forFeature([
       GuildConfiguration,
-      ModerationLog,
       GuildStatsLog,
       GuildMemberInfo,
       GuildInfo,

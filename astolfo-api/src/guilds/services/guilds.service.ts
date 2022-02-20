@@ -5,7 +5,6 @@ import GuildConfiguration from 'src/utils/typeorm/entities/GuildConfiguration';
 import GuildInfo from 'src/utils/typeorm/entities/GuildInfo';
 import GuildMemberInfo from 'src/utils/typeorm/entities/GuildMemberInfo';
 import GuildStatsLog from 'src/utils/typeorm/entities/GuildStatsLog';
-import ModerationLog from 'src/utils/typeorm/entities/ModerationLog';
 import RoleInfo from 'src/utils/typeorm/entities/RoleInfo';
 import { MoreThanOrEqual, Repository } from 'typeorm';
 import { IGuildService } from '../interfaces/guilds';
@@ -15,8 +14,6 @@ export default class GuildService implements IGuildService {
   constructor(
     @InjectRepository(GuildConfiguration)
     private readonly guildConfigRepository: Repository<GuildConfiguration>,
-    @InjectRepository(ModerationLog)
-    private readonly modLogRepository: Repository<ModerationLog>,
     @InjectRepository(GuildStatsLog)
     private readonly statsLogRepository: Repository<GuildStatsLog>,
     @InjectRepository(GuildMemberInfo)
@@ -123,20 +120,6 @@ export default class GuildService implements IGuildService {
     });
   }
 
-  async getGuildLogs(
-    guildId: string,
-    fromDate?: Date,
-  ): Promise<ModerationLog[]> {
-    return fromDate
-      ? this.modLogRepository.find({
-          where: {
-            guildId,
-            issuedOn: MoreThanOrEqual(fromDate),
-          },
-        })
-      : this.modLogRepository.find({ guildId });
-  }
-
   async getGuildStats(
     guildId: string,
     fromDate?: Date,
@@ -147,6 +130,14 @@ export default class GuildService implements IGuildService {
             guildId,
             issuedOn: MoreThanOrEqual(fromDate),
           },
+          relations: [
+            'member',
+            'member.user',
+            'issuedBy',
+            'issuedBy.user',
+            'channel',
+            'newChannel',
+          ],
         })
       : this.statsLogRepository.find({
           where: {

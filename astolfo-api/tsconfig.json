@@ -17,10 +17,5 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "plugins": [
-      {
-        "name": "@nestjs/swagger",
-      }
-    ]
   }
 }
