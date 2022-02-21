@@ -5,11 +5,13 @@ import * as passport from 'passport';
 import { TypeormStore } from 'connect-typeorm';
 import { getRepository } from 'typeorm';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Logger } from '@nestjs/common';
 import AppModule from './app.module';
 import Session from './utils/typeorm/entities/Session';
 import { entities } from './utils/typeorm';
 
 async function bootstrap() {
+  const logger = new Logger();
   const app = await NestFactory.create(AppModule);
   const sessionRepository = getRepository(Session);
 
@@ -50,9 +52,9 @@ async function bootstrap() {
 
   try {
     await app.listen(process.env.PORT);
-    console.log(`Running on PORT ${process.env.PORT}`);
+    logger.log(`Running on PORT ${process.env.PORT}`);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 bootstrap();
