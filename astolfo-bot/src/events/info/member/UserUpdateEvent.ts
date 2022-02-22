@@ -25,7 +25,7 @@ export default class UserUpdateEvent extends BaseEvent {
       const user = this.userInfoRepository.create({
         ...searchedUser,
         name: username,
-        avatar: newUser.avatar ? newUser.avatarURL()! : undefined,
+        avatar: newUser.avatar ? newUser.avatar! : undefined,
         discriminator,
       });
       await this.userInfoRepository.save(user);
