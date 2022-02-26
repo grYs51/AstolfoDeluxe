@@ -12,7 +12,7 @@ export class ChannelInfo {
   name: string;
 
   @Column({ nullable: true })
-  nsfw: boolean;
+  nsfw?: boolean;
 
   @Column()
   type: string;
@@ -25,4 +25,7 @@ export class ChannelInfo {
 
   @Column({ nullable: true })
   topic?: string;
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted?: Boolean;
 }

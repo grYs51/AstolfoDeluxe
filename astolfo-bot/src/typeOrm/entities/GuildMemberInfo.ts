@@ -36,6 +36,9 @@ export class GuildMemberInfo {
   user: string;
 
   @ManyToMany(() => RoleInfo)
-  @JoinTable({name: 'member_role_relation'})
+  @JoinTable({ name: 'member_role_relation' })
   roles: RoleInfo[];
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted?: Boolean;
 }

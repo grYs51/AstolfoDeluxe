@@ -32,6 +32,9 @@ export default class RoleInfo {
   @Column()
   mentionable: boolean;
 
-  @Column({ name: 'guild_id'})
+  @Column({ name: 'guild_id' })
   guildId: string;
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted?: Boolean;
 }

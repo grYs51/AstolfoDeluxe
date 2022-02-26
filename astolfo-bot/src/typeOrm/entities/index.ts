@@ -4,7 +4,7 @@ import { GuildInfo } from './GuildInfo';
 import { GuildStatsLog } from './GuildsStatsLog';
 import { GuildMemberInfo } from './GuildMemberInfo';
 import { UserInfo } from './UserInfo';
-import RoleInfo  from './RoleInfo';
+import RoleInfo from './RoleInfo';
 
 export const entities = [
   GuildConfiguration,
@@ -13,5 +13,5 @@ export const entities = [
   ChannelInfo,
   GuildMemberInfo,
   UserInfo,
-  RoleInfo
+  RoleInfo,
 ];

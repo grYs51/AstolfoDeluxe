@@ -19,4 +19,7 @@ export class UserInfo {
 
   @Column({ name: 'created_at' })
   createdAt: Date;
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted?: Boolean;
 }

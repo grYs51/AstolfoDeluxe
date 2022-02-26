@@ -1,4 +1,13 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
+import { ChannelInfo } from './ChannelInfo';
+import { GuildMemberInfo } from './GuildMemberInfo';
 import RoleInfo from './RoleInfo';
 
 @Entity({ name: 'guild_info' })
@@ -15,7 +24,10 @@ export class GuildInfo {
   @Column({ name: 'created_at' })
   createdAt: Date;
 
-  @OneToMany(()=> RoleInfo, roles => roles.guildId, { eager: true })
+  @OneToMany(() => RoleInfo, (role) => role.guildId, { eager: true })
   @JoinColumn()
-  roles: RoleInfo[]
+  roles: RoleInfo[];
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted?: Boolean;
 }
