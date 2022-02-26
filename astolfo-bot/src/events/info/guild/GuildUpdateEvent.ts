@@ -27,7 +27,7 @@ export default class GuildUpdateEvent extends BaseEvent {
 
       await this.guildInfoRepository.save(guildInfo);
     } catch (e: any) {
-      console.log(e.message);
+      console.log(e);
     }
   }
 }

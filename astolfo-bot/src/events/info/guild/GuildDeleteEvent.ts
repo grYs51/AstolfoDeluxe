@@ -15,6 +15,8 @@ export default class GuildDeleteEvent extends BaseEvent {
   }
 
   async run(client: DiscordClient, guild: Guild) {
-    console.log(`Deleted ${guild.name}`);
+    const guildDb = this.guildInfoRepository.findOne(guild.id);
+    if (!guildDb) return;
+    await this.guildInfoRepository.save({ ...guildDb, isDeleted: true });
   }
 }

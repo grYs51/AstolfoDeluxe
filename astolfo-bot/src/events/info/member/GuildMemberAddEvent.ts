@@ -31,7 +31,6 @@ export default class GuildMemberAddEvent extends BaseEvent {
       await this.saveMember(
         displayName,
         member.avatar,
-        member.avatarURL(),
         displayHexColor,
         joinedAt!,
         id,
@@ -44,29 +43,21 @@ export default class GuildMemberAddEvent extends BaseEvent {
   private async saveMember(
     guildName: string,
     avatar: string | null,
-    avatarURL: string | null,
+
     color: string,
     joinedAt: Date,
     user: string,
     guild: string,
   ) {
-    const searchedmember = await this.guildMemberInfoRepository.findOne({
-      where: {
-        user: user,
-        guild: guild,
-      },
-    });
-
-    if (searchedmember) return;
-
     const memberDb = this.guildMemberInfoRepository.create({
       memberId: user + guild,
       guildName,
-      guildAvatar: avatar ? avatarURL! : undefined,
+      guildAvatar: avatar ? avatar! : undefined,
       guildColor: color ? color! : undefined,
       joinedAt,
       user,
       guild,
+      isDeleted:false,
     });
     await this.guildMemberInfoRepository.save(memberDb);
   }

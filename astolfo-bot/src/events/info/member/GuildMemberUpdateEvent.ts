@@ -36,8 +36,9 @@ export default class GuildMemberUpdateEvent extends BaseEvent {
       const memberDb = this.guildMemberInfoRepository.create({
         ...searchedMember,
         guildName: displayName,
-        guildAvatar: newMember.avatar ? newMember.avatarURL()! : undefined,
+        guildAvatar: newMember.avatar ? newMember.avatar! : undefined,
         guildColor: displayHexColor,
+
       });
       await this.guildMemberInfoRepository.save(memberDb);
     } catch (e: any) {

@@ -19,6 +19,6 @@ export default class ChannelDeleteEvent extends BaseEvent {
     console.log(`Removed Channel: ${channel.name}`);
     const channelDb = await this.channelInfoRepository.findOne(channel.id);
     if (!channelDb) return;
-    await this.channelInfoRepository.remove(channelDb);
+    await this.channelInfoRepository.save({ ...channelDb, isDeleted: true });
   }
 }
