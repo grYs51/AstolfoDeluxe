@@ -33,9 +33,9 @@ export default class InitGuilds extends BaseCommand {
         });
         await this.guildInfoRepository.save(guildInfo);
       }
-      const content = `Took me ${
-        (new Date().getTime() - date) / 1000
-      }s for ${client.guilds.cache.size} guilds!`;
+      const content = `Took me ${(new Date().getTime() - date) / 1000}s for ${
+        client.guilds.cache.size
+      } guilds!`;
       message.react('✅');
       message.reply({
         content,

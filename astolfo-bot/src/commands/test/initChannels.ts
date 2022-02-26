@@ -31,7 +31,7 @@ export default class InitChannels extends BaseCommand {
         }
       }
       const content = `Took me ${
-        ( new Date().getTime() - date) / 1000
+        (new Date().getTime() - date) / 1000
       }s for ${total} channels!`;
       message.react('✅');
       message.reply({

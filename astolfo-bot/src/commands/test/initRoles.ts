@@ -25,11 +25,11 @@ export default class InitRoles extends BaseCommand {
       let total = 0;
       for (const guild of client.guilds.cache) {
         total += guild[1].roles.cache.size;
-        for (const role of guild[1].roles.cache)
-          this.saveRoles(role[1]);
+        for (const role of guild[1].roles.cache) this.saveRoles(role[1]);
       }
-      const content = `Took me ${(new Date().getTime() - date) / 1000
-        }s for ${total} roles!`;
+      const content = `Took me ${
+        (new Date().getTime() - date) / 1000
+      }s for ${total} roles!`;
       message.react('✅');
       message.reply({
         content,
@@ -48,7 +48,19 @@ export default class InitRoles extends BaseCommand {
   }
 
   private async saveRoles(role: Role) {
-    const { id, guild, hexColor, createdAt, hoist, icon, managed, mentionable, name, position , unicodeEmoji} = role;
+    const {
+      id,
+      guild,
+      hexColor,
+      createdAt,
+      hoist,
+      icon,
+      managed,
+      mentionable,
+      name,
+      position,
+      unicodeEmoji,
+    } = role;
 
     const rolesDb = this.guildRolesRepository.create({
       id,

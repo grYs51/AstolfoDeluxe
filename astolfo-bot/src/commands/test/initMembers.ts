@@ -28,8 +28,8 @@ export default class InitMembers extends BaseCommand {
       for (const guild of client.guilds.cache.values()) {
         totalmembers += guild.members.cache.size;
         for (const member of guild.members.cache.values()) {
-          const obj = this.getRoles(member.roles)
-          totalroles += obj.length
+          const obj = this.getRoles(member.roles);
+          totalroles += obj.length;
           await this.save(member, obj);
         }
       }
@@ -53,10 +53,20 @@ export default class InitMembers extends BaseCommand {
     return;
   }
 
-  getRoles(roles: GuildMemberRoleManager) : RoleInfo[] {
-    let roles1 : RoleInfo[] = []
+  getRoles(roles: GuildMemberRoleManager): RoleInfo[] {
+    let roles1: RoleInfo[] = [];
     for (const role of roles.cache.values()) {
-      const { id, name, hexColor, createdAt, hoist, position, managed, mentionable, guild } = role
+      const {
+        id,
+        name,
+        hexColor,
+        createdAt,
+        hoist,
+        position,
+        managed,
+        mentionable,
+        guild,
+      } = role;
       const obj: RoleInfo = {
         id,
         name,
@@ -66,9 +76,9 @@ export default class InitMembers extends BaseCommand {
         position,
         managed,
         mentionable,
-        guildId: guild.id
-      }
-      roles1.push(obj)
+        guildId: guild.id,
+      };
+      roles1.push(obj);
     }
     return roles1;
   }
@@ -100,7 +110,7 @@ export default class InitMembers extends BaseCommand {
     joinedAt: Date,
     user: string,
     guild: string,
-    roles: RoleInfo[]
+    roles: RoleInfo[],
   ) {
     const memberDb = this.guildMemberInfoRepository.create({
       guildName,
