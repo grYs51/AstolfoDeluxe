@@ -45,4 +45,7 @@ export default class GuildMemberInfo {
   })
   @JoinTable({ name: 'member_role_relation' })
   roles: RoleInfo[];
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted?: Boolean;
 }

@@ -19,4 +19,7 @@ export default class GuildInfo {
   @OneToMany(() => RoleInfo, (roles) => roles.guild, { eager: true })
   @JoinColumn()
   roles: RoleInfo[];
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted?: Boolean;
 }

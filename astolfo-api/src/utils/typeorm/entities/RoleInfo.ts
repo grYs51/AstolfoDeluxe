@@ -51,4 +51,7 @@ export default class RoleInfo {
     cascade: true,
   })
   guildMember: GuildMemberInfo[];
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted?: Boolean;
 }

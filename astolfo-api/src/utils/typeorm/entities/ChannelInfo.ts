@@ -25,4 +25,7 @@ export default class ChannelInfo {
 
   @Column({ nullable: true })
   topic?: string;
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted?: Boolean;
 }

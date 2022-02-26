@@ -23,7 +23,8 @@ import WebSocketModule from './websocket/websocket.module';
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
         autoLoadEntities: true,
-        synchronize: true,
+        // logging: true,
+        synchronize: process.env.STAGE === 'dev',
         host: configService.get('DB_HOST'),
         port: configService.get('DB_PORT'),
         username: configService.get('DB_USERNAME'),
