@@ -10,8 +10,6 @@ updates:
     directory: "/astolfo-bot"
     schedule:
       interval: "daily"
-    labels:
-      - "dependencies"
     ignore:
       - dependency-name: "typescript"
       - dependency-name: "eslint"
@@ -20,8 +18,6 @@ updates:
     directory: "/astolfo-api"
     schedule:
       interval: "daily"
-    labels:
-      - "dependencies"
     ignore:
       - dependency-name: "typescript"
       - dependency-name: "eslint"
