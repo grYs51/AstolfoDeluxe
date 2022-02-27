@@ -1,4 +1,4 @@
-import { Client, GuildAuditLogsResolvable, VoiceState } from 'discord.js';
+import { GuildAuditLogsResolvable, VoiceState } from 'discord.js';
 import { getRepository, Repository } from 'typeorm';
 import { GuildStatsLog } from '../../../../typeOrm/entities/GuildsStatsLog';
 import { Info, VoiceType } from '../../../types';

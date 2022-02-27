@@ -1,5 +1,5 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-voiceStateUpdate
-import { User, VoiceState } from 'discord.js';
+import { VoiceState } from 'discord.js';
 import BaseEvent from '../../utils/structures/BaseEvent';
 import DiscordClient from '../../client/client';
 import { GuildStatsLog } from '../../typeOrm/entities/GuildsStatsLog';

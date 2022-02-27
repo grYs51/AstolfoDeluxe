@@ -38,7 +38,6 @@ export default class GuildMemberUpdateEvent extends BaseEvent {
         guildName: displayName,
         guildAvatar: newMember.avatar ? newMember.avatar! : undefined,
         guildColor: displayHexColor,
-
       });
       await this.guildMemberInfoRepository.save(memberDb);
     } catch (e: any) {

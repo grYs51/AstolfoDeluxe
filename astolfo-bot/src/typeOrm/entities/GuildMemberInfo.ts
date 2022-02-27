@@ -1,16 +1,5 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { GuildInfo } from './GuildInfo';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 import RoleInfo from './RoleInfo';
-import { UserInfo } from './UserInfo';
 
 @Entity({ name: 'guild_member_info' })
 export class GuildMemberInfo {

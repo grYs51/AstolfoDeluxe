@@ -4,7 +4,6 @@ import DiscordClient from '../../client/client';
 import process from 'process';
 import { getRepository, Repository } from 'typeorm';
 import { GuildInfo } from '../../typeOrm/entities/GuildInfo';
-import moment from 'moment';
 
 export default class InitGuilds extends BaseCommand {
   constructor(

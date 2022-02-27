@@ -1,5 +1,5 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-channelUpdate
-import { DMChannel, GuildChannel, TextChannel, VoiceChannel } from 'discord.js';
+import { DMChannel, TextChannel, VoiceChannel } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
 import { getRepository, Repository } from 'typeorm';

@@ -3,7 +3,6 @@ import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
 import { getRepository, Repository } from 'typeorm';
-import { GuildInfo } from '../../typeOrm/entities/GuildInfo';
 import { GuildConfiguration } from '../../typeOrm/entities/GuildConfiguration';
 
 export default class InitConfigs extends BaseCommand {

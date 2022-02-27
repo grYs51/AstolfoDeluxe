@@ -1,13 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-} from 'typeorm';
-import { ChannelInfo } from './ChannelInfo';
-import { GuildMemberInfo } from './GuildMemberInfo';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
 import RoleInfo from './RoleInfo';
 
 @Entity({ name: 'guild_info' })

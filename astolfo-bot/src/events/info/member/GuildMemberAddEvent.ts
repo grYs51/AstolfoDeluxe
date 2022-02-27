@@ -1,22 +1,14 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildMemberAdd
-import { GuildMember, TextChannel } from 'discord.js';
+import { GuildMember } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
 import { Repository, getRepository } from 'typeorm';
 import { GuildMemberInfo } from '../../../typeOrm/entities/GuildMemberInfo';
-import { UserInfo } from '../../../typeOrm/entities/UserInfo';
-import { GuildInfo } from '../../../typeOrm/entities/GuildInfo';
 
 export default class GuildMemberAddEvent extends BaseEvent {
   constructor(
     private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = getRepository(
       GuildMemberInfo,
-    ),
-    private readonly userInfoRepository: Repository<UserInfo> = getRepository(
-      UserInfo,
-    ),
-    private readonly guildInfoRepository: Repository<GuildInfo> = getRepository(
-      GuildInfo,
     ),
   ) {
     super('guildMemberAdd');

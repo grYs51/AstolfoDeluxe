@@ -1,10 +1,9 @@
-import { GuildMember, Message, User } from 'discord.js';
+import { Message, User } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
 import { getRepository, Repository } from 'typeorm';
 import { UserInfo } from '../../typeOrm/entities/UserInfo';
-import moment from 'moment';
 export default class InitUsers extends BaseCommand {
   constructor(
     private readonly userInfoRepository: Repository<UserInfo> = getRepository(
