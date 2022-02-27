@@ -24,6 +24,6 @@ export default class GuildMemberRemoveEvent extends BaseEvent {
 
     if (!searchedMember) return;
 
-    this.guildMemberInfoRepository.save({...searchedMember, isDeleted: true})
+    this.guildMemberInfoRepository.save({ ...searchedMember, isDeleted: true });
   }
 }

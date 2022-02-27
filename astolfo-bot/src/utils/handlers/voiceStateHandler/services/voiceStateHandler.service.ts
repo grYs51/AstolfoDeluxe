@@ -99,7 +99,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
   ) {
     await this.guildStatRepository.save({
       guildId,
-      memberId: memberId+guildId,
+      memberId: memberId + guildId,
       issuedBy,
       channel,
       newChannel,

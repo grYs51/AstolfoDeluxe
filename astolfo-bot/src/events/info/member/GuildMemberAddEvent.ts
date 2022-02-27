@@ -49,7 +49,7 @@ export default class GuildMemberAddEvent extends BaseEvent {
       joinedAt,
       user,
       guild,
-      isDeleted:false,
+      isDeleted: false,
     });
     await this.guildMemberInfoRepository.save(memberDb);
   }

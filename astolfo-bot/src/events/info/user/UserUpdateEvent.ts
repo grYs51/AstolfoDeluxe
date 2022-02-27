@@ -30,7 +30,7 @@ export default class UserUpdateEvent extends BaseEvent {
       });
       await this.userInfoRepository.save(user);
     } catch (e: any) {
-      console.log(e.message);
+      console.log(e);
     }
   }
 }
