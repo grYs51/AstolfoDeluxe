@@ -1,4 +1,5 @@
-import * as Joi from '@hapi/joi';
+/* eslint-disable import/prefer-default-export */
+import * as Joi from 'joi';
 
 export const configValidationSchema = Joi.object({
   STAGE: Joi.string().required(),
