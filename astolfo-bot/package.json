@@ -15,7 +15,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "discord.js": "^13.6.0",
-    "dotenv": "^14.3.0",
+    "dotenv": "^16.0.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
     "moment": "^2.29.1",
