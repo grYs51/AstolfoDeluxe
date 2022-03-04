@@ -20,7 +20,7 @@
     "eslint-config-airbnb-typescript": "^16.1.0",
     "moment": "^2.29.1",
     "mysql2": "^2.3.3",
-    "pg": "^8.7.1",
+    "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "socket.io-client": "^4.4.1",
     "typeorm": "^0.2.41"
