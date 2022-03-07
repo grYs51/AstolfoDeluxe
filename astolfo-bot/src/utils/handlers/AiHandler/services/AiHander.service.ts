@@ -11,12 +11,12 @@ export class AiHandler {
     const openai = new OpenAIApi(config);
     console.log(message);
     try {
-      const completion = await openai.createCompletion('text-curie-001', {
+      const completion = await openai.createCompletion('text-davinci-001', {
         prompt: message,
-        max_tokens: 60,
+        max_tokens: 120,
         temperature: 0.5,
         top_p: 0.3,
-        presence_penalty: 0,
+        presence_penalty: 0.2,
         frequency_penalty: 0.5,
         stream: false,
       });
