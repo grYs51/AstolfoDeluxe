@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sideway/address": "^4.1.4",
+    "@sideway/address": "^5.0.0",
     "@sideway/formula": "^3.0.0",
     "@sideway/pinpoint": "^2.0.0",
     "axios": "^0.27.2",
