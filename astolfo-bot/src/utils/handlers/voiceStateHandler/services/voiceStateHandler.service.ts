@@ -1,12 +1,13 @@
 import { GuildAuditLogsResolvable, VoiceState } from 'discord.js';
-import { getRepository, Repository } from 'typeorm';
+import {  Repository } from 'typeorm';
+import AppdataSource from '../../../..';
 import { GuildStatsLog } from '../../../../typeOrm/entities/GuildsStatsLog';
 import { Info, VoiceType } from '../../../types';
 import { IVoiceStateHandler } from '../interfaces/voiceStateHandler';
 
 export class VoiceStateHandler implements IVoiceStateHandler {
   constructor(
-    private readonly guildStatRepository: Repository<GuildStatsLog> = getRepository(
+    private readonly guildStatRepository: Repository<GuildStatsLog> = AppdataSource.getRepository(
       GuildStatsLog,
     ),
   ) {}

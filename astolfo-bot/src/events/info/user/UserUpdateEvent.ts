@@ -2,12 +2,13 @@
 import { User } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
-import { Repository, getRepository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UserInfo } from '../../../typeOrm/entities/UserInfo';
+import AppdataSource from '../../..';
 
 export default class UserUpdateEvent extends BaseEvent {
   constructor(
-    private readonly userInfoRepository: Repository<UserInfo> = getRepository(
+    private readonly userInfoRepository: Repository<UserInfo> = AppdataSource.getRepository(
       UserInfo,
     ),
   ) {

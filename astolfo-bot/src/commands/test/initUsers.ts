@@ -2,11 +2,12 @@ import { Message, User } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
-import { getRepository, Repository } from 'typeorm';
+import {  Repository } from 'typeorm';
 import { UserInfo } from '../../typeOrm/entities/UserInfo';
+import AppdataSource from '../..';
 export default class InitUsers extends BaseCommand {
   constructor(
-    private readonly userInfoRepository: Repository<UserInfo> = getRepository(
+    private readonly userInfoRepository: Repository<UserInfo> = AppdataSource.getRepository(
       UserInfo,
     ),
   ) {

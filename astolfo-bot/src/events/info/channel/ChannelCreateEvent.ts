@@ -2,12 +2,13 @@
 import { DMChannel, GuildChannel, TextChannel, VoiceChannel } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
-import { Repository, getRepository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { ChannelInfo } from '../../../typeOrm/entities/ChannelInfo';
+import AppdataSource from '../../..';
 
 export default class ChannelCreateEvent extends BaseEvent {
   constructor(
-    private readonly channelInfoRepository: Repository<ChannelInfo> = getRepository(
+    private readonly channelInfoRepository: Repository<ChannelInfo> = AppdataSource.getRepository(
       ChannelInfo,
     ),
   ) {

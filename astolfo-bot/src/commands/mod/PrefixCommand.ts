@@ -1,12 +1,14 @@
 import { Message } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
-import { getRepository } from 'typeorm';
 import { GuildConfiguration } from '../../typeOrm/entities/GuildConfiguration';
+import AppdataSource from '../..';
 
 export default class PrefixCommand extends BaseCommand {
   constructor(
-    private readonly guildConfigRepository = getRepository(GuildConfiguration),
+    private readonly guildConfigRepository = AppdataSource.getRepository(
+      GuildConfiguration,
+    ),
   ) {
     super('prefix', 'mod', []);
   }

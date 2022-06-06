@@ -2,12 +2,13 @@ import { Message, TextChannel, ThreadChannel, VoiceChannel } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
-import { getRepository, Repository } from 'typeorm';
+import {  Repository } from 'typeorm';
 import { ChannelInfo } from '../../typeOrm/entities/ChannelInfo';
+import AppdataSource from '../..';
 
 export default class InitChannels extends BaseCommand {
   constructor(
-    private readonly guildInfoRepository: Repository<ChannelInfo> = getRepository(
+    private readonly guildInfoRepository: Repository<ChannelInfo> = AppdataSource.getRepository(
       ChannelInfo,
     ),
   ) {

@@ -2,12 +2,13 @@ import { Message } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
-import { getRepository, Repository } from 'typeorm';
+import {  Repository } from 'typeorm';
 import { GuildConfiguration } from '../../typeOrm/entities/GuildConfiguration';
+import AppdataSource from '../..';
 
 export default class InitConfigs extends BaseCommand {
   constructor(
-    private readonly guildConfigRepository: Repository<GuildConfiguration> = getRepository(
+    private readonly guildConfigRepository: Repository<GuildConfiguration> = AppdataSource.getRepository(
       GuildConfiguration,
     ),
   ) {

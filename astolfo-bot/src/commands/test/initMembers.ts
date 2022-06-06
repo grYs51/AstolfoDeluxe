@@ -2,13 +2,14 @@ import { GuildMember, GuildMemberRoleManager, Message } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
-import { getRepository, Repository } from 'typeorm';
+import {  Repository } from 'typeorm';
 import { GuildMemberInfo } from '../../typeOrm/entities/GuildMemberInfo';
 import RoleInfo from '../../typeOrm/entities/RoleInfo';
+import AppdataSource from '../..';
 
 export default class InitMembers extends BaseCommand {
   constructor(
-    private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = getRepository(
+    private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = AppdataSource.getRepository(
       GuildMemberInfo,
     ),
   ) {

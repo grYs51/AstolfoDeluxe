@@ -3,11 +3,12 @@ import { Role } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
 import RoleInfo from '../../../typeOrm/entities/RoleInfo';
-import { Repository, getRepository } from 'typeorm';
+import { Repository } from 'typeorm';
+import AppdataSource from '../../..';
 
 export default class RoleCreateEvent extends BaseEvent {
   constructor(
-    private readonly roleInfoRepository: Repository<RoleInfo> = getRepository(
+    private readonly roleInfoRepository: Repository<RoleInfo> = AppdataSource.getRepository(
       RoleInfo,
     ),
   ) {

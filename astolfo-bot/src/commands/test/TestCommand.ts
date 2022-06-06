@@ -1,16 +1,17 @@
 import { Message } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
-import { Repository, getRepository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { GuildMemberInfo } from '../../typeOrm/entities/GuildMemberInfo';
 import { UserInfo } from '../../typeOrm/entities/UserInfo';
+import AppdataSource from '../..';
 
 export default class TestCommand extends BaseCommand {
   constructor(
-    private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = getRepository(
+    private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = AppdataSource.getRepository(
       GuildMemberInfo,
     ),
-    private readonly userInfoRepository: Repository<UserInfo> = getRepository(
+    private readonly userInfoRepository: Repository<UserInfo> = AppdataSource.getRepository(
       UserInfo,
     ),
   ) {
