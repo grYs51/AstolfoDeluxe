@@ -24,10 +24,10 @@ export default class GuildMemberInfo {
   guildName: string;
 
   @Column({ name: 'guild_avatar', nullable: true })
-  guildAvatar: string;
+  guildAvatar?: string;
 
   @Column({ name: 'guild_color', nullable: true })
-  guildColor: string;
+  guildColor?: string;
 
   @Column({ name: 'joined_at' })
   joinedAt: Date;

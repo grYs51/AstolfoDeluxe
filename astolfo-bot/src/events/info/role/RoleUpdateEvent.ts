@@ -15,7 +15,9 @@ export default class RoleUpdateEvent extends BaseEvent {
   }
 
   async run(client: DiscordClient, oldRole: Role, newRole: Role) {
-    const role = await this.roleInfoRepository.findOne(oldRole.guild.id);
+    const role = await this.roleInfoRepository.findOneBy({
+      id: oldRole.id,
+    });
 
     if (!role) return;
 

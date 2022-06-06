@@ -11,7 +11,7 @@ import GuildMemberInfo from './GuildMemberInfo';
 @Entity({ name: 'guild_stats' })
 export default class GuildStatsLog {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Column({ name: 'guild_id' })
   guildId: string;

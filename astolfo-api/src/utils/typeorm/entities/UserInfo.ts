@@ -12,7 +12,7 @@ export default class UserInfo {
   discriminator: string;
 
   @Column({ nullable: true })
-  avatar: string;
+  avatar?: string;
 
   @Column()
   bot: boolean;

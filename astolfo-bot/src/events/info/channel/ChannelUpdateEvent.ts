@@ -20,7 +20,7 @@ export default class ChannelUpdateEvent extends BaseEvent {
     newChannel: DMChannel | TextChannel | VoiceChannel,
   ) {
     try {
-      if (oldChannel.isText() || oldChannel.isVoice()) {
+      if (!oldChannel.isThread()) {
         this.saveChannel(newChannel as TextChannel | VoiceChannel);
       }
     } catch (e) {

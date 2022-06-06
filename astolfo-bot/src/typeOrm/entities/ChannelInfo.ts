@@ -18,7 +18,7 @@ export class ChannelInfo {
   type: string;
 
   @Column({ nullable: true })
-  position: number;
+  position?: number;
 
   @Column({ name: 'created_at' })
   createdAt: Date;

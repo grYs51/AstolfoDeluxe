@@ -12,13 +12,13 @@ export default class ChannelInfo {
   name: string;
 
   @Column({ nullable: true })
-  nsfw: boolean;
+  nsfw?: boolean;
 
   @Column()
   type: string;
 
   @Column({ nullable: true })
-  position: number;
+  position?: number;
 
   @Column({ name: 'created_at' })
   createdAt: Date;

@@ -15,7 +15,9 @@ export default class RoleDeleteEvent extends BaseEvent {
   }
 
   async run(client: DiscordClient, role: Role) {
-    const roleDb = await this.roleInfoRepository.findOne(role.guild.id);
+    const roleDb = await this.roleInfoRepository.findOneBy({
+      id: role.id,
+    });
 
     if (!role) return;
 

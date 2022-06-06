@@ -11,9 +11,9 @@ export default class GuildConfiguration {
   @Column({ name: 'welcome_channel_id', nullable: true })
   welcomeChannelId: string;
 
-  @Column({ name: 'welcome_message', length: 200 })
+  @Column({ name: 'welcome_message', length: 200, default: 'Welcome @member' })
   welcomeMessage: string;
 
-  @Column({ name: 'goodbye_message', length: 200 })
+  @Column({ name: 'goodbye_message', length: 200, default: 'Welcome @member' })
   goodbyeMessage: string;
 }

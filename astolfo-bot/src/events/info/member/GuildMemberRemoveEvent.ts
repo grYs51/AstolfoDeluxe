@@ -15,11 +15,9 @@ export default class GuildMemberRemoveEvent extends BaseEvent {
   }
 
   async run(client: DiscordClient, member: GuildMember) {
-    const searchedMember = await this.guildMemberInfoRepository.findOne({
-      where: {
-        user: member.user.id,
-        guildId: member.guild.id,
-      },
+    const searchedMember = await this.guildMemberInfoRepository.findOneBy({
+      user: member.user.id,
+      guild: member.guild.id,
     });
 
     if (!searchedMember) return;

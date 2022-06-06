@@ -17,7 +17,9 @@ export default class ChannelDeleteEvent extends BaseEvent {
   // async run(client: DiscordClient, channel: DMChannel | GuildChannel)
   async run(client: DiscordClient, channel: GuildChannel) {
     console.log(`Removed Channel: ${channel.name}`);
-    const channelDb = await this.channelInfoRepository.findOne(channel.id);
+    const channelDb = await this.channelInfoRepository.findOneBy({
+      channelId: channel.id,
+    });
     if (!channelDb) return;
     await this.channelInfoRepository.save({ ...channelDb, isDeleted: true });
   }

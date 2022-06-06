@@ -15,7 +15,7 @@ export default class GuildCreateEvent extends BaseEvent {
   }
 
   async run(client: DiscordClient, guild: Guild) {
-    const config = await this.guildConfigRepository.findOne({
+    const config = await this.guildConfigRepository.findOneBy({
       guildId: guild.id,
     });
 
