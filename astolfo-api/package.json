@@ -35,7 +35,7 @@
     "@sideway/pinpoint": "^2.0.0",
     "axios": "^0.26.1",
     "connect-typeorm": "^1.1.4",
-    "express": "^4.17.3",
+    "express": "^4.18.1",
     "express-session": "^1.17.2",
     "joi": "^17.6.0",
     "passport": "^0.5.2",
