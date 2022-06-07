@@ -3,10 +3,12 @@ import BaseEvent from '../utils/structures/BaseEvent';
 import BaseCommand from '../utils/structures/BaseCommand';
 import { GuildConfiguration } from '../typeOrm/entities/GuildConfiguration';
 import { GuildStatsLog } from '../typeOrm/entities/GuildsStatsLog';
+import BaseSlash from '../utils/structures/BaseSlash';
 
 export default class DiscordClient extends Client {
   private _commands = new Collection<string, BaseCommand>();
   private _events = new Collection<string, BaseEvent>();
+  private _slashs = new Collection<string, BaseSlash>();
   private _configs = new Collection<string, GuildConfiguration>();
   private _voiceUsers = new Array<GuildStatsLog>();
 
@@ -20,6 +22,10 @@ export default class DiscordClient extends Client {
 
   get events(): Collection<string, BaseEvent> {
     return this._events;
+  }
+
+  get slashs(): Collection<string, BaseSlash> {
+    return this._slashs;
   }
 
   get configs(): Collection<string, GuildConfiguration> {

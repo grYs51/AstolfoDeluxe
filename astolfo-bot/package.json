@@ -27,6 +27,7 @@
     "openai": "^2.0.5",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
+    "slash-commands": "^1.5.0",
     "socket.io-client": "^4.5.1",
     "typeorm": "^0.3.6"
   },

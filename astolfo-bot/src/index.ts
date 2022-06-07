@@ -1,12 +1,17 @@
 require('dotenv').config();
 import 'reflect-metadata';
-import { registerCommands, registerEvents } from './utils/registry';
+import {
+  registerCommands,
+  registerEvents,
+  registerSlash,
+} from './utils/registry';
 import DiscordClient from './client/client';
 import { Collection, Intents } from 'discord.js';
 import { DataSource } from 'typeorm';
 import { GuildConfiguration } from './typeOrm/entities/GuildConfiguration';
 import { io } from 'socket.io-client';
 import { entities } from './typeOrm/entities';
+import { DiscordInteractions } from 'slash-commands';
 
 const client = new DiscordClient({
   intents: [
@@ -16,6 +21,12 @@ const client = new DiscordClient({
     Intents.FLAGS.GUILD_VOICE_STATES,
     Intents.FLAGS.GUILD_PRESENCES,
   ],
+});
+
+const interaction = new DiscordInteractions({
+  applicationId: process.env.APPLICATION_ID!,
+  authToken: process.env.BOT_TOKEN!,
+  publicKey: process.env.PUBLIC_KEY!,
 });
 
 const socket = io('http://localhost:3001');
@@ -46,6 +57,12 @@ AppdataSource.initialize()
 
     await registerCommands(client, '../commands');
     await registerEvents(client, '../events');
+    await registerSlash(client, '../slashs');
+
+    client.slashs.forEach((slash) => {
+      slash.createInteraction(client, interaction);
+    });
+
     await client.login(process.env.BOT_TOKEN);
   })
   .catch((err) => {

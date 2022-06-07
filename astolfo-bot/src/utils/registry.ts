@@ -1,6 +1,7 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 import DiscordClient from '../client/client';
+import DiscordInteractions from 'slash-commands';
 
 export async function registerCommands(
   client: DiscordClient,
@@ -33,6 +34,21 @@ export async function registerEvents(client: DiscordClient, dir: string = '') {
       const event = new Event();
       client.events.set(event.getName(), event);
       client.on(event.getName(), event.run.bind(event, client));
+    }
+  }
+}
+
+export async function registerSlash(client: DiscordClient, dir: string = '') {
+  const filePath = path.join(__dirname, dir);
+  const files = await fs.readdir(filePath);
+  for (const file of files) {
+    const stat = await fs.lstat(path.join(filePath, file));
+    if (stat.isDirectory()) await registerSlash(client, path.join(dir, file));
+    if (file.endsWith('.js') || file.endsWith('.ts')) {
+      const { default: Slash } = await import(path.join(dir, file));
+      const slash = new Slash();
+      client.slashs.set(slash.getName(), slash);
+      client.on(slash.getName(), slash.run.bind(slash, client));
     }
   }
 }
