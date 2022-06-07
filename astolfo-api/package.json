@@ -33,7 +33,7 @@
     "@sideway/address": "^4.1.4",
     "@sideway/formula": "^3.0.0",
     "@sideway/pinpoint": "^2.0.0",
-    "axios": "^0.26.1",
+    "axios": "^0.27.2",
     "connect-typeorm": "^1.1.4",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
