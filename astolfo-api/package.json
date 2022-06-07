@@ -29,7 +29,7 @@
     "@nestjs/platform-socket.io": "^8.4.6",
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/typeorm": "^8.0.4",
-    "@nestjs/websockets": "^8.4.3",
+    "@nestjs/websockets": "^8.4.6",
     "@sideway/address": "^5.0.0",
     "@sideway/formula": "^3.0.0",
     "@sideway/pinpoint": "^2.0.0",
