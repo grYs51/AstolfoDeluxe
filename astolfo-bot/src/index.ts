@@ -12,7 +12,7 @@ import { GuildConfiguration } from './typeOrm/entities/GuildConfiguration';
 import { io } from 'socket.io-client';
 import { entities } from './typeOrm/entities';
 import { DiscordInteractions } from 'slash-commands';
-
+import discordModals from 'discord-modals';
 const client = new DiscordClient({
   intents: [
     Intents.FLAGS.GUILDS,
@@ -28,6 +28,8 @@ const interaction = new DiscordInteractions({
   authToken: process.env.BOT_TOKEN!,
   publicKey: process.env.PUBLIC_KEY!,
 });
+
+discordModals(client);
 
 const socket = io('http://localhost:3001');
 

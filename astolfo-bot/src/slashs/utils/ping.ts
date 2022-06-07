@@ -1,9 +1,7 @@
 import {
-  ApplicationCommand,
   CacheType,
   CommandInteraction,
-  Interaction,
-  Message,
+  ModalSubmitInteraction,
 } from 'discord.js';
 import DiscordInteractions, { PartialApplicationCommand } from 'slash-commands';
 import client from '../../client/client';
@@ -17,6 +15,7 @@ export default class PingEvent extends BaseSlash {
   run(client: client, interaction: CommandInteraction<CacheType>): void {
     interaction.reply('Pong!');
   }
+
   async createInteraction(client: client, interaction: DiscordInteractions) {
     const command: PartialApplicationCommand = {
       name: 'ping',

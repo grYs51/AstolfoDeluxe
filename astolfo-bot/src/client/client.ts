@@ -4,6 +4,7 @@ import BaseCommand from '../utils/structures/BaseCommand';
 import { GuildConfiguration } from '../typeOrm/entities/GuildConfiguration';
 import { GuildStatsLog } from '../typeOrm/entities/GuildsStatsLog';
 import BaseSlash from '../utils/structures/BaseSlash';
+import BaseModal from '../utils/structures/BaseModal';
 
 export default class DiscordClient extends Client {
   private _commands = new Collection<string, BaseCommand>();
@@ -24,7 +25,7 @@ export default class DiscordClient extends Client {
     return this._events;
   }
 
-  get slashs(): Collection<string, BaseSlash> {
+  get slashs(): Collection<string, BaseSlash | BaseModal> {
     return this._slashs;
   }
 
