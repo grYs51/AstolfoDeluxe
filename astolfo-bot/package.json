@@ -25,7 +25,7 @@
     "joi": "^17.6.0",
     "moment": "^2.29.3",
     "mysql2": "^2.3.3",
-    "openai": "^2.0.5",
+    "openai": "^3.0.0",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "slash-commands": "^1.5.0",
