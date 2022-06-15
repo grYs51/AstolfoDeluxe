@@ -20,7 +20,7 @@ export default class UserService implements IUserService {
 
   findUser(discordId: string) {
     console.log('Find User');
-    return this.userRepository.findOne({ discordId });
+    return this.userRepository.findOneBy({ discordId });
   }
 
   updateUser(user: User, details: UpdateUserDetails): Promise<User> {

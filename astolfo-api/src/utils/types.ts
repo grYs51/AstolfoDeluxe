@@ -70,3 +70,12 @@ type RoleTags = {
 export type ModerationActionType = 'ban' | 'kick' | 'timeout';
 
 export type Done = (err: Error, user: User) => void;
+
+export type IEnvironments = {
+  DB_HOST: string;
+  DB_PORT: string;
+  DB_USERNAME: string;
+  DB_PASSWORD: string;
+  DB_DATABASE: string;
+  OWNER: string;
+};

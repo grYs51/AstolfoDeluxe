@@ -3,17 +3,31 @@ import { NestFactory } from '@nestjs/core';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { TypeormStore } from 'connect-typeorm';
-import { getRepository } from 'typeorm';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from '@nestjs/common';
+import { ConnectionManager, DataSource, getConnectionManager, getRepository } from 'typeorm';
 import AppModule from './app.module';
 import Session from './utils/typeorm/entities/Session';
 import { entities } from './utils/typeorm';
+import getEnvironmentVar from './utils/functions/get-enviroments';
 
 async function bootstrap() {
   const logger = new Logger();
   const app = await NestFactory.create(AppModule);
-  const sessionRepository = getRepository(Session);
+
+  // const datasource = new DataSource({
+  //   type: 'postgres',
+  //   synchronize: true,
+  //   host: getEnvironmentVar('DB_HOST'),
+  //   port: +getEnvironmentVar('DB_PORT'),
+  //   username: getEnvironmentVar('DB_USERNAME'),
+  //   password: getEnvironmentVar('DB_PASSWORD'),
+  //   database: getEnvironmentVar('DB_DATABASE'),
+  //   entities,
+  // });
+
+
+  // const sessionRepository = getRepository(Session);
 
   app.setGlobalPrefix('api');
 
@@ -25,7 +39,7 @@ async function bootstrap() {
       cookie: {
         maxAge: 60000 * 60 * 24,
       },
-      store: new TypeormStore().connect(sessionRepository),
+      // store: new TypeormStore().connect(sessionRepository),
     }),
   );
 

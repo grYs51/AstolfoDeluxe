@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
+import { DataSource } from 'typeorm';
 import { configValidationSchema } from './config.schema';
 import { entities } from './utils/typeorm';
 import AuthModule from './auth/auth.module';
@@ -23,6 +24,7 @@ import WebSocketModule from './websocket/websocket.module';
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
         autoLoadEntities: true,
+        keepConnectionAlive: true,
         // logging: true,
         synchronize: process.env.STAGE === 'dev',
         host: configService.get('DB_HOST'),
@@ -32,6 +34,10 @@ import WebSocketModule from './websocket/websocket.module';
         database: configService.get('DB_DATABASE'),
         entities,
       }),
+      // dataSourceFactory: async (options) => {
+      //   const dataSource = await new DataSource(options).initialize();
+      //   return dataSource;
+      // },
     }),
     AuthModule,
     UserModule,
@@ -41,5 +47,6 @@ import WebSocketModule from './websocket/websocket.module';
   ],
   controllers: [],
   providers: [],
+  exports: [],
 })
 export default class AppModule {}

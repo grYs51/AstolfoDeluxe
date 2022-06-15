@@ -27,7 +27,7 @@ export default class GuildService implements IGuildService {
   ) {}
 
   async getGuildConfig(guildId: string): Promise<GuildConfiguration> {
-    const guildConfig = await this.guildConfigRepository.findOne({ guildId });
+    const guildConfig = await this.guildConfigRepository.findOneBy({ guildId });
     if (!guildConfig) {
       throw new HttpException(
         'Guild configuration was not found',
@@ -157,7 +157,9 @@ export default class GuildService implements IGuildService {
   async getMembers(guildId: string): Promise<GuildMemberInfo[]> {
     return this.guildMemberRepository.find({
       where: {
-        guild: guildId,
+        guild: {
+          id: guildId,
+        },
       },
       relations: ['user'],
     });
@@ -174,7 +176,9 @@ export default class GuildService implements IGuildService {
   getRoles(guildId: string): Promise<RoleInfo[]> {
     return this.rolesInfoRepository.find({
       where: {
-        guildId,
+        guild: {
+          id: guildId,
+        },
       },
     });
   }
