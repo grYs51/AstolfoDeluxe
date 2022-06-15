@@ -12,7 +12,7 @@ export default class PingEvent extends BaseSlash {
     super('ping');
   }
 
-  run(client: client, interaction: CommandInteraction<CacheType>): void {
+  async run(client: client, interaction: CommandInteraction<CacheType>): Promise<void> {
     interaction.reply('Pong!');
   }
 

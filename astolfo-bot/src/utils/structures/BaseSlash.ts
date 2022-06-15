@@ -12,10 +12,10 @@ export default abstract class BaseSlash {
   abstract createInteraction(
     client: DiscordClient,
     interaction: DiscordInteractions,
-  ): void;
+  ): Promise<void>;
 
   abstract run(
     client: DiscordClient,
     interaction: CommandInteraction<CacheType>,
-  ): void;
+  ): Promise<void>;
 }
