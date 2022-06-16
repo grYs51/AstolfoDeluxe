@@ -1,3 +1,5 @@
+import { Channel, Guild, GuildMember } from "discord.js";
+
 export type ModerationActionType = 'ban' | 'kick' | 'timeout';
 
 export type VoiceType =
@@ -13,7 +15,7 @@ export type VoiceType =
   | 'MEMBER_MOVE';
 
 export interface Info {
-  guildId: string;
-  memberId: string;
-  channel: string;
+  guild: Guild;
+  member: GuildMember;
+  channel: Channel;
 }

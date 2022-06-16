@@ -1,57 +1,30 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildMemberAdd
-import { GuildMember } from 'discord.js';
+import { GuildMember as DiscordGuildMember } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
 import { Repository } from 'typeorm';
-import { GuildMemberInfo } from '../../../typeOrm/entities/GuildMemberInfo';
+import { GuildMember } from '../../../typeOrm/entities/GuildMember';
 import AppdataSource from '../../..';
+import MemberDto from '../../../utils/dtos/memberGuildDto';
 
 export default class GuildMemberAddEvent extends BaseEvent {
   constructor(
-    private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = AppdataSource.getRepository(
-      GuildMemberInfo,
+    private readonly guildMemberInfoRepository: Repository<GuildMember> = AppdataSource.getRepository(
+      GuildMember,
     ),
   ) {
     super('guildMemberAdd');
   }
 
-  async run(client: DiscordClient, member: GuildMember) {
+  async run(client: DiscordClient, member: DiscordGuildMember) {
     try {
-      const { displayName, displayHexColor, joinedAt } = member;
-      const { id } = member.user;
-      const { id: idGuild } = member.guild;
-
-      await this.saveMember(
-        displayName,
-        member.avatar,
-        displayHexColor,
-        joinedAt!,
-        id,
-        idGuild,
-      );
+      await this.saveMember(member);
     } catch (e: any) {
       console.log(e);
     }
   }
-  private async saveMember(
-    guildName: string,
-    avatar: string | null,
-
-    color: string,
-    joinedAt: Date,
-    user: string,
-    guild: string,
-  ) {
-    const memberDb = this.guildMemberInfoRepository.create({
-      memberId: user + guild,
-      guildName,
-      guildAvatar: avatar ? avatar! : undefined,
-      guildColor: color ? color! : undefined,
-      joinedAt,
-      user,
-      guild,
-      isDeleted: false,
-    });
+  private async saveMember(member: DiscordGuildMember) {
+    const memberDb = new MemberDto(member);
     await this.guildMemberInfoRepository.save(memberDb);
   }
 }

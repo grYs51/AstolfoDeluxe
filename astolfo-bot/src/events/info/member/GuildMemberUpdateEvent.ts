@@ -1,15 +1,16 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildMemberUpdate
-import { GuildMember } from 'discord.js';
+import { GuildMember as DiscordGuildMember } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
-import { GuildMemberInfo } from '../../../typeOrm/entities/GuildMemberInfo';
+import { GuildMember } from '../../../typeOrm/entities/GuildMember';
 import { Repository } from 'typeorm';
 import AppdataSource from '../../..';
+import MemberDto from '../../../utils/dtos/memberGuildDto';
 
 export default class GuildMemberUpdateEvent extends BaseEvent {
   constructor(
-    private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = AppdataSource.getRepository(
-      GuildMemberInfo,
+    private readonly guildMemberInfoRepository: Repository<GuildMember> = AppdataSource.getRepository(
+      GuildMember,
     ),
   ) {
     super('guildMemberUpdate');
@@ -17,27 +18,11 @@ export default class GuildMemberUpdateEvent extends BaseEvent {
 
   async run(
     client: DiscordClient,
-    oldMember: GuildMember,
-    newMember: GuildMember,
+    oldMember: DiscordGuildMember,
+    newMember: DiscordGuildMember,
   ) {
     try {
-      const { displayName, displayHexColor } = newMember;
-
-      const searchedMember = await this.guildMemberInfoRepository.findOneBy({
-        memberId: newMember.user.id + newMember.guild.id,
-      });
-
-      if (!searchedMember) {
-        console.log('no user found with this');
-        return;
-      }
-
-      const memberDb = this.guildMemberInfoRepository.create({
-        ...searchedMember,
-        guildName: displayName,
-        guildAvatar: newMember.avatar ? newMember.avatar! : undefined,
-        guildColor: displayHexColor,
-      });
+      const memberDb = new MemberDto(newMember);
       await this.guildMemberInfoRepository.save(memberDb);
     } catch (e: any) {
       console.log(e);

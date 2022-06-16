@@ -1,10 +1,14 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-voiceStateUpdate
-import { VoiceState } from 'discord.js';
+import { Channel, TextChannel, VoiceBasedChannel, VoiceState } from 'discord.js';
 import BaseEvent from '../../utils/structures/BaseEvent';
 import DiscordClient from '../../client/client';
 import { GuildStatsLog } from '../../typeOrm/entities/GuildsStatsLog';
 import { VoiceStateHandler } from '../../utils/handlers/voiceStateHandler/services/voiceStateHandler.service';
 import { Info, VoiceType } from '../../utils/types';
+import MemberDto from '../../utils/dtos/memberGuildDto';
+import GuildDto from '../../utils/dtos/guildDto';
+import ChannelDto from '../../utils/dtos/channelDto';
+import { GuildMember } from '../../typeOrm/entities/GuildMember';
 
 enum types {
   DEAF = 'selfDeaf',
@@ -22,13 +26,12 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
   }
 
   async run(client: DiscordClient, oldState: VoiceState, newState: VoiceState) {
-    // await new Promise((resolve) => setTimeout(resolve, 100));
     const date = new Date();
     this.voicestate = newState;
     const userInfo: Info = {
-      guildId: newState.guild.id,
-      memberId: newState.member!.id,
-      channel: newState.channelId!,
+      guild: newState.guild,
+      member: newState.member!,
+      channel: newState.channel!,
     };
 
     // User joins a voice channel
@@ -78,7 +81,7 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
   ) {
     for (let i = voiceUsers.length - 1; i >= 0; i--) {
       const voiceUser = voiceUsers[i];
-      if (voiceUser.memberId === oldState.member!.id + oldState.guild.id) {
+      if (voiceUser.id === oldState.member!.id + oldState.guild.id) {
         voiceUser.endedOn = endDate;
         await this.voiceStateHandler.saveRepository1(voiceUser);
         voiceUsers.splice(i, 1);
@@ -96,8 +99,8 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
       | null
       | undefined
       | {
-          issuedBy: string | undefined;
-          newChannel: string | undefined;
+          issuedBy: GuildMember | undefined;
+          newChannel: VoiceBasedChannel | undefined;
           type: VoiceType;
         } = null;
     if (type.includes('MEMBER_')) {
@@ -108,19 +111,23 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
       );
     }
     let guildStat: GuildStatsLog = {
-      ...userInfo,
+      // ...userInfo,
       type,
-      memberId: userInfo.memberId + userInfo.guildId,
+      id: userInfo.member.id + userInfo.guild.id,
       issuedOn: new Date(),
+      member: new MemberDto(userInfo.member),
+      guild: new GuildDto(userInfo.guild),
+      channel: new ChannelDto(userInfo.channel as TextChannel),
     };
     if (audit) {
       guildStat = {
-        ...audit,
-        issuedBy: audit.issuedBy + userInfo.guildId,
-        ...userInfo,
-        memberId: userInfo.memberId + userInfo.guildId,
-
+        issuedBy: audit.issuedBy,
         issuedOn: new Date(),
+        member: new MemberDto(userInfo.member),
+        guild: new GuildDto(userInfo.guild),
+        channel: new ChannelDto(userInfo.channel as TextChannel),
+        type: audit.type,
+        newChannel: new ChannelDto(audit.newChannel as unknown as TextChannel),
       };
     }
     voiceUsers.push(guildStat);
@@ -153,7 +160,7 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     for (let i = voiceUsers.length - 1; i >= 0; i--) {
       const voiceUser = voiceUsers[i];
       if (
-        voiceUser.memberId === userInfo.memberId + userInfo.guildId &&
+        voiceUser.member.id === userInfo.member.id + userInfo.guild.id &&
         voiceUser.type === type
       ) {
         voiceUser.endedOn = endDate;

@@ -1,15 +1,16 @@
-import { Message, Role } from 'discord.js';
+import { Message, Role as DiscordRole } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
-import {  Repository } from 'typeorm';
-import RoleInfo from '../../typeOrm/entities/RoleInfo';
+import { Repository } from 'typeorm';
+import Role from '../../typeOrm/entities/Role';
 import AppdataSource from '../..';
+import RoleDto from '../../utils/dtos/roleDto';
 
 export default class InitRoles extends BaseCommand {
   constructor(
-    private readonly guildRolesRepository: Repository<RoleInfo> = AppdataSource.getRepository(
-      RoleInfo,
+    private readonly guildRolesRepository: Repository<Role> = AppdataSource.getRepository(
+      Role,
     ),
   ) {
     super('roles', 'testing', []);
@@ -48,34 +49,8 @@ export default class InitRoles extends BaseCommand {
     return;
   }
 
-  private async saveRoles(role: Role) {
-    const {
-      id,
-      guild,
-      hexColor,
-      createdAt,
-      hoist,
-      icon,
-      managed,
-      mentionable,
-      name,
-      position,
-      unicodeEmoji,
-    } = role;
-
-    const rolesDb = this.guildRolesRepository.create({
-      id,
-      guildId: guild.id,
-      color: hexColor,
-      createdAt,
-      hoist,
-      icon: icon ? icon : undefined,
-      managed,
-      mentionable,
-      name,
-      position,
-      unicodeEmoji: unicodeEmoji ? unicodeEmoji : undefined,
-    });
-    await this.guildRolesRepository.save(rolesDb);
+  private async saveRoles(role: DiscordRole) {
+    const roleDb = new RoleDto(role);
+    await this.guildRolesRepository.save(roleDb);
   }
 }

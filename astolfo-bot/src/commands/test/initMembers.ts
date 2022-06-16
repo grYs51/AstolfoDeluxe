@@ -1,16 +1,19 @@
-import { GuildMember, GuildMemberRoleManager, Message } from 'discord.js';
+import { GuildMember as DiscordGuildMember, GuildMemberRoleManager, Message } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
 import {  Repository } from 'typeorm';
-import { GuildMemberInfo } from '../../typeOrm/entities/GuildMemberInfo';
-import RoleInfo from '../../typeOrm/entities/RoleInfo';
+import Role from '../../typeOrm/entities/Role';
 import AppdataSource from '../..';
+import { GuildMember } from '../../typeOrm/entities/GuildMember';
+import GuildDto from '../../utils/dtos/guildDto';
+import RoleDto from '../../utils/dtos/roleDto';
+import MemberDto from '../../utils/dtos/memberGuildDto';
 
 export default class InitMembers extends BaseCommand {
   constructor(
-    private readonly guildMemberInfoRepository: Repository<GuildMemberInfo> = AppdataSource.getRepository(
-      GuildMemberInfo,
+    private readonly guildMemberInfoRepository: Repository<GuildMember> = AppdataSource.getRepository(
+      GuildMember,
     ),
   ) {
     super('members', 'testing', []);
@@ -54,75 +57,24 @@ export default class InitMembers extends BaseCommand {
     return;
   }
 
-  getRoles(roles: GuildMemberRoleManager): RoleInfo[] {
-    let roles1: RoleInfo[] = [];
+  getRoles(roles: GuildMemberRoleManager): Role[] {
+    let roles1: Role[] = [];
     for (const role of roles.cache.values()) {
-      const {
-        id,
-        name,
-        hexColor,
-        createdAt,
-        hoist,
-        position,
-        managed,
-        mentionable,
-        guild,
-      } = role;
-      const obj: RoleInfo = {
-        id,
-        name,
-        color: hexColor,
-        createdAt,
-        hoist,
-        position,
-        managed,
-        mentionable,
-        guildId: guild.id,
-      };
-      roles1.push(obj);
+     
+      const roleDb = new RoleDto(role);
+      roles1.push(roleDb);
     }
     return roles1;
   }
 
-  private async save(member: GuildMember, roles: RoleInfo[]) {
-    const { displayName, displayHexColor, joinedAt } = member;
-    const { id } = member.user;
-    const { id: idGuild } = member.guild;
-
+  private async save(member: DiscordGuildMember, roles: Role[]) {
     try {
-      await this.saveMember(
-        displayName,
-        member.avatar,
-        displayHexColor,
-        joinedAt!,
-        id,
-        idGuild,
-        roles,
-      );
+      const memberDb = new MemberDto(member, roles);
+      await this.guildMemberInfoRepository.save(memberDb);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async saveMember(
-    guildName: string,
-    avatar: string | null,
-    color: string,
-    joinedAt: Date,
-    user: string,
-    guild: string,
-    roles: RoleInfo[],
-  ) {
-    const memberDb = this.guildMemberInfoRepository.create({
-      guildName,
-      guildAvatar: avatar ? avatar! : undefined,
-      guildColor: color ? color! : undefined,
-      joinedAt,
-      user,
-      guild,
-      memberId: user + guild,
-      roles,
-    });
-    await this.guildMemberInfoRepository.save(memberDb);
-  }
+
 }

@@ -1,12 +1,14 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import { Guild } from './Guild';
 
 @Entity({ name: 'channel_info' })
-export class ChannelInfo {
-  @PrimaryColumn({ name: 'channel_id' })
-  channelId: string;
+export class Channel {
+  @PrimaryColumn({ name: 'id' })
+  id: string;
 
-  @Column({ name: 'guild_id' })
-  guildId: string;
+  @OneToMany(() => Guild, (Guild) => Guild.id)
+  @JoinColumn()
+  guild: Guild;
 
   @Column()
   name: string;

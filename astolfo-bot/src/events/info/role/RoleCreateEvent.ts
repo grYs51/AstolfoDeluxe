@@ -1,47 +1,25 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-roleCreate
-import { Role } from 'discord.js';
+import { Role as DiscordRole } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
-import RoleInfo from '../../../typeOrm/entities/RoleInfo';
+import Role from '../../../typeOrm/entities/Role';
 import { Repository } from 'typeorm';
 import AppdataSource from '../../..';
+import RoleDto from '../../../utils/dtos/roleDto';
 
 export default class RoleCreateEvent extends BaseEvent {
   constructor(
-    private readonly roleInfoRepository: Repository<RoleInfo> = AppdataSource.getRepository(
-      RoleInfo,
+    private readonly roleRepository: Repository<Role> = AppdataSource.getRepository(
+      Role,
     ),
   ) {
     super('roleCreate');
   }
 
-  async run(client: DiscordClient, role: Role) {
-    const {
-      id,
-      name,
-      hexColor: color,
-      createdAt,
-      hoist,
-      rawPosition: position,
-      managed,
-      mentionable,
-      guild,
-    } = role;
+  async run(client: DiscordClient, role: DiscordRole) {
     try {
-      const roledb = this.roleInfoRepository.create({
-        id,
-        name,
-        color,
-        createdAt,
-        hoist,
-        icon: role.icon ? role.icon! : undefined,
-        unicodeEmoji: role.unicodeEmoji ? role.unicodeEmoji : undefined,
-        position,
-        managed,
-        mentionable,
-        guildId: guild.id,
-      });
-      await this.roleInfoRepository.save(roledb);
+      const roleDb = new RoleDto(role);
+      await this.roleRepository.save(roleDb);
     } catch (error) {
       console.log(error);
     }

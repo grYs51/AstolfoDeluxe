@@ -35,10 +35,12 @@ export default class LeaderboardEvent extends BaseSlash {
     if(!guild) return;
     const stats = await this.guildStatsRepository.find({
       where: {
-        guildId: '571011756181291008',
-        type: 'VOICE'
+        guild: {
+          id: '571011756181291008',
+        },
+        type: 'VOICE',
       },
-      // relations: ['guild'],
+      relations: ['guild'],
     });
 
     console.log(stats);
