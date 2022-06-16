@@ -6,7 +6,7 @@ import GuildDto from './guildDto';
 export default class ChannelDto implements Channel {
   constructor(channel: TextChannel | VoiceChannel) {
     this.id = channel.id;
-    this.guild = new GuildDto(channel.guild);
+    // this.guild = new GuildDto(channel.guild);
     this.name = channel.name;
     this.type = channel.type;
     this.position = channel.position;

@@ -58,7 +58,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
         newChannel = newState.channel!;
       }
 
-      if (Math.abs(date.valueOf() - createdAt.valueOf()) / 1000 < 10000) {
+      if (Math.abs(date.valueOf() - createdAt.valueOf()) / 1000 < 1) {
         console.log(
           `${executor!.username} ${type} ${oldState!.member?.user.username}`,
         );
