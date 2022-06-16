@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'role_info' })
-export default class RoleInfo {
+export default class Role {
   @PrimaryColumn()
   id: string;
 
@@ -32,8 +32,8 @@ export default class RoleInfo {
   @Column()
   mentionable: boolean;
 
-  @Column({ name: 'guild_id' })
-  guildId: string;
+  // @Column({ name: 'guild_id' })
+  // guildId: string;
 
   @Column({ name: 'is_deleted', default: false })
   isDeleted?: Boolean;

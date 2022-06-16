@@ -3,13 +3,14 @@ import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
 import {  Repository } from 'typeorm';
-import { GuildInfo } from '../../typeOrm/entities/GuildInfo';
+import { Guild } from '../../typeOrm/entities/Guild';
 import AppdataSource from '../..';
+import GuildDto from '../../utils/dtos/guildDto';
 
 export default class InitGuilds extends BaseCommand {
   constructor(
-    private readonly guildInfoRepository: Repository<GuildInfo> = AppdataSource.getRepository(
-      GuildInfo,
+    private readonly guildInfoRepository: Repository<Guild> = AppdataSource.getRepository(
+      Guild,
     ),
   ) {
     super('guilds', 'testing', []);
@@ -25,13 +26,8 @@ export default class InitGuilds extends BaseCommand {
     try {
       for (const guild of client.guilds.cache) {
         let guild1 = guild[1];
-        const guildInfo = this.guildInfoRepository.create({
-          id: guild1.id,
-          name: guild1.name,
-          createdAt: guild1.createdAt,
-          icon: guild1.icon || undefined,
-        });
-        await this.guildInfoRepository.save(guildInfo);
+        const guildDB= new GuildDto(guild1);
+        await this.guildInfoRepository.save(guildDB);
       }
       const content = `Took me ${(new Date().getTime() - date) / 1000}s for ${
         client.guilds.cache.size
@@ -44,6 +40,8 @@ export default class InitGuilds extends BaseCommand {
         },
       });
     } catch (e) {
+      console.log(e);
+      
       message.react('❌');
       return;
     }

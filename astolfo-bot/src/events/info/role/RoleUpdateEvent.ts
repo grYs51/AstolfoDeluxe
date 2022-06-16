@@ -1,48 +1,33 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-roleUpdate
-import { Role } from 'discord.js';
+import { Role as DiscordRole } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
 import { Repository } from 'typeorm';
-import RoleInfo from '../../../typeOrm/entities/RoleInfo';
+import Role from '../../../typeOrm/entities/Role';
 import AppdataSource from '../../..';
+import RoleDto from '../../../utils/dtos/roleDto';
 
 export default class RoleUpdateEvent extends BaseEvent {
   constructor(
-    private readonly roleInfoRepository: Repository<RoleInfo> = AppdataSource.getRepository(
-      RoleInfo,
+    private readonly roleRepository: Repository<Role> = AppdataSource.getRepository(
+      Role,
     ),
   ) {
     super('roleUpdate');
   }
 
-  async run(client: DiscordClient, oldRole: Role, newRole: Role) {
-    const role = await this.roleInfoRepository.findOneBy({
+  async run(client: DiscordClient, oldRole: DiscordRole, newRole: DiscordRole) {
+    const role = await this.roleRepository.findOneBy({
       id: oldRole.id,
     });
 
     if (!role) return;
 
-    const {
-      id,
-      name,
-      hexColor: color,
-      createdAt,
-      hoist,
-      rawPosition: position,
-      managed,
-      mentionable,
-      guild,
-    } = newRole;
+    const roledb = new RoleDto(newRole);
 
-    this.roleInfoRepository.save({
+    await this.roleRepository.save({
       ...role,
-      name,
-      color,
-      position,
-      mentionable,
-      icon: newRole.icon ? newRole.icon! : undefined,
-      unicodeEmoji: newRole.unicodeEmoji ? newRole.unicodeEmoji : undefined,
-      hoist,
+      ...roledb,
     });
   }
 }

@@ -1,7 +1,19 @@
-import { GuildAuditLogsResolvable, VoiceState } from 'discord.js';
-import {  Repository } from 'typeorm';
+import {
+  Channel,
+  Guild,
+  GuildAuditLogsResolvable,
+  GuildMember as DiscordGuildMember,
+  VoiceBasedChannel,
+  VoiceState,
+} from 'discord.js';
+
+import { Repository } from 'typeorm';
 import AppdataSource from '../../../..';
+import { GuildMember } from '../../../../typeOrm/entities/GuildMember';
 import { GuildStatsLog } from '../../../../typeOrm/entities/GuildsStatsLog';
+import ChannelDto from '../../../dtos/channelDto';
+import GuildDto from '../../../dtos/guildDto';
+import MemberDto from '../../../dtos/memberGuildDto';
 import { Info, VoiceType } from '../../../types';
 import { IVoiceStateHandler } from '../interfaces/voiceStateHandler';
 
@@ -9,6 +21,9 @@ export class VoiceStateHandler implements IVoiceStateHandler {
   constructor(
     private readonly guildStatRepository: Repository<GuildStatsLog> = AppdataSource.getRepository(
       GuildStatsLog,
+    ),
+    private readonly guildMemberRepository: Repository<GuildMember> = AppdataSource.getRepository(
+      GuildMember,
     ),
   ) {}
 
@@ -18,8 +33,8 @@ export class VoiceStateHandler implements IVoiceStateHandler {
     type: VoiceType,
     date: Date,
   ) {
-    const guildId = oldState.guild.id;
-    const memberId = oldState.member?.id;
+    const guild = oldState.guild;
+    const member = oldState.member;
     try {
       const fetchedLogs = await newState.guild.fetchAuditLogs({
         limit: 1,
@@ -30,26 +45,38 @@ export class VoiceStateHandler implements IVoiceStateHandler {
       if (disconnectLog?.changes) {
         type += `_${disconnectLog.changes[0].key.toString().toUpperCase()}`;
       }
+
+      if (!disconnectLog) return;
+
       const { executor, createdAt } = disconnectLog!;
 
       if (executor!.id === oldState.member?.id) {
         return;
       }
-      let newChannel: string | undefined = undefined;
+      let newChannel: VoiceBasedChannel | undefined = undefined;
       if (type === 'MEMBER_MOVE') {
-        newChannel = newState.channelId!;
+        newChannel = newState.channel!;
       }
 
-      if (Math.abs(date.valueOf() - createdAt.valueOf()) / 1000 < 1) {
+      if (Math.abs(date.valueOf() - createdAt.valueOf()) / 1000 < 10000) {
         console.log(
           `${executor!.username} ${type} ${oldState!.member?.user.username}`,
         );
 
+        let issuedBy: any = await this.guildMemberRepository.findOne({
+          where: {
+            id: executor?.id + guild.id,
+          },
+          // relations: ['guild', 'user'],
+        });
+
+        issuedBy = issuedBy ? issuedBy! : undefined;
+
         await this.saveRepository(
-          guildId,
-          memberId!,
-          executor!.id + oldState.guild.id,
-          oldState.channelId!,
+          guild,
+          member!,
+          issuedBy,
+          oldState.channel!,
           newChannel,
           type,
         );
@@ -69,10 +96,10 @@ export class VoiceStateHandler implements IVoiceStateHandler {
   ) {
     try {
       await this.saveRepository(
-        oldState.guild.id,
-        oldState.member!.id + oldState.guild.id,
+        oldState.guild,
+        oldState.member!,
         undefined,
-        oldState.channelId!,
+        oldState.channel!,
         undefined,
         type,
         date,
@@ -84,26 +111,27 @@ export class VoiceStateHandler implements IVoiceStateHandler {
 
   async saveRepository1(guildLog: GuildStatsLog) {
     try {
+      guildLog.id = undefined;
       await this.guildStatRepository.save(guildLog);
     } catch (e) {
       console.log(e);
     }
   }
   async saveRepository(
-    guildId: string,
-    memberId: string,
-    issuedBy: string | undefined,
-    channel: string,
-    newChannel: string | undefined,
+    guild: Guild,
+    member: DiscordGuildMember,
+    issuedBy: DiscordGuildMember | undefined,
+    channel: Channel,
+    newChannel: Channel | undefined,
     type: VoiceType,
     issuedOn = new Date(),
   ) {
     await this.guildStatRepository.save({
-      guildId,
-      memberId: memberId + guildId,
-      issuedBy,
-      channel,
-      newChannel,
+      guild: new GuildDto(guild),
+      member: new MemberDto(member, undefined),
+      issuedBy: issuedBy ? new MemberDto(issuedBy) : undefined,
+      channel: new ChannelDto(channel as any),
+      newChannel: newChannel ? new ChannelDto(newChannel as any) : undefined,
       issuedOn,
       type,
     });
@@ -125,16 +153,28 @@ export class VoiceStateHandler implements IVoiceStateHandler {
       if (executor!.id === voiceState.member?.id) {
         return;
       }
-      let newChannel: string | undefined = undefined;
+      let newChannel: VoiceBasedChannel | undefined = undefined;
       if (type === 'MEMBER_MOVE') {
-        newChannel = voiceState.channelId!;
+        newChannel = voiceState.channel
+          ? (voiceState.channel as VoiceBasedChannel)
+          : undefined;
       }
 
       if (Math.abs(new Date().valueOf() - createdAt.valueOf()) / 1000 < 1) {
         console.log(
           `${executor!.username} ${type} ${voiceState!.member?.user.username}`,
         );
-        const issuedBy = executor?.id;
+
+        let issuedBy = executor
+          ? await this.guildMemberRepository.findOne({
+              where: {
+                id: executor?.id + voiceState.guild.id,
+              },
+              relations: ['guild', 'user'],
+            })
+          : undefined;
+
+        issuedBy = issuedBy ? issuedBy! : undefined;
         return { issuedBy, newChannel, type };
       } else {
         return null;

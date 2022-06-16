@@ -3,8 +3,9 @@ import { User } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
 import { Repository } from 'typeorm';
-import { UserInfo } from '../../../typeOrm/entities/UserInfo';
+import { UserInfo } from '../../../typeOrm/entities/User';
 import AppdataSource from '../../..';
+import UserDto from '../../../utils/dtos/userDto';
 
 export default class UserUpdateEvent extends BaseEvent {
   constructor(
@@ -24,14 +25,11 @@ export default class UserUpdateEvent extends BaseEvent {
 
       if (!searchedUser) return;
 
-      const { username, discriminator } = newUser;
-      const user = this.userInfoRepository.create({
+      const user = new UserDto(newUser);
+      await this.userInfoRepository.save({
         ...searchedUser,
-        name: username,
-        avatar: newUser.avatar ? newUser.avatar! : undefined,
-        discriminator,
+        ...user,
       });
-      await this.userInfoRepository.save(user);
     } catch (e: any) {
       console.log(e);
     }

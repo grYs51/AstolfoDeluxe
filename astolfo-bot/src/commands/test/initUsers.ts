@@ -2,9 +2,10 @@ import { Message, User } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
-import {  Repository } from 'typeorm';
-import { UserInfo } from '../../typeOrm/entities/UserInfo';
+import { Repository } from 'typeorm';
+import { UserInfo } from '../../typeOrm/entities/User';
 import AppdataSource from '../..';
+import UserDto from '../../utils/dtos/userDto';
 export default class InitUsers extends BaseCommand {
   constructor(
     private readonly userInfoRepository: Repository<UserInfo> = AppdataSource.getRepository(
@@ -43,38 +44,11 @@ export default class InitUsers extends BaseCommand {
   }
 
   private async save(user: User) {
-    const { id, username, discriminator, bot, createdAt } = user;
-    user.avatar;
     try {
-      await this.saveMember(
-        id,
-        username,
-        discriminator,
-        user.avatar,
-        bot,
-        createdAt!,
-      );
+      const userDb = new UserDto(user);
+      await this.userInfoRepository.save(userDb);
     } catch (error) {
       console.log(error);
     }
-  }
-
-  async saveMember(
-    id: string,
-    name: string,
-    discriminator: string,
-    avatar: string | null,
-    bot: boolean,
-    createdAt: Date,
-  ) {
-    const user = this.userInfoRepository.create({
-      id,
-      name,
-      discriminator,
-      avatar: avatar || undefined,
-      bot,
-      createdAt,
-    });
-    await this.userInfoRepository.save(user);
   }
 }

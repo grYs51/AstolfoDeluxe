@@ -1,32 +1,32 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-guildUpdate
-import { Guild } from 'discord.js';
+import { Guild as DiscordGuild } from 'discord.js';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
-import {  Repository } from 'typeorm';
-import { GuildInfo } from '../../../typeOrm/entities/GuildInfo';
+import { Repository } from 'typeorm';
+import { Guild } from '../../../typeOrm/entities/Guild';
 import AppdataSource from '../../..';
+import GuildDto from '../../../utils/dtos/guildDto';
 
 export default class GuildUpdateEvent extends BaseEvent {
   constructor(
-    private readonly guildInfoRepository: Repository<GuildInfo> = AppdataSource.getRepository(
-      GuildInfo,
+    private readonly guildInfoRepository: Repository<Guild> = AppdataSource.getRepository(
+      Guild,
     ),
   ) {
     super('guildUpdate');
   }
 
-  async run(client: DiscordClient, oldGuild: Guild, newGuild: Guild) {
+  async run(
+    client: DiscordClient,
+    oldGuild: DiscordGuild,
+    newGuild: DiscordGuild,
+  ) {
     console.log(`guild Updated: ${oldGuild.name}`);
 
     try {
-      const guildInfo = this.guildInfoRepository.create({
-        id: oldGuild.id,
-        name: newGuild.name,
-        createdAt: oldGuild.createdAt,
-        icon: newGuild.iconURL() ? newGuild.iconURL()! : undefined,
-      });
+      const guild = new GuildDto(newGuild);
 
-      await this.guildInfoRepository.save(guildInfo);
+      await this.guildInfoRepository.save(guild);
     } catch (e: any) {
       console.log(e);
     }

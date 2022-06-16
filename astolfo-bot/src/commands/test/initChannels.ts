@@ -3,13 +3,15 @@ import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import process from 'process';
 import {  Repository } from 'typeorm';
-import { ChannelInfo } from '../../typeOrm/entities/ChannelInfo';
+import { Channel } from '../../typeOrm/entities/Channel';
 import AppdataSource from '../..';
+import GuildDto from '../../utils/dtos/guildDto';
+import ChannelDto from '../../utils/dtos/channelDto';
 
 export default class InitChannels extends BaseCommand {
   constructor(
-    private readonly guildInfoRepository: Repository<ChannelInfo> = AppdataSource.getRepository(
-      ChannelInfo,
+    private readonly channelRepository: Repository<Channel> = AppdataSource.getRepository(
+      Channel,
     ),
   ) {
     super('channels', 'testing', []);
@@ -52,23 +54,7 @@ export default class InitChannels extends BaseCommand {
   }
 
   private async saveChannel(channel: TextChannel | VoiceChannel) {
-    let topic: string | undefined;
-    let nsfw: boolean | undefined;
-    if (channel.isText()) {
-      topic = channel.topic!;
-      nsfw = channel.nsfw!;
-    }
-
-    const channeld = this.guildInfoRepository.create({
-      channelId: channel.id,
-      guildId: channel.guildId,
-      name: channel.name,
-      nsfw,
-      createdAt: channel.createdAt,
-      position: channel.rawPosition,
-      type: channel.type,
-      topic,
-    });
-    await this.guildInfoRepository.save(channeld);
+    const channelDto = new ChannelDto(channel);
+    await this.channelRepository.save(channelDto);
   }
 }

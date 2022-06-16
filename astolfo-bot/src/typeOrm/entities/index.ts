@@ -1,17 +1,17 @@
-import { ChannelInfo } from './ChannelInfo';
+import { Channel } from './Channel';
 import { GuildConfiguration } from './GuildConfiguration';
-import { GuildInfo } from './GuildInfo';
+import { Guild } from './Guild';
 import { GuildStatsLog } from './GuildsStatsLog';
-import { GuildMemberInfo } from './GuildMemberInfo';
-import { UserInfo } from './UserInfo';
-import RoleInfo from './RoleInfo';
+import { GuildMember } from './GuildMember';
+import { UserInfo } from './User';
+import Role from './Role';
 
 export const entities = [
   GuildConfiguration,
   GuildStatsLog,
-  GuildInfo,
-  ChannelInfo,
-  GuildMemberInfo,
+  Guild,
+  Channel,
+  GuildMember,
   UserInfo,
-  RoleInfo,
+  Role,
 ];
