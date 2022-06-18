@@ -2,9 +2,9 @@ import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany
 import { Channel } from './Channel';
 import Role from './Role';
 
-@Entity({ name: 'guild_info' })
+@Entity({ name: 'guilds' })
 export class Guild {
-  @PrimaryColumn({ name: 'guild_id' })
+  @PrimaryColumn()
   id: string;
 
   @Column()

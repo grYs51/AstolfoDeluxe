@@ -65,7 +65,12 @@ export class VoiceStateHandler implements IVoiceStateHandler {
 
         let issuedBy: any = await this.guildMemberRepository.findOne({
           where: {
-            id: executor?.id + guild.id,
+            guild: {
+              id: guild.id,
+            },
+            user: {
+              id: executor!.id,
+            },
           },
           // relations: ['guild', 'user'],
         });
@@ -168,7 +173,12 @@ export class VoiceStateHandler implements IVoiceStateHandler {
         let issuedBy = executor
           ? await this.guildMemberRepository.findOne({
               where: {
-                id: executor?.id + voiceState.guild.id,
+                guild: {
+                  id: voiceState.guild.id,
+                },
+                user: {
+                  id: executor!.id,
+                },
               },
               relations: ['guild', 'user'],
             })

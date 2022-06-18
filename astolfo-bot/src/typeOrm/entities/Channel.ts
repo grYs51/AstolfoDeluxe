@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
 import { Guild } from './Guild';
 
-@Entity({ name: 'channel_info' })
+@Entity({ name: 'channels' })
 export class Channel {
-  @PrimaryColumn({ name: 'id' })
+  @PrimaryColumn()
   id: string;
 
   @OneToMany(() => Guild, (Guild) => Guild.id)

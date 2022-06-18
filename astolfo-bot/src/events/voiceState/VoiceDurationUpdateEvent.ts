@@ -160,7 +160,7 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     for (let i = voiceUsers.length - 1; i >= 0; i--) {
       const voiceUser = voiceUsers[i];
       if (
-        voiceUser.member.id === userInfo.member.id + userInfo.guild.id &&
+        voiceUser.member.user.id === userInfo.member.id  &&
         voiceUser.type === type
       ) {
         voiceUser.endedOn = endDate;

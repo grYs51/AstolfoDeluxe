@@ -18,18 +18,18 @@ export default class AstolfoMentioned extends BaseEvent {
   }
 
   async run(client: DiscordClient, message: Message) {
-    if (message.author.bot || !message) return;
-    const [cmdName, ...cmdArgs] = message.content.trim().split(/\s+/);
-    if (cmdName === '<@!719978622248681542>') {
-      const reply = await this.aiHandler.test(cmdArgs.join(' '));
-      // const content =
-      //   GREETINGSOBJ[Math.floor(Math.random() * GREETINGSOBJ.length)];
-      message.reply({
-        content: reply,
-        allowedMentions: {
-          repliedUser: false,
-        },
-      });
-    }
+    // if (message.author.bot || !message) return;
+    // const [cmdName, ...cmdArgs] = message.content.trim().split(/\s+/);
+    // if (cmdName === '<@!719978622248681542>') {
+    //   const reply = await this.aiHandler.test(cmdArgs.join(' '));
+    //   // const content =
+    //   //   GREETINGSOBJ[Math.floor(Math.random() * GREETINGSOBJ.length)];
+    //   retunrnmessage.reply({
+    //     content: reply,
+    //     allowedMentions: {
+    //       repliedUser: false,
+    //     },
+    //   });
+    // }
   }
 }

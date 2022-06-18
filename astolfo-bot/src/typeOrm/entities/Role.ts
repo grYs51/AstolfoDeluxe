@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: 'role_info' })
+@Entity({ name: 'roles' })
 export default class Role {
   @PrimaryColumn()
   id: string;

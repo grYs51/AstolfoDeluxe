@@ -11,17 +11,21 @@ import { Guild } from './Guild';
 import Role from './Role';
 import { UserInfo } from './User';
 
-@Entity({ name: 'guild_member_info' })
+@Entity({name: 'guild_members'})
 export class GuildMember {
-  @PrimaryColumn({ name: 'member_id' })
-  id: string;
+  // @PrimaryColumn({ name: 'member_id' })
+  // id: string;
 
-  @ManyToOne(() => UserInfo, { eager: true })
-  @JoinColumn()
+  @PrimaryColumn({ name: 'user_id' })
+
+  @ManyToOne(() => UserInfo, { eager: true, })
+  @JoinColumn({ name: 'user_id' })
   user: UserInfo;
 
+  @PrimaryColumn({ name: 'guild_id' })
+
   @ManyToOne(() => Guild, { eager: true })
-  @JoinColumn()
+  @JoinColumn({ name: 'guild_id' })
   guild: Guild;
 
   @Column({ name: 'guild_member_name' })
@@ -35,12 +39,6 @@ export class GuildMember {
 
   @Column({ name: 'joined_at', nullable: true })
   joinedAt?: Date;
-
-  // @Column({ name: 'guild_info' })
-  // guild: string;
-
-  // @Column({ name: 'user_info' })
-  // user: string;
 
   @ManyToMany(() => Role)
   @JoinTable({ name: 'member_role_relation' })

@@ -13,12 +13,12 @@ export class GuildStatsLog {
   @JoinColumn()
   guild: Guild;
 
-  @ManyToOne(() => GuildMember, (member) => member.id)
+  @ManyToOne(() => GuildMember)
   @JoinColumn()
   member: GuildMember;
 
   // @Column({ name: 'issued_by', nullable: true })
-  @ManyToOne(() => GuildMember, (member) => member.id, { nullable: true })
+  @ManyToOne(() => GuildMember, { nullable: true })
   @JoinColumn({ name: 'issued_by' })
   issuedBy?: GuildMember;
 
