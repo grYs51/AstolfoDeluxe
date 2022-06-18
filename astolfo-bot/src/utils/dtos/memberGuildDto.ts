@@ -12,14 +12,16 @@ export default class MemberDto implements GuildMember {
     this.id = member.id + member.guild.id;
     this.user = new UserDto(member.user);
     this.guild = new GuildDto(member.guild);
-    this.guildName = member.guild.name;
-    this.guildAvatar = member.guild.iconURL() ? member.guild.iconURL()! : undefined;
+    this.guildName = member.displayName;
+    this.guildAvatar = member.displayAvatarURL()
+      ? member.displayAvatarURL()!
+      : undefined;
     this.guildColor = member.displayHexColor;
     this.joinedAt = member.joinedAt ? member.joinedAt : undefined;
     this.roles = member.roles.cache.map(role => new RoleDto(role));
   }
   id: string;
-  user: UserInfo;
+  user: UserInfo; 
   guild: Guild;
   guildName: string;
   guildAvatar?: string | undefined;

@@ -1,4 +1,12 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Guild } from './Guild';
 import Role from './Role';
 import { UserInfo } from './User';
@@ -12,7 +20,7 @@ export class GuildMember {
   @JoinColumn()
   user: UserInfo;
 
-  @ManyToOne(() => Guild, (guild) => guild.id, { eager: true, })
+  @ManyToOne(() => Guild, { eager: true })
   @JoinColumn()
   guild: Guild;
 
