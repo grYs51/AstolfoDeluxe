@@ -59,6 +59,8 @@ export default class LeaderboardEvent extends BaseSlash {
       return;
     }
 
+    await interaction.deferReply();
+
     const leaderboard = stats.reduce((acc, stat) => {
       const a = acc.find((x) => x.id === stat.member.user.id);
 
@@ -73,6 +75,25 @@ export default class LeaderboardEvent extends BaseSlash {
       }
       return acc;
     }, [] as Leaderboard[]);
+
+    const inChannel = client.voiceUsers.filter((x) => x.guild.id === guild.id);
+
+    if (inChannel) {
+      inChannel.reduce((acc, stat) => {
+        const a = acc.find((x) => x.id === stat.member.user.id);
+
+        if (a) {
+          a.count += new Date().getTime() - stat.issuedOn.getTime();
+        } else {
+          acc.push({
+            id: stat.member.user.id,
+            count: new Date().getTime() - stat.issuedOn.getTime(),
+            name: stat.member.guildName,
+          });
+        }
+        return acc;
+      }, leaderboard);
+    }
 
     const sorted = leaderboard
       .sort((a, b) => {
@@ -98,7 +119,7 @@ export default class LeaderboardEvent extends BaseSlash {
         }),
       );
 
-    interaction.reply({ embeds: [embed] });
+    interaction.editReply({ embeds: [embed] });
   }
 }
 

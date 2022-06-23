@@ -7,7 +7,7 @@ export class Channel {
   id: string;
 
   @OneToMany(() => Guild, (Guild) => Guild.id)
-  @JoinColumn()
+  @JoinColumn({ name: 'guild_id'})
   guild: Guild;
 
   @Column()

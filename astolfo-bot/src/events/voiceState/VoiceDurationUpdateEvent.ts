@@ -1,5 +1,5 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-voiceStateUpdate
-import { Channel, TextChannel, VoiceBasedChannel, VoiceState } from 'discord.js';
+import { Channel, NewsChannel, TextChannel, VoiceBasedChannel, VoiceChannel, VoiceState } from 'discord.js';
 import BaseEvent from '../../utils/structures/BaseEvent';
 import DiscordClient from '../../client/client';
 import { GuildStatsLog } from '../../typeOrm/entities/GuildsStatsLog';
@@ -99,7 +99,7 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
       | null
       | undefined
       | {
-          issuedBy: GuildMember | undefined;
+          issuedBy: GuildMember | undefined | null;
           newChannel: VoiceBasedChannel | undefined;
           type: VoiceType;
         } = null;
@@ -121,13 +121,13 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     };
     if (audit) {
       guildStat = {
-        issuedBy: audit.issuedBy,
+        issuedBy: audit.issuedBy || undefined,
         issuedOn: new Date(),
         member: new MemberDto(userInfo.member),
         guild: new GuildDto(userInfo.guild),
         channel: new ChannelDto(userInfo.channel as TextChannel),
         type: audit.type,
-        newChannel: new ChannelDto(audit.newChannel as unknown as TextChannel),
+        newChannel: audit.newChannel ?  new ChannelDto(audit.newChannel as unknown as TextChannel | VoiceChannel) : undefined,
       };
     }
     voiceUsers.push(guildStat);

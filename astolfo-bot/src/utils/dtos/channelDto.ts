@@ -1,7 +1,6 @@
 import { TextChannel, VoiceChannel } from 'discord.js';
 import { Channel } from '../../typeOrm/entities/Channel';
 import { Guild } from '../../typeOrm/entities/Guild';
-import GuildDto from './guildDto';
 
 export default class ChannelDto implements Channel {
   constructor(channel: TextChannel | VoiceChannel) {
@@ -17,6 +16,7 @@ export default class ChannelDto implements Channel {
     }
   }
   id: string;
+  channelId: string;
   guild: Guild;
   name: string;
   nsfw?: boolean | undefined;

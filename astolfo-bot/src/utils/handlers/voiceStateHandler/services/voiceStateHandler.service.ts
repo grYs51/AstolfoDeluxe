@@ -14,6 +14,7 @@ import { GuildStatsLog } from '../../../../typeOrm/entities/GuildsStatsLog';
 import ChannelDto from '../../../dtos/channelDto';
 import GuildDto from '../../../dtos/guildDto';
 import MemberDto from '../../../dtos/memberGuildDto';
+import UserDto from '../../../dtos/userDto';
 import { Info, VoiceType } from '../../../types';
 import { IVoiceStateHandler } from '../interfaces/voiceStateHandler';
 
@@ -63,19 +64,23 @@ export class VoiceStateHandler implements IVoiceStateHandler {
           `${executor!.username} ${type} ${oldState!.member?.user.username}`,
         );
 
-        let issuedBy: any = await this.guildMemberRepository.findOne({
-          where: {
-            guild: {
-              id: guild.id,
-            },
-            user: {
-              id: executor!.id,
-            },
-          },
-          // relations: ['guild', 'user'],
-        });
+        // let issuedBy: any = await this.guildMemberRepository.findOne({
+        //   where: {
+        //     guild: {
+        //       id: guild.id,
+        //     },
+        //     user: {
+        //       id: executor!.id,
+        //     },
+        //   },
+        //   // relations: ['guild', 'user'],
+        // });
 
-        issuedBy = issuedBy ? issuedBy! : undefined;
+        // issuedBy = issuedBy ? issuedBy! : undefined;
+
+        const issuedBy = this.guildMemberRepository.create({
+          id: executor!.id + guild.id,
+        }) ;
 
         await this.saveRepository(
           guild,
@@ -125,7 +130,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
   async saveRepository(
     guild: Guild,
     member: DiscordGuildMember,
-    issuedBy: DiscordGuildMember | undefined,
+    issuedBy: MemberDto | undefined | null,
     channel: Channel,
     newChannel: Channel | undefined,
     type: VoiceType,
@@ -134,7 +139,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
     await this.guildStatRepository.save({
       guild: new GuildDto(guild),
       member: new MemberDto(member, undefined),
-      issuedBy: issuedBy ? new MemberDto(issuedBy) : undefined,
+      issuedBy: issuedBy ? issuedBy : undefined,
       channel: new ChannelDto(channel as any),
       newChannel: newChannel ? new ChannelDto(newChannel as any) : undefined,
       issuedOn,
@@ -169,22 +174,25 @@ export class VoiceStateHandler implements IVoiceStateHandler {
         console.log(
           `${executor!.username} ${type} ${voiceState!.member?.user.username}`,
         );
+          
+        const issuedBy = this.guildMemberRepository.create({
+          id: executor!.id + voiceState.guild.id,
+        });
 
-        let issuedBy = executor
-          ? await this.guildMemberRepository.findOne({
-              where: {
-                guild: {
-                  id: voiceState.guild.id,
-                },
-                user: {
-                  id: executor!.id,
-                },
-              },
-              relations: ['guild', 'user'],
-            })
-          : undefined;
 
-        issuedBy = issuedBy ? issuedBy! : undefined;
+
+        // let issuedBy = executor
+        //   ? await this.guildMemberRepository.findOneBy({
+        //       guild: {
+        //         id: voiceState.guild.id,
+        //       },
+        //       user: {
+        //         id: executor.id
+        //       }
+        //     },)
+        //   : undefined;
+
+        // issuedBy = issuedBy ? issuedBy! : undefined;
         return { issuedBy, newChannel, type };
       } else {
         return null;

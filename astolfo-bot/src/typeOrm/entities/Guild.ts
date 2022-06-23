@@ -22,10 +22,6 @@ export class Guild {
   @JoinTable()
   roles: Role[];
 
-  // @ManyToOne(() => Channel, (channel) => channel.id)
-  // @JoinColumn()
-  // channels: Channel[];
-
   @Column({ name: 'is_deleted', default: false })
   isDeleted?: Boolean;
 }

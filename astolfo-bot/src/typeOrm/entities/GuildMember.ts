@@ -11,20 +11,18 @@ import { Guild } from './Guild';
 import Role from './Role';
 import { UserInfo } from './User';
 
-@Entity({name: 'guild_members'})
+@Entity({ name: 'guild_members' })
 export class GuildMember {
-  // @PrimaryColumn({ name: 'member_id' })
-  // id: string;
+  @PrimaryColumn({ name: 'member_id' })
+  id: string;
 
-  @PrimaryColumn({ name: 'user_id' })
-
-  @ManyToOne(() => UserInfo, { eager: true, })
+  // @PrimaryColumn({ name: 'user_id' })
+  @ManyToOne(() => UserInfo)
   @JoinColumn({ name: 'user_id' })
   user: UserInfo;
 
-  @PrimaryColumn({ name: 'guild_id' })
-
-  @ManyToOne(() => Guild, { eager: true })
+  // @PrimaryColumn({ name: 'guild_id' })
+  @ManyToOne(() => Guild)
   @JoinColumn({ name: 'guild_id' })
   guild: Guild;
 
