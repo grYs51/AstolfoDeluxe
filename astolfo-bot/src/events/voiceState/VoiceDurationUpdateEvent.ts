@@ -1,14 +1,11 @@
 // https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-voiceStateUpdate
-import { Channel, NewsChannel, TextChannel, VoiceBasedChannel, VoiceChannel, VoiceState } from 'discord.js';
+import {  TextChannel, VoiceBasedChannel, VoiceChannel, VoiceState } from 'discord.js';
 import BaseEvent from '../../utils/structures/BaseEvent';
 import DiscordClient from '../../client/client';
 import { GuildStatsLog } from '../../typeOrm/entities/GuildsStatsLog';
 import { VoiceStateHandler } from '../../utils/handlers/voiceStateHandler/services/voiceStateHandler.service';
 import { Info, VoiceType } from '../../utils/types';
-import MemberDto from '../../utils/dtos/memberGuildDto';
-import GuildDto from '../../utils/dtos/guildDto';
-import ChannelDto from '../../utils/dtos/channelDto';
-import { GuildMember } from '../../typeOrm/entities/GuildMember';
+
 
 enum types {
   DEAF = 'selfDeaf',
@@ -99,7 +96,7 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
       | null
       | undefined
       | {
-          issuedBy: GuildMember | undefined | null;
+          issuedBy: string | undefined | null;
           newChannel: VoiceBasedChannel | undefined;
           type: VoiceType;
         } = null;
@@ -115,19 +112,19 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
       type,
       id: userInfo.member.id + userInfo.guild.id,
       issuedOn: new Date(),
-      member: new MemberDto(userInfo.member),
-      guild: new GuildDto(userInfo.guild),
-      channel: new ChannelDto(userInfo.channel as TextChannel),
+      memberId: userInfo.member.id,
+      guildId: userInfo.guild.id,
+      channelId:  userInfo.channel.id,
     };
     if (audit) {
       guildStat = {
-        issuedBy: audit.issuedBy || undefined,
+        issuedById: audit.issuedBy || undefined,
         issuedOn: new Date(),
-        member: new MemberDto(userInfo.member),
-        guild: new GuildDto(userInfo.guild),
-        channel: new ChannelDto(userInfo.channel as TextChannel),
+        memberId: userInfo.member.id,
+        guildId: userInfo.guild.id,
+        channelId: userInfo.channel.id,
         type: audit.type,
-        newChannel: audit.newChannel ?  new ChannelDto(audit.newChannel as unknown as TextChannel | VoiceChannel) : undefined,
+        newChannelId: audit.newChannel?.id,
       };
     }
     voiceUsers.push(guildStat);
@@ -160,7 +157,7 @@ export default class VoiceDurationUpdateEvent extends BaseEvent {
     for (let i = voiceUsers.length - 1; i >= 0; i--) {
       const voiceUser = voiceUsers[i];
       if (
-        voiceUser.member.user.id === userInfo.member.id  &&
+        voiceUser.memberId === userInfo.member.id  &&
         voiceUser.type === type
       ) {
         voiceUser.endedOn = endDate;

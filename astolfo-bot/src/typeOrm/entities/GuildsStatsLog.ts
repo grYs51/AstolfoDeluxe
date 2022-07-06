@@ -1,35 +1,26 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { VoiceType } from '../../utils/types';
-import { Guild } from './Guild';
-import { GuildMember } from './GuildMember';
-import { Channel } from './Channel';
 
 @Entity({ name: 'guild_stats' })
 export class GuildStatsLog {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @ManyToOne(() => Guild, (guild) => guild.id)
-  @JoinColumn()
-  guild: Guild;
+  @Column({ name: 'guild_id' })
+  guildId: string;
 
-  @ManyToOne(() => GuildMember)
-  @JoinColumn()
-  member: GuildMember;
+  @Column({ name: 'member_id' })
+  memberId: string;
 
-  // @Column({ name: 'issued_by', nullable: true })
-  @ManyToOne(() => GuildMember, { nullable: true })
-  @JoinColumn({ name: 'issued_by' })
-  issuedBy?: GuildMember;
+  @Column({ name: 'issued_by_id', nullable: true })
+  issuedById?: string;
 
-  @ManyToOne(() => Channel, (channel) => channel.id)
-  @JoinColumn()
-  channel: Channel;
+  @Column({ name: 'channel_id' })
+  channelId: string;
 
   // @Column({ name: 'new_channel', nullable: true })
-  @ManyToOne(() => Channel, (channel) => channel.id, {nullable: true})
-  @JoinColumn({ name: 'new_channel' })
-  newChannel?: Channel;
+  @Column({ name: 'new_channel_id', nullable: true })
+  newChannelId?: string;
 
   @Column()
   type: VoiceType;

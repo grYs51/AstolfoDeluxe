@@ -36,59 +36,63 @@ export default class LeaderboardEvent extends BaseSlash {
     client: client,
     interaction: CommandInteraction<CacheType>,
   ): Promise<void> {
+
     const guild = interaction.guild;
     if (!guild) {
-      interaction.reply({
+      await interaction.reply({
         content: 'This command can only be used in a server.',
-        ephemeral: true,
       });
       return;
     }
+
+    await interaction.deferReply().catch((err) => console.log(err.message));
+
     const stats = await this.guildStatsRepository.find({
       where: {
-        guild: {
-          id: guild.id,
-        },
+        guildId: guild.id,
         type: 'VOICE',
       },
-      relations: ['member', 'member.user'],
     });
 
     if (!stats.length) {
-      interaction.reply({ content: 'No stats found!', ephemeral: true });
+      await interaction.editReply({ content: 'No stats found!' });
       return;
     }
 
-    await interaction.deferReply();
-
     const leaderboard = stats.reduce((acc, stat) => {
-      const a = acc.find((x) => x.id === stat.member.user.id);
+      const a = acc.find((x) => x.id === stat.memberId);
 
       if (a) {
         a.count += stat.endedOn!.getTime() - stat.issuedOn.getTime();
       } else {
         acc.push({
-          id: stat.member.user.id,
+          id: stat.memberId,
           count: stat.endedOn!.getTime() - stat.issuedOn.getTime(),
-          name: stat.member.guildName,
+          name: client.guilds.cache
+            .get(guild.id)!
+            .members.cache.get(stat.memberId)!.user.username,
+          // stat.member.guildName,
         });
       }
       return acc;
     }, [] as Leaderboard[]);
 
-    const inChannel = client.voiceUsers.filter((x) => x.guild.id === guild.id);
+    const inChannel = client.voiceUsers.filter((x) => x.guildId === guild.id);
 
     if (inChannel) {
       inChannel.reduce((acc, stat) => {
-        const a = acc.find((x) => x.id === stat.member.user.id);
+        const a = acc.find((x) => x.id === stat.memberId);
 
         if (a) {
           a.count += new Date().getTime() - stat.issuedOn.getTime();
         } else {
           acc.push({
-            id: stat.member.user.id,
+            id: stat.memberId,
             count: new Date().getTime() - stat.issuedOn.getTime(),
-            name: stat.member.guildName,
+            name: client.guilds.cache
+              .get(guild.id)!
+              .members.cache.get(stat.memberId)!.user.username,
+            // stat.member.guildName,
           });
         }
         return acc;
@@ -119,7 +123,7 @@ export default class LeaderboardEvent extends BaseSlash {
         }),
       );
 
-    interaction.editReply({ embeds: [embed] });
+    await interaction.editReply({ embeds: [embed] });
   }
 }
 
