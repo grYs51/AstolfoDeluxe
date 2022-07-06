@@ -7,13 +7,6 @@ version: 2
 
 updates:
   - package-ecosystem: "npm"
-    directory: "/astolfo-api"
-    schedule:
-      interval: "daily"
-    ignore:
-      - dependency-name: "typescript"
-      - dependency-name: "eslint"
-  - package-ecosystem: "npm"
     directory: "/astolfo-bot"
     schedule:
       interval: "daily"
