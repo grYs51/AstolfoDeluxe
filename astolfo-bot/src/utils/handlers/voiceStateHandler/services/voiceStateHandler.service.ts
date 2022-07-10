@@ -36,7 +36,8 @@ export class VoiceStateHandler implements IVoiceStateHandler {
       });
 
       const disconnectLog = fetchedLogs.entries.first();
-      if (disconnectLog?.changes) {
+      
+      if (disconnectLog?.changes[0]) {
         type += `_${disconnectLog.changes[0].key.toString().toUpperCase()}`;
       }
 
@@ -114,7 +115,7 @@ export class VoiceStateHandler implements IVoiceStateHandler {
     issuedOn = new Date(),
   ) {
     await this.guildStatRepository.save({
-      guild: guild.id,
+      guildId: guild.id,
       member: member.id,
       issuedBy: issuedBy,
       channel: channel.id,
